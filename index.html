@@ -7,67 +7,32 @@
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f0f2f5; height: 100vh; overflow: hidden; }
-        
-        .ocean-waves {
-            position: fixed; bottom: 0; left: 0; width: 100%; height: 200px;
-            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='%232980b9' fill-opacity='0.3' d='M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,112C672,96,768,96,864,112C960,128,1056,160,1152,160C1248,160,1344,128,1392,112L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z'%3E%3C/path%3E%3C/svg%3E");
-            background-size: cover; z-index: 0; pointer-events: none;
-        }
-        
-        #loginScreen {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(135deg, #2980b9, #3498db);
-            display: flex; justify-content: center; align-items: center; z-index: 1000;
-        }
-        .login-box {
-            background: white; padding: 40px; border-radius: 15px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2); text-align: center; width: 90%; max-width: 400px;
-        }
+        .ocean-waves { position: fixed; bottom: 0; left: 0; width: 100%; height: 200px; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='%232980b9' fill-opacity='0.3' d='M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,112C672,96,768,96,864,112C960,128,1056,160,1152,160C1248,160,1344,128,1392,112L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z'%3E%3C/path%3E%3C/svg%3E"); background-size: cover; z-index: 0; pointer-events: none; }
+        #loginScreen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, #2980b9, #3498db); display: flex; justify-content: center; align-items: center; z-index: 1000; }
+        .login-box { background: white; padding: 40px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); text-align: center; width: 90%; max-width: 400px; }
         .login-logo { max-width: 150px; margin: 0 auto 20px auto; display: block; }
         .login-box h2 { color: #2980b9; margin-bottom: 10px; font-size: 28px; }
         .login-box p { color: #777; margin-bottom: 20px; }
-        .login-box input {
-            width: 100%; padding: 15px; margin: 10px 0; border: 2px solid #ddd;
-            border-radius: 8px; font-size: 16px; text-align: center;
-        }
-        .login-box button {
-            width: 100%; padding: 15px; background: #2980b9; color: white;
-            border: none; border-radius: 8px; font-size: 18px; cursor: pointer; margin-top: 10px; font-weight: bold;
-        }
+        .login-box input { width: 100%; padding: 15px; margin: 10px 0; border: 2px solid #ddd; border-radius: 8px; font-size: 16px; text-align: center; }
+        .login-box button { width: 100%; padding: 15px; background: #2980b9; color: white; border: none; border-radius: 8px; font-size: 18px; cursor: pointer; margin-top: 10px; font-weight: bold; }
         .login-box button:hover { background: #3498db; }
         .error-msg { color: red; margin-top: 10px; display: none; }
-
         #dashboardScreen { display: none; height: 100%; flex-direction: column; }
-        .header {
-            background: #2980b9; color: white; padding: 15px;
-            display: flex; justify-content: space-between; align-items: center;
-        }
+        .header { background: #2980b9; color: white; padding: 15px; display: flex; justify-content: space-between; align-items: center; }
         .header-logo { height: 40px; margin-left: 10px; }
         .logout-btn { background: #c0392b; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; }
-        
-        .dashboard-content {
-            flex: 1; display: flex; justify-content: center; align-items: center;
-            padding: 40px 20px; flex-wrap: wrap; gap: 20px; overflow-y: auto;
-        }
-        .dash-card {
-            background: white; width: 250px; height: 200px; border-radius: 15px;
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-            cursor: pointer; box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            transition: 0.3s;
-        }
+        .dashboard-content { flex: 1; display: flex; justify-content: center; align-items: center; padding: 40px 20px; flex-wrap: wrap; gap: 20px; overflow-y: auto; }
+        .dash-card { background: white; width: 250px; height: 200px; border-radius: 15px; display: flex; flex-direction: column; justify-content: center; align-items: center; cursor: pointer; box-shadow: 0 5px 15px rgba(0,0,0,0.1); transition: 0.3s; }
         .dash-card:hover { transform: translateY(-5px); }
         .dash-card .icon { font-size: 50px; margin-bottom: 15px; }
         .dash-card h3 { color: #2c3e50; }
         .dash-card p { color: #777; font-size: 14px; margin-top: 5px; }
         .dash-card.manager-only { border: 2px solid #2980b9; background: #e8f4fc; }
         .dash-card.cashier-only { border: 2px solid #27ae60; background: #d4edda; }
-
         #orderScreen { display: none; height: 100%; flex-direction: column; }
         .order-container { display: flex; flex: 1; overflow: hidden; }
-        
         .menu-section { flex: 2.5; padding: 15px; overflow-y: auto; background: #fff; border-left: 2px solid #ddd; }
         .bill-section { flex: 1.8; background: #fff; display: flex; flex-direction: column; padding: 15px; overflow: hidden; }
-        
         .category-tabs { display: flex; gap: 10px; overflow-x: auto; padding: 10px 0; border-bottom: 2px solid #eee; margin-bottom: 15px; }
         .category-tab { padding: 12px 20px; background: #f0f2f5; border: none; border-radius: 25px; cursor: pointer; font-weight: bold; white-space: nowrap; }
         .category-tab.active { background: #2980b9; color: white; }
@@ -78,7 +43,6 @@
         .item-card.selected .item-name, .item-card.selected .item-price { color: white; }
         .item-name { font-weight: bold; margin-bottom: 8px; color: #2c3e50; font-size: 14px; }
         .item-price { color: #2980b9; font-weight: bold; font-size: 16px; }
-
         .bill-header { display: flex; justify-content: space-between; margin-bottom: 15px; padding: 15px; border-bottom: 3px solid #2980b9; background: #f8f9fa; border-radius: 8px; }
         .bill-items { flex: 1; overflow-y: auto; margin-bottom: 10px; padding: 10px; background: #fafafa; border-radius: 8px; }
         .bill-item { padding: 12px; margin-bottom: 10px; background: white; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
@@ -91,73 +55,58 @@
         .item-total { font-weight: bold; color: #2c3e50; }
         .delete-btn { color: #c0392b; cursor: pointer; font-size: 20px; }
         .item-note { font-size: 12px; color: #e67e22; font-style: italic; margin-top: 5px; background: #fff3cd; padding: 4px 8px; border-radius: 4px; }
-
         .order-type-selector { display: flex; gap: 10px; margin-bottom: 15px; background: #f0f2f5; padding: 5px; border-radius: 10px; }
         .order-type-btn { flex: 1; padding: 10px; border: 2px solid transparent; border-radius: 8px; background: white; cursor: pointer; font-weight: bold; }
         .order-type-btn.active { background: #2980b9; color: white; }
-
         .selected-table-display { background: #e8f4fd; border: 2px solid #2980b9; border-radius: 8px; padding: 10px; margin-bottom: 15px; display: none; }
         .selected-table-display.show { display: block; }
         .selected-table-display .table-info { display: flex; justify-content: space-between; align-items: center; }
         .change-table-btn { background: #2980b9; color: white; border: none; padding: 6px 12px; border-radius: 5px; cursor: pointer; font-size: 12px; }
-
         .total-area { font-size: 1.4em; font-weight: bold; text-align: center; margin: 10px 0; color: white; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 12px; border-radius: 8px; }
-        
         .btn-payment { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: white; border: none; padding: 12px; font-size: 16px; cursor: pointer; border-radius: 8px; width: 100%; font-weight: bold; margin-bottom: 8px; }
         .btn-clear { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); color: #2c3e50; }
-
         .payment-modal, .table-select-modal, .table-bill-modal, .modal-note, .order-details-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 3000; justify-content: center; align-items: center; }
         .payment-modal-content, .table-select-modal-content, .table-bill-modal-content, .modal-note-content, .order-details-content { background: white; padding: 30px; border-radius: 20px; width: 90%; max-width: 600px; max-height: 90vh; overflow-y: auto; }
         .payment-modal-header, .table-bill-header, .table-select-modal-header, .order-details-header { text-align: center; margin-bottom: 25px; border-bottom: 3px solid #f0f2f5; padding-bottom: 15px; }
         .payment-modal-header h2, .table-bill-header h2, .table-select-modal-header h2, .order-details-header h2 { color: #2980b9; }
         .total-amount { font-size: 32px; color: #27ae60; font-weight: bold; margin-top: 10px; }
-        
         .payment-methods-modal { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 25px; }
         .payment-method-card { padding: 20px; border: 3px solid #e0e0e0; border-radius: 12px; text-align: center; cursor: pointer; }
         .payment-method-card.active { border-color: #27ae60; background: #d4edda; }
         .payment-method-card .icon { font-size: 30px; display: block; margin-bottom: 8px; }
-        
         .payment-input-group { margin-bottom: 20px; }
         .payment-input-group label { display: block; font-weight: bold; margin-bottom: 8px; }
         .payment-input-group input { width: 100%; padding: 15px; font-size: 20px; border: 2px solid #ddd; border-radius: 10px; text-align: center; }
-        
         .change-display-modal { background: #fff3cd; padding: 15px; border-radius: 10px; text-align: center; margin-bottom: 20px; border: 2px solid #ffc107; }
         .change-display-modal .label { font-size: 14px; color: #856404; }
         .change-display-modal .value { font-size: 28px; font-weight: bold; color: #856404; }
-        
         .modal-actions { display: flex; gap: 15px; }
         .btn-modal { flex: 1; padding: 15px; border: none; border-radius: 10px; font-size: 16px; font-weight: bold; cursor: pointer; }
         .btn-close-modal { background: #95a5a6; color: white; }
         .btn-print-modal { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; }
-        
         .tables-grid-modal { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 15px; max-height: 400px; overflow-y: auto; padding: 10px; }
         .table-card-modal { padding: 20px; border: 3px solid #e0e0e0; border-radius: 12px; text-align: center; cursor: pointer; }
         .table-card-modal.free { border-color: #27ae60; background: #d4edda; }
         .table-card-modal.occupied { border-color: #e74c3c; background: #fadbd8; opacity: 0.6; cursor: not-allowed; }
         .table-card-modal .table-number { font-size: 24px; font-weight: bold; }
-
         #adminPanel, #reportsPanel, #settingsPanel, #categoriesPanel, #usersPanel, #tablesPanel, #inventoryPanel, #purchasesPanel, #shiftClosePanel { display: none; height: 100%; flex-direction: column; background: #fff; }
         .admin-content, .reports-content, .settings-content, .categories-content, .users-content, .tables-content, .inventory-content, .purchases-content, .shift-close-content { flex: 1; padding: 20px; overflow-y: auto; }
-        
         .admin-form { background: #f9f9f9; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 2px solid #ddd; }
         .admin-form h4 { margin-bottom: 15px; color: #2c3e50; }
         .admin-form input, .admin-form select, .admin-form textarea { width: 100%; padding: 12px; margin-bottom: 10px; border: 2px solid #ddd; border-radius: 8px; }
         .admin-form .input-row { display: flex; gap: 10px; }
         .admin-form button { width: 100%; padding: 12px; background: #2980b9; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; margin-top: 5px; }
-        
         .menu-list-item, .user-item, .category-item, .inventory-item, .purchase-item, .order-item { display: flex; justify-content: space-between; align-items: center; padding: 15px; border-bottom: 2px solid #eee; background: white; margin-bottom: 8px; border-radius: 8px; }
         .menu-actions button { padding: 8px 15px; margin-right: 5px; border: none; border-radius: 6px; cursor: pointer; color: white; }
         .btn-edit { background: #f39c12; }
         .btn-delete { background: #c0392b; }
         .btn-add { background: #27ae60; }
         .btn-view { background: #3498db; }
-        
         .ingredients-list { background: #fff; border: 2px solid #ddd; border-radius: 8px; padding: 15px; margin-bottom: 15px; }
         .ingredient-item { display: flex; gap: 10px; margin-bottom: 10px; flex-wrap: wrap; }
         .ingredient-item input { flex: 1; padding: 8px; border: 2px solid #ddd; border-radius: 6px; }
         .btn-add-ingredient { background: #27ae60; color: white; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer; width: auto; }
         .btn-remove-ingredient { background: #c0392b; color: white; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer; }
-
         .report-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 30px; }
         .report-card { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 25px; border-radius: 12px; text-align: center; color: white; }
         .report-card h3 { font-size: 15px; margin-bottom: 10px; }
@@ -165,7 +114,6 @@
         .report-card.profit { background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%); }
         .report-card.cost { background: linear-gradient(135deg, #eb3349 0%, #f45c43 100%); }
         .orders-list { background: #f9f9f9; padding: 20px; border-radius: 10px; border: 2px solid #ddd; }
-        
         .report-filters { background: #f9f9f9; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 2px solid #ddd; }
         .report-filters h4 { margin-bottom: 15px; color: #2c3e50; }
         .report-filters .filter-row { display: flex; gap: 15px; align-items: center; flex-wrap: wrap; }
@@ -174,13 +122,11 @@
         .report-filters .date-range.show { display: flex; }
         .btn-apply { background: #2980b9; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: bold; }
         .btn-pdf { background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%); color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: bold; }
-
         .settings-section { background: #f9f9f9; padding: 25px; border-radius: 10px; margin-bottom: 25px; border: 2px solid #ddd; }
         .settings-section h3 { margin-bottom: 20px; color: #2c3e50; border-bottom: 3px solid #2980b9; padding-bottom: 10px; }
         .settings-section label { display: block; margin-bottom: 8px; font-weight: bold; }
         .logo-preview { max-width: 150px; max-height: 150px; margin: 20px auto; display: block; border: 2px dashed #ddd; padding: 10px; border-radius: 8px; }
         .logo-preview img { max-width: 100%; max-height: 150px; display: block; margin: 0 auto; }
-
         .tables-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 20px; }
         .table-card { padding: 25px; border-radius: 12px; text-align: center; border: 3px solid transparent; }
         .table-card.free { background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%); color: white; }
@@ -190,40 +136,28 @@
         .table-btn { padding: 8px 15px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; }
         .table-btn-open { background: white; color: #27ae60; }
         .table-btn-bill { background: white; color: #e74c3c; }
-
         .stock-badge { padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: bold; }
         .stock-ok { background: #d4edda; color: #155724; }
         .stock-low { background: #f8d7da; color: #721c24; }
         .inventory-item.low-stock { background: #fff3cd; border: 2px solid #ffc107; }
-
         .role-badge { padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: bold; }
         .role-manager { background: #2980b9; color: white; }
         .role-cashier { background: #27ae60; color: white; }
-
         .cost-calc-box { background: #e8f4fd; border: 2px solid #2980b9; border-radius: 8px; padding: 15px; margin-top: 15px; }
         .cost-calc-box h5 { color: #2980b9; margin-bottom: 10px; }
         .cost-calc-row { display: flex; justify-content: space-between; margin-bottom: 8px; }
         .cost-calc-row.total { font-weight: bold; border-top: 2px solid #2980b9; padding-top: 10px; margin-top: 10px; }
-
         .shift-summary { background: #f9f9f9; padding: 20px; border-radius: 10px; margin: 20px 0; }
         .shift-summary .summary-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #ddd; }
         .shift-summary .summary-row.total { font-weight: bold; font-size: 18px; border-top: 2px solid #2980b9; border-bottom: none; margin-top: 10px; padding-top: 15px; }
         .shift-summary .summary-row.shortage { color: #e74c3c; }
         .shift-summary .summary-row.overage { color: #27ae60; }
-
         .hidden { display: none !important; }
-
-        @media (max-width: 1024px) { 
-            .order-container { flex-direction: column; } 
-            .menu-section { flex: 1; border-left: none; border-bottom: 2px solid #ddd; } 
-            .bill-section { flex: 1; } 
-        }
+        @media (max-width: 1024px) { .order-container { flex-direction: column; } .menu-section { flex: 1; border-left: none; border-bottom: 2px solid #ddd; } .bill-section { flex: 1; } }
     </style>
 </head>
 <body>
     <div class="ocean-waves"></div>
-
-    <!-- Login -->
     <div id="loginScreen">
         <div class="login-box">
             <img id="loginLogo" class="login-logo" src="" alt="Logo" style="display:none;">
@@ -235,8 +169,6 @@
             <p class="error-msg" id="errorMsg"></p>
         </div>
     </div>
-
-    <!-- Dashboard -->
     <div id="dashboardScreen">
         <div class="header">
             <div>
@@ -258,8 +190,6 @@
             <div class="dash-card manager-only hidden" id="settingsCard" onclick="openSettingsPanel()"><div class="icon">🎨</div><h3>الإعدادات</h3><p>تخصيص النظام</p></div>
         </div>
     </div>
-
-    <!-- Order Screen -->
     <div id="orderScreen">
         <div class="header"><h3>تسجيل طلب جديد</h3><button class="logout-btn" onclick="closeOrderScreen()">رجوع</button></div>
         <div class="order-container">
@@ -286,8 +216,6 @@
             </div>
         </div>
     </div>
-
-    <!-- Reports Panel -->
     <div id="reportsPanel">
         <div class="header"><h3>التقارير</h3><button class="logout-btn" onclick="closeReportsPanel()">رجوع</button></div>
         <div class="reports-content">
@@ -309,14 +237,12 @@
                         <option value="9">أكتوبر</option><option value="10">نوفمبر</option><option value="11">ديسمبر</option>
                     </select>
                     <input type="number" id="reportYear" placeholder="السنة" style="display:none; width:100px;" value="2025">
-                    
                     <div class="date-range" id="dateRangeInputs">
                         <label>من:</label>
                         <input type="date" id="dateFrom">
                         <label>إلى:</label>
                         <input type="date" id="dateTo">
                     </div>
-                    
                     <button class="btn-apply" onclick="applyReportFilter()">تطبيق الفلتر</button>
                     <button class="btn-pdf" onclick="exportDailyPDF()">📄 طباعة تقرير</button>
                 </div>
@@ -329,18 +255,14 @@
             <div class="orders-list"><h4>سجل الطلبات</h4><div id="ordersList"></div></div>
         </div>
     </div>
-
-    <!-- باقي الشاشات (Purchases, Settings, Admin, إلخ) -->
     <div id="purchasesPanel"><div class="header"><h3>الطلبيات الواردة</h3><button class="logout-btn" onclick="closePurchasesPanel()">رجوع</button></div><div class="purchases-content"><div class="admin-form"><h4>➕ إضافة طلبية</h4><select id="purchaseItem"><option value="">اختر من المخزون</option></select><div class="input-row"><input type="number" id="purchaseQuantity" placeholder="الكمية"><input type="text" id="purchaseUnit" placeholder="الوحدة" readonly></div><div class="input-row"><input type="number" id="purchaseCost" placeholder="التكلفة"><input type="text" id="purchaseSupplier" placeholder="المورد"></div><button onclick="addPurchase()" class="btn-add">✅ إضافة</button></div><div id="purchasesList"></div></div></div>
-    <div id="settingsPanel"><div class="header"><h3>الإعدادات</h3><button class="logout-btn" onclick="closeSettingsPanel()">رجوع</button></div><div class="settings-content"><div class="settings-section"><h3>معلومات المطعم</h3><label>الاسم</label><input type="text" id="restaurantName"><label>الهاتف</label><input type="text" id="restaurantPhone"><label>العنوان</label><input type="text" id="restaurantAddress"><label>رسالة الإيصال</label><textarea id="receiptMessage"></textarea><button onclick="saveSettings()">حفظ</button></div></div></div>
+    <div id="settingsPanel"><div class="header"><h3>الإعدادات</h3><button class="logout-btn" onclick="closeSettingsPanel()">رجوع</button></div><div class="settings-content"><div class="settings-section"><h3>معلومات المطعم</h3><label>الاسم</label><input type="text" id="restaurantName"><label>الهاتف</label><input type="text" id="restaurantPhone"><label>العنوان</label><input type="text" id="restaurantAddress"><label>رسالة الإيصال</label><textarea id="receiptMessage"></textarea><button onclick="saveSettings()">حفظ</button></div><div class="settings-section"><h3>اللوجو</h3><div class="logo-input-group"><label>صورة اللوجو:</label><input type="file" id="logoInput" accept="image/*" onchange="handleLogoUpload()"></div><div class="logo-preview" id="logoPreview"><p>لا يوجد لوجو</p></div><button onclick="removeLogo()" style="background:#c0392b; color:white; border:none; padding:8px 15px; border-radius:5px; margin-top:10px;">حذف</button></div></div></div>
     <div id="adminPanel"><div class="header"><h3>إدارة الأصناف</h3><button class="logout-btn" onclick="closeAdminPanel()">رجوع</button></div><div class="admin-content"><div class="admin-form"><h4>إضافة صنف</h4><input type="text" id="newItemName" placeholder="اسم الصنف"><select id="newItemCategory"><option value="">اختر التصنيف</option></select><div class="input-row"><input type="number" id="newItemPrice" placeholder="سعر البيع"><input type="number" id="newItemCost" placeholder="التكلفة" readonly></div><button onclick="saveItem()">حفظ</button></div><div id="adminMenuList"></div></div></div>
     <div id="categoriesPanel"><div class="header"><h3>التصنيفات</h3><button class="logout-btn" onclick="closeCategoriesPanel()">رجوع</button></div><div class="categories-content"><div class="admin-form"><input type="text" id="newCategoryName" placeholder="اسم التصنيف"><button onclick="addCategory()">إضافة</button></div><div id="categoriesList"></div></div></div>
     <div id="usersPanel"><div class="header"><h3>المستخدمين</h3><button class="logout-btn" onclick="closeUsersPanel()">رجوع</button></div><div class="users-content"><div class="admin-form"><input type="text" id="newUsername" placeholder="اسم المستخدم"><input type="password" id="newPassword" placeholder="كلمة المرور"><select id="newUserRole"><option value="cashier">كاشير</option><option value="manager">مدير</option></select><button onclick="saveUser()">إضافة</button></div><div id="usersList"></div></div></div>
     <div id="tablesPanel"><div class="header"><h3>الطاولات</h3><button class="logout-btn" onclick="closeTablesPanel()">رجوع</button></div><div class="tables-content"><div class="admin-form" id="tableAddForm"><div class="input-row"><input type="number" id="newTableNumber" placeholder="الرقم"><input type="number" id="newTableCapacity" placeholder="الكراسي"></div><button onclick="addTable()">إضافة</button></div><div class="tables-grid" id="tablesManagementList"></div></div></div>
     <div id="inventoryPanel"><div class="header"><h3>المخزون</h3><button class="logout-btn" onclick="closeInventoryPanel()">رجوع</button></div><div class="inventory-content"><div class="admin-form"><input type="text" id="newIngredientName" placeholder="الاسم"><input type="number" id="newIngredientStock" placeholder="الكمية"><input type="text" id="newIngredientUnit" placeholder="الوحدة"><input type="number" id="newIngredientMin" placeholder="الحد الأدنى"><button onclick="addInventoryItem()">إضافة</button></div><div id="inventoryList"></div></div></div>
     <div id="shiftClosePanel"><div class="header"><h3>💰 تقفيلة الدرج</h3><button class="logout-btn" onclick="closeShiftClose()">رجوع</button></div><div class="shift-close-content"><div class="admin-form"><h4>📊 ملخص الوردية</h4><div class="shift-summary"><div class="summary-row"><span>عدد الأوردرات:</span><span id="shiftOrderCount">0</span></div><div class="summary-row total"><span>المتوقع:</span><span id="shiftExpected">0 ج.م</span></div></div><input type="number" id="shiftActualCash" placeholder="المبلغ الفعلي" oninput="calculateShiftDifference()"><div class="shift-summary" id="shiftDifferenceBox" style="display:none;"><div class="summary-row total" id="shiftDifferenceRow"><span id="shiftDifferenceLabel">العجز/الأوفر:</span><span id="shiftDifferenceValue">0 ج.م</span></div></div><div class="modal-actions"><button class="btn-modal btn-close-modal" onclick="closeShiftClose()">إلغاء</button><button class="btn-modal btn-print-modal" onclick="printShiftCloseReceipt()" id="printShiftBtn" disabled>طباعة</button></div></div></div></div>
-
-    <!-- Modals -->
     <div class="table-select-modal" id="tableSelectModal"><div class="table-select-modal-content"><div class="table-select-modal-header"><h2>🪑 اختيار الطاولة</h2></div><div class="tables-grid-modal" id="tableSelectGrid"></div><div class="modal-actions"><button class="btn-modal btn-close-modal" onclick="closeTableSelectModal()">إلغاء</button></div></div></div>
     <div class="payment-modal" id="paymentModal"><div class="payment-modal-content"><div class="payment-modal-header"><h2>الدفع</h2><div class="total-amount"><span id="modalTotalPrice">0</span> ج.م</div></div><div class="payment-methods-modal"><div class="payment-method-card active" onclick="setPaymentMethod('cash')" id="modalCashBtn"><span class="icon">💵</span><span>كاش</span></div><div class="payment-method-card" onclick="setPaymentMethod('card')" id="modalCardBtn"><span class="icon">💳</span><span>فيزا</span></div><div class="payment-method-card" onclick="setPaymentMethod('wallet')" id="modalWalletBtn"><span class="icon">📱</span><span>محفظة</span></div></div><div class="payment-input-group"><label>المبلغ المدفوع:</label><input type="number" id="modalAmountPaid" oninput="calculateModalChange()"></div><div class="change-display-modal" id="modalChangeDisplay" style="display:none;"><div class="label">الباقي:</div><div class="value"><span id="modalChangeAmount">0</span> ج.م</div></div><div class="modal-actions"><button class="btn-modal btn-close-modal" onclick="closePaymentModal()">إلغاء</button><button class="btn-modal btn-print-modal" onclick="confirmPayment()">طباعة</button></div></div></div>
     <div class="table-bill-modal" id="tableBillModal"><div class="table-bill-modal-content"><div class="table-bill-header"><h2>📋 الطاولة</h2></div><div class="table-bill-items" id="billItemsContainer"></div><div class="table-bill-total">الإجمالي: <span id="billTotalAmount">0</span> ج.م</div><div class="modal-actions"><button class="btn-modal btn-close-modal" onclick="closeTableBillModal()">إلغاء</button><button class="btn-modal btn-print-modal" onclick="confirmTablePayment()">تأكيد</button></div></div></div>
