@@ -172,9 +172,29 @@
         .discount-section label { display: block; font-weight: bold; margin-bottom: 8px; }
         .discount-section input { width: 100%; padding: 10px; border: 2px solid #ddd; border-radius: 6px; margin-bottom: 10px; }
         .discount-display { background: #d4edda; padding: 10px; border-radius: 6px; margin-top: 10px; }
-        .stock-alert { position: fixed; top: 20px; right: 20px; background: #f8d7da; border: 2px solid #f5c6cb; padding: 15px; border-radius: 10px; z-index: 9999; display: none; max-width: 400px; max-height: 300px; overflow-y: auto; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-        .stock-alert.show { display: block; animation: slideInRight 0.3s ease; }
-        @keyframes slideInRight { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+        .stock-alert { 
+            position: fixed; 
+            top: 20px; 
+            right: 20px; 
+            background: #f8d7da; 
+            border: 2px solid #f5c6cb; 
+            padding: 15px; 
+            border-radius: 10px; 
+            z-index: 9999; 
+            display: none; 
+            max-width: 400px; 
+            max-height: 300px;
+            overflow-y: auto;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .stock-alert.show { 
+            display: block; 
+            animation: slideInRight 0.3s ease; 
+        }
+        @keyframes slideInRight { 
+            from { transform: translateX(100%); opacity: 0; } 
+            to { transform: translateX(0); opacity: 1; } 
+        }
         .hidden { display: none !important; }
         @media print { body * { visibility: hidden; } #receipt, #receipt * { visibility: visible; } #receipt { position: absolute; left: 0; top: 0; width: 100%; } .no-print { display: none !important; } }
         @media (max-width: 1024px) { .order-container { flex-direction: column; } .menu-section { flex: 1; border-left: none; border-bottom: 2px solid #ddd; } .bill-section { flex: 1; } }
@@ -231,6 +251,51 @@
             <div class="dash-card manager-only hidden" id="adminCard" onclick="openAdminPanel()"><div class="icon">⚙️</div><h3>إدارة المنيو</h3><p>إضافة وتعديل الأصناف</p></div>
             <div class="dash-card manager-only hidden" id="reportsCard" onclick="openReportsPanel()"><div class="icon">📊</div><h3>التقارير</h3><p>المبيعات والأرباح</p></div>
             <div class="dash-card manager-only hidden" id="settingsCard" onclick="openSettingsPanel()"><div class="icon">🎨</div><h3>الإعدادات</h3><p>تخصيص النظام</p></div>
+        </div>
+    </div>
+
+    <!-- Reports Panel -->
+    <div id="reportsPanel">
+        <div class="header"><h3>التقارير</h3><button class="logout-btn" onclick="closeReportsPanel()">رجوع</button></div>
+        <div class="reports-content">
+            <div class="report-filters">
+                <h4>🔍 فلترة التقارير</h4>
+                <div class="filter-row">
+                    <select id="reportType" onchange="toggleDateFilters()">
+                        <option value="all">كل الأوردرات</option>
+                        <option value="today">تقرير يومي (اليوم)</option>
+                        <option value="monthly">تقرير شهري</option>
+                        <option value="custom">تاريخ مخصص (من - إلى)</option>
+                    </select>
+                    <input type="date" id="reportDate" style="display:none;">
+                    <select id="reportMonth" style="display:none;">
+                        <option value="">اختر الشهر</option>
+                        <option value="0">يناير</option><option value="1">فبراير</option><option value="2">مارس</option>
+                        <option value="3">أبريل</option><option value="4">مايو</option><option value="5">يونيو</option>
+                        <option value="6">يوليو</option><option value="7">أغسطس</option><option value="8">سبتمبر</option>
+                        <option value="9">أكتوبر</option><option value="10">نوفمبر</option><option value="11">ديسمبر</option>
+                    </select>
+                    <input type="number" id="reportYear" placeholder="السنة" style="display:none; width:100px;" value="2025">
+                    <div class="date-range" id="dateRangeInputs">
+                        <label>من:</label>
+                        <input type="date" id="dateFrom">
+                        <label>إلى:</label>
+                        <input type="date" id="dateTo">
+                    </div>
+                    <button class="btn-apply" onclick="applyReportFilter()">تطبيق الفلتر</button>
+                    <button class="btn-pdf" onclick="exportDailyPDF()">📄 طباعة تقرير</button>
+                    <button class="btn-excel" onclick="exportToExcel('orders')">📊 Excel مبيعات</button>
+                    <button class="btn-excel" onclick="exportToExcel('inventory')">📊 Excel مخزون</button>
+                    <button class="btn-excel" onclick="exportToExcel('shifts')">📊 Excel تقفيلات</button>
+                    <button class="btn-excel" onclick="exportToExcel('returns')">📊 Excel مرتجعات</button>
+                </div>
+            </div>
+            <div class="report-cards">
+                <div class="report-card sales"><h3>المبيعات</h3><div class="value" id="totalSales">0 ج.م</div></div>
+                <div class="report-card cost"><h3>التكاليف</h3><div class="value" id="totalCosts">0 ج.م</div></div>
+                <div class="report-card profit"><h3>الربح</h3><div class="value" id="netProfit">0 ج.م</div></div>
+            </div>
+            <div class="orders-list"><h4>سجل الطلبات</h4><div id="ordersList"></div></div>
         </div>
     </div>
 
@@ -388,51 +453,6 @@
                 <button onclick="cancelEdit()" style="background:#777;" id="cancelBtn" class="hidden">إلغاء التعديل</button>
             </div>
             <div id="adminMenuList"></div>
-        </div>
-    </div>
-
-    <!-- Reports Panel -->
-    <div id="reportsPanel">
-        <div class="header"><h3>التقارير</h3><button class="logout-btn" onclick="closeReportsPanel()">رجوع</button></div>
-        <div class="reports-content">
-            <div class="report-filters">
-                <h4>🔍 فلترة التقارير</h4>
-                <div class="filter-row">
-                    <select id="reportType" onchange="toggleDateFilters()">
-                        <option value="all">كل الأوردرات</option>
-                        <option value="today">تقرير يومي (اليوم)</option>
-                        <option value="monthly">تقرير شهري</option>
-                        <option value="custom">تاريخ مخصص (من - إلى)</option>
-                    </select>
-                    <input type="date" id="reportDate" style="display:none;">
-                    <select id="reportMonth" style="display:none;">
-                        <option value="">اختر الشهر</option>
-                        <option value="0">يناير</option><option value="1">فبراير</option><option value="2">مارس</option>
-                        <option value="3">أبريل</option><option value="4">مايو</option><option value="5">يونيو</option>
-                        <option value="6">يوليو</option><option value="7">أغسطس</option><option value="8">سبتمبر</option>
-                        <option value="9">أكتوبر</option><option value="10">نوفمبر</option><option value="11">ديسمبر</option>
-                    </select>
-                    <input type="number" id="reportYear" placeholder="السنة" style="display:none; width:100px;" value="2025">
-                    <div class="date-range" id="dateRangeInputs">
-                        <label>من:</label>
-                        <input type="date" id="dateFrom">
-                        <label>إلى:</label>
-                        <input type="date" id="dateTo">
-                    </div>
-                    <button class="btn-apply" onclick="applyReportFilter()">تطبيق الفلتر</button>
-                    <button class="btn-pdf" onclick="exportDailyPDF()">📄 طباعة تقرير</button>
-                    <button class="btn-excel" onclick="exportToExcel('orders')">📊 Excel مبيعات</button>
-                    <button class="btn-excel" onclick="exportToExcel('inventory')">📊 Excel مخزون</button>
-                    <button class="btn-excel" onclick="exportToExcel('shifts')">📊 Excel تقفيلات</button>
-                    <button class="btn-excel" onclick="exportToExcel('returns')">📊 Excel مرتجعات</button>
-                </div>
-            </div>
-            <div class="report-cards">
-                <div class="report-card sales"><h3>المبيعات</h3><div class="value" id="totalSales">0 ج.م</div></div>
-                <div class="report-card cost"><h3>التكاليف</h3><div class="value" id="totalCosts">0 ج.م</div></div>
-                <div class="report-card profit"><h3>الربح</h3><div class="value" id="netProfit">0 ج.م</div></div>
-            </div>
-            <div class="orders-list"><h4>سجل الطلبات</h4><div id="ordersList"></div></div>
         </div>
     </div>
 
@@ -688,7 +708,7 @@
     <!-- Receipt for Printing -->
     <div id="receipt" style="display:none; font-family: monospace; padding: 20px; max-width: 400px;">
         <div style="text-align: center;">
-            <h2 id="receiptTitle">dr shrimp</h2>
+            <div id="receiptTitle"></div>
             <p id="receiptInfo"></p>
             <div style="border-top: 2px dashed #000; margin: 15px 0;"></div>
             <div id="receiptItems"></div>
@@ -740,7 +760,21 @@
             }
         }
 
-        async function loadSettings() { const s = await getDocs(collection(db, 'settings')); if (!s.empty) restaurantSettings = { id: s.docs[0].id, ...s.docs[0].data() }; }
+        async function loadSettings() { 
+            const s = await getDocs(collection(db, 'settings')); 
+            if (!s.empty) {
+                const data = s.docs[0].data();
+                restaurantSettings = { 
+                    id: s.docs[0].id, 
+                    name: data.name || 'dr shrimp',
+                    phone: data.phone || '',
+                    address: data.address || '',
+                    message: data.message || '',
+                    logo: data.logo || '',
+                    defaultProfitMargin: data.defaultProfitMargin || 50
+                };
+            }
+        }
         async function loadCategories() { const s = await getDocs(collection(db, 'categories')); categories = s.docs.map(d => ({ id: d.id, ...d.data() })); }
         async function loadTables() { const s = await getDocs(collection(db, 'tables')); tables = s.docs.map(d => ({ id: d.id, ...d.data() })); }
         async function loadInventory() { const s = await getDocs(collection(db, 'inventory')); inventory = s.docs.map(d => ({ id: d.id, ...d.data() })); }
@@ -832,6 +866,19 @@
             ['dashboardScreen', 'orderScreen', 'adminPanel', 'reportsPanel', 'settingsPanel', 'categoriesPanel', 'usersPanel', 'tablesPanel', 'inventoryPanel', 'purchasesPanel', 'shiftClosePanel', 'inventoryAdjustmentPanel', 'shiftHistoryPanel', 'shiftStartPanel', 'returnsPanel', 'editOrderPanel', 'tableSelectModal', 'tableBillModal', 'paymentModal', 'noteModal', 'orderDetailsModal'].forEach(id => document.getElementById(id).style.display = 'none');
             document.getElementById('loginScreen').style.display = 'flex';
             currentUser = null;
+        };
+
+        window.openReportsPanel = function() {
+            if (currentUser?.role !== 'manager') return alert("غير مسموح!");
+            document.getElementById('dashboardScreen').style.display = 'none';
+            document.getElementById('reportsPanel').style.display = 'flex';
+            toggleDateFilters();
+            applyReportFilter();
+        };
+
+        window.closeReportsPanel = function() {
+            document.getElementById('reportsPanel').style.display = 'none';
+            document.getElementById('dashboardScreen').style.display = 'flex';
         };
 
         window.openOrderScreen = function() { 
@@ -1448,7 +1495,10 @@
         }
 
         function printReceipt(o) {
-            document.getElementById('receiptTitle').innerText = restaurantSettings.name;
+            const logoHtml = restaurantSettings.logo ? 
+                `<img src="${restaurantSettings.logo}" style="max-width:150px; margin:0 auto 15px auto; display:block;">` : '';
+            
+            document.getElementById('receiptTitle').innerHTML = logoHtml + '<h2 style="margin:10px 0;">' + restaurantSettings.name + '</h2>';
             document.getElementById('receiptInfo').innerHTML = '<p>أوردر #' + o.orderNumber + '</p><p>' + o.date + '</p><p>الكاشير: ' + o.cashier + '</p><p>النوع: ' + o.type + '</p>';
             
             let itemsHtml = '';
@@ -1466,8 +1516,8 @@
             
             document.getElementById('receiptFooter').innerHTML = '<p style="margin-top:20px;">' + (restaurantSettings.message || 'شكراً لزيارتكم!') + '</p>';
             
-            const printWindow = window.open('', '', 'width=400,height=600');
-            printWindow.document.write('<html dir="rtl"><head><title>إيصال #' + o.orderNumber + '</title><style>body{font-family:monospace; padding:20px; text-align:center;}h2{margin:10px 0;}.divider{border-top:2px dashed #000; margin:15px 0;}</style></head><body>' + document.getElementById('receipt').innerHTML + '</body></html>');
+            const printWindow = window.open('', '', 'width=400,height=700');
+            printWindow.document.write('<html dir="rtl"><head><title>إيصال #' + o.orderNumber + '</title><style>body{font-family:monospace; padding:20px; text-align:center;}h2{margin:10px 0;}.divider{border-top:2px dashed #000; margin:15px 0;}img{max-width:150px;}</style></head><body>' + document.getElementById('receipt').innerHTML + '</body></html>');
             printWindow.document.close();
             printWindow.print();
         }
@@ -1566,7 +1616,10 @@
 
         window.printShiftCloseReceipt = function() {
             const diff = shiftActual - shiftExpected;
-            document.getElementById('receiptTitle').innerText = restaurantSettings.name + ' - تقفيلة شيفت #' + activeShift?.shiftNumber;
+            const logoHtml = restaurantSettings.logo ? 
+                `<img src="${restaurantSettings.logo}" style="max-width:150px; margin:0 auto 15px auto; display:block;">` : '';
+            
+            document.getElementById('receiptTitle').innerHTML = logoHtml + '<h2 style="margin:10px 0;">' + restaurantSettings.name + ' - تقفيلة شيفت #' + activeShift?.shiftNumber + '</h2>';
             document.getElementById('receiptInfo').innerHTML = '<p>التاريخ: ' + new Date().toLocaleDateString('ar-EG') + '</p><p>الكاشير: ' + (currentUser?.username || '') + '</p><p>عدد الأوردرات: ' + shiftOrders.length + '</p>';
             
             document.getElementById('receiptItems').innerHTML = '<div style="display:flex; justify-content:space-between; margin:8px 0;"><span>💵 كاش:</span><span>' + shiftCash.toFixed(2) + ' ج.م</span></div><div style="display:flex; justify-content:space-between; margin:8px 0;"><span>💳 فيزا:</span><span>' + shiftCard.toFixed(2) + ' ج.م</span></div><div style="display:flex; justify-content:space-between; margin:8px 0;"><span>📱 محفظة:</span><span>' + shiftWallet.toFixed(2) + ' ج.م</span></div><div style="display:flex; justify-content:space-between; margin:8px 0; font-weight:bold;"><span>المبلغ الابتدائي:</span><span>' + shiftOpeningCash.toFixed(2) + ' ج.م</span></div><div style="display:flex; justify-content:space-between; margin:8px 0; font-weight:bold;"><span>إجمالي المبيعات:</span><span>' + shiftTotal.toFixed(2) + ' ج.م</span></div>';
@@ -1575,8 +1628,8 @@
             
             document.getElementById('receiptFooter').innerHTML = '<p style="margin-top:30px;">_________________</p><p>توقيع الكاشير</p>';
             
-            const printWindow = window.open('', '', 'width=400,height=600');
-            printWindow.document.write('<html dir="rtl"><head><title>تقفيلة شيفت #' + activeShift?.shiftNumber + '</title><style>body{font-family:monospace; padding:20px; text-align:center;}h2{margin:10px 0;}.divider{border-top:2px dashed #000; margin:15px 0;}</style></head><body>' + document.getElementById('receipt').innerHTML + '</body></html>');
+            const printWindow = window.open('', '', 'width=400,height=700');
+            printWindow.document.write('<html dir="rtl"><head><title>تقفيلة شيفت #' + activeShift?.shiftNumber + '</title><style>body{font-family:monospace; padding:20px; text-align:center;}h2{margin:10px 0;}.divider{border-top:2px dashed #000; margin:15px 0;}img{max-width:150px;}</style></head><body>' + document.getElementById('receipt').innerHTML + '</body></html>');
             printWindow.document.close();
             printWindow.print();
         };
@@ -1863,11 +1916,22 @@
                         restaurantSettings.logo = base64String;
                         
                         if (restaurantSettings.id) {
-                            await updateInCollection('settings', restaurantSettings.id, { logo: base64String });
+                            await updateInCollection('settings', restaurantSettings.id, { 
+                                name: restaurantSettings.name,
+                                phone: restaurantSettings.phone,
+                                address: restaurantSettings.address,
+                                message: restaurantSettings.message,
+                                logo: base64String,
+                                defaultProfitMargin: restaurantSettings.defaultProfitMargin
+                            });
                         } else {
                             const newId = await saveToCollection('settings', { 
                                 name: restaurantSettings.name || 'dr shrimp',
-                                logo: base64String 
+                                phone: restaurantSettings.phone || '',
+                                address: restaurantSettings.address || '',
+                                message: restaurantSettings.message || '',
+                                logo: base64String,
+                                defaultProfitMargin: restaurantSettings.defaultProfitMargin || 50
                             });
                             restaurantSettings.id = newId;
                         }
