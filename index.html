@@ -522,8 +522,9 @@
                     <input type="number" id="newTableNumber" placeholder="الرقم">
                     <input type="number" id="newTableCapacity" placeholder="الكراسي">
                 </div>
-                <button onclick="addTable()">إضافة</button>
+                <button onclick="addTable()" class="btn-add">✅ إضافة</button>
             </div>
+            <h4>الطاولات الموجودة</h4>
             <div class="tables-grid" id="tablesManagementList"></div>
         </div>
     </div>
@@ -804,7 +805,13 @@
         }
 
         async function loadCategories() { const s = await getDocs(collection(db, 'categories')); categories = s.docs.map(d => ({ id: d.id, ...d.data() })); }
-        async function loadTables() { const s = await getDocs(collection(db, 'tables')); tables = s.docs.map(d => ({ id: d.id, ...d.data() })); }
+        
+        async function loadTables() { 
+            const s = await getDocs(collection(db, 'tables')); 
+            tables = s.docs.map(d => ({ id: d.id, ...d.data() }));
+            console.log('Tables loaded:', tables.length);
+        }
+        
         async function loadInventory() { const s = await getDocs(collection(db, 'inventory')); inventory = s.docs.map(d => ({ id: d.id, ...d.data() })); }
         async function loadMenu() { const s = await getDocs(collection(db, 'menu')); menuItems = s.docs.map(d => ({ id: d.id, ...d.data() })); }
         async function loadUsers() { const s = await getDocs(collection(db, 'users')); users = s.docs.map(d => ({ id: d.id, ...d.data() })); }
@@ -879,6 +886,7 @@
                         document.getElementById('usernameInput').value = '';
                         document.getElementById('passwordInput').value = '';
                         checkActiveShift();
+                        renderTablesManagement(); // ✅ تحميل الطاولات بعد الدخول
                     } else {
                         e.innerText = 'كلمة المرور خطأ!';
                     }
@@ -1491,6 +1499,13 @@
                 });
             }
             
+            // ✅ تحديث حالة الطاولة
+            if (selectedTable && orderType === 'dinein') {
+                await updateInCollection('tables', selectedTable, { status: 'occupied', orderId: orderCount });
+                await loadTables();
+                renderTablesManagement();
+            }
+            
             orderCount++;
             await saveOrderCount();
             updateOrderNumberDisplay();
@@ -1556,10 +1571,14 @@
         function renderTablesManagement() {
             const g = document.getElementById('tablesManagementList');
             g.innerHTML = '';
+            if (tables.length === 0) {
+                g.innerHTML = '<p style="text-align:center; color:#777; padding:20px; grid-column: 1/-1;">لا توجد طاولات. أضف طاولة أولاً.</p>';
+                return;
+            }
             tables.forEach(t => {
                 const d = document.createElement('div');
-                d.className = 'table-card ' + t.status;
-                d.innerHTML = '<div class="table-number">طاولة ' + t.number + '</div><div>' + (t.status === 'free' ? '✅ متاحة' : '❌ مشغولة') + '</div><div class="table-actions"><button class="table-btn" onclick="editTable(\'' + t.id + '\')">✏️</button><button class="table-btn" onclick="deleteTable(\'' + t.id + '\')">🗑️</button></div>';
+                d.className = 'table-card ' + (t.status || 'free');
+                d.innerHTML = '<div class="table-number">طاولة ' + (t.number || '?') + '</div><div>' + ((t.status || 'free') === 'free' ? '✅ متاحة' : '❌ مشغولة') + '</div><div class="table-actions"><button class="table-btn" onclick="editTable(\'' + t.id + '\')">✏️</button><button class="table-btn" onclick="deleteTable(\'' + t.id + '\')">🗑️</button></div>';
                 g.appendChild(d);
             });
         }
@@ -1567,18 +1586,25 @@
         function renderTableSelectGrid() {
             const g = document.getElementById('tableSelectGrid');
             g.innerHTML = '';
+            if (tables.length === 0) {
+                g.innerHTML = '<p style="text-align:center; color:#777; padding:20px; grid-column: 1/-1;">لا توجد طاولات متاحة</p>';
+                return;
+            }
             tables.forEach(t => {
                 const d = document.createElement('div');
-                d.className = 'table-card-modal ' + (t.status === 'free' ? 'free' : 'occupied');
-                d.innerHTML = '<div class="table-number">طاولة ' + t.number + '</div>';
-                if (t.status === 'free') d.onclick = () => selectTableFromModal(t);
+                const isFree = (t.status || 'free') === 'free';
+                d.className = 'table-card-modal ' + (isFree ? 'free' : 'occupied');
+                d.innerHTML = '<div class="table-number">طاولة ' + (t.number || '?') + '</div><div style="font-size:12px; margin-top:5px;">' + (t.capacity || 0) + ' كراسي</div>';
+                if (isFree) {
+                    d.onclick = () => selectTableFromModal(t);
+                }
                 g.appendChild(d);
             });
         }
 
         function selectTableFromModal(t) {
             selectedTable = t.id;
-            document.getElementById('selectedTableName').innerText = 'طاولة ' + t.number;
+            document.getElementById('selectedTableName').innerText = 'طاولة ' + (t.number || '?');
             document.getElementById('selectedTableDisplay').classList.add('show');
             closeTableSelectModal();
         }
@@ -1677,6 +1703,14 @@
                 closedAt: new Date().toLocaleString('ar-EG'),
                 closedBy: currentUser?.username || 'unknown'
             });
+            
+            // ✅ تحرير جميع الطاولات
+            for (const table of tables) {
+                if (table.status === 'occupied') {
+                    await updateInCollection('tables', table.id, { status: 'free', orderId: null });
+                }
+            }
+            await loadTables();
             
             printShiftCloseReceipt();
             
@@ -2271,8 +2305,15 @@
             }
         };
 
-        window.openTablesPanel = function() { document.getElementById('dashboardScreen').style.display = 'none'; document.getElementById('tablesPanel').style.display = 'flex'; renderTablesManagement(); };
-        window.closeTablesPanel = function() { document.getElementById('tablesPanel').style.display = 'none'; document.getElementById('dashboardScreen').style.display = 'flex'; };
+        window.openTablesPanel = function() { 
+            document.getElementById('dashboardScreen').style.display = 'none'; 
+            document.getElementById('tablesPanel').style.display = 'flex'; 
+            renderTablesManagement(); 
+        };
+        window.closeTablesPanel = function() { 
+            document.getElementById('tablesPanel').style.display = 'none'; 
+            document.getElementById('dashboardScreen').style.display = 'flex'; 
+        };
 
         function renderInventoryList() {
             const l = document.getElementById('inventoryList');
