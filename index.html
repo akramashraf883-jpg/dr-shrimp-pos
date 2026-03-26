@@ -721,7 +721,7 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-app.js";
-        import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, deleteDoc, query, where, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, deleteDoc, query, where, serverTimestamp, writeBatch } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-firestore.js";
 
         const firebaseConfig = { 
             apiKey: "AIzaSyCucVCBRWZHQmvOf7XEG03MQuHFUvMfZes",
@@ -738,11 +738,13 @@
         let currentUser = null;
         let restaurantSettings = { name: "dr shrimp", phone: "", address: "", message: "", logo: "", defaultProfitMargin: 50 };
         let categories = [], tables = [], inventory = [], menuItems = [], users = [], purchases = [], cart = [], orders = [], shiftClosures = [], returns = [];
-        let orderCount = 1, orderType = 'dinein', currentCategory = 'all', tempIngredients = [], amountPaid = 0, paymentMethod = 'cash', selectedTable = null, tempNote = '', tempNoteItem = null, currentTotal = 0, currentDiscount = 0, discountType = 'percent', currentTableBill = null, tablePaymentMethod = 'cash', currentReportFilter = 'all', shiftOrders = [], shiftExpected = 0, shiftActual = 0, shiftCash = 0, shiftCard = 0, shiftWallet = 0, shiftTotal = 0, shiftOpeningCash = 0, activeShift = null;
+        let orderCount = 1;
+        let orderType = 'dinein', currentCategory = 'all', tempIngredients = [], amountPaid = 0, paymentMethod = 'cash', selectedTable = null, tempNote = '', tempNoteItem = null, currentTotal = 0, currentDiscount = 0, discountType = 'percent', currentTableBill = null, tablePaymentMethod = 'cash', currentReportFilter = 'all', shiftOrders = [], shiftExpected = 0, shiftActual = 0, shiftCash = 0, shiftCard = 0, shiftWallet = 0, shiftTotal = 0, shiftOpeningCash = 0, activeShift = null;
 
         async function initApp() {
             try {
                 await Promise.all([loadSettings(), loadCategories(), loadTables(), loadInventory(), loadMenu(), loadUsers(), loadOrders(), loadPurchases(), loadShiftClosures(), loadReturns()]);
+                await loadOrderCount();
                 document.getElementById('loginRestaurantName').innerText = restaurantSettings.name || 'dr shrimp';
                 if (restaurantSettings.logo) {
                     document.getElementById('loginLogo').src = restaurantSettings.logo;
@@ -775,6 +777,32 @@
                 };
             }
         }
+
+        async function loadOrderCount() {
+            const s = await getDocs(collection(db, 'system'));
+            if (!s.empty) {
+                const data = s.docs[0].data();
+                orderCount = (data.orderCount || 0) + 1;
+            } else {
+                await saveToCollection('system', { orderCount: 1 });
+                orderCount = 1;
+            }
+            updateOrderNumberDisplay();
+        }
+
+        async function saveOrderCount() {
+            const s = await getDocs(collection(db, 'system'));
+            if (!s.empty) {
+                await updateInCollection('system', s.docs[0].id, { orderCount: orderCount });
+            } else {
+                await saveToCollection('system', { orderCount: orderCount });
+            }
+        }
+
+        function updateOrderNumberDisplay() {
+            document.getElementById('orderNumber').innerText = '#' + String(orderCount).padStart(3, '0');
+        }
+
         async function loadCategories() { const s = await getDocs(collection(db, 'categories')); categories = s.docs.map(d => ({ id: d.id, ...d.data() })); }
         async function loadTables() { const s = await getDocs(collection(db, 'tables')); tables = s.docs.map(d => ({ id: d.id, ...d.data() })); }
         async function loadInventory() { const s = await getDocs(collection(db, 'inventory')); inventory = s.docs.map(d => ({ id: d.id, ...d.data() })); }
@@ -1464,6 +1492,9 @@
             }
             
             orderCount++;
+            await saveOrderCount();
+            updateOrderNumberDisplay();
+            
             cart = [];
             currentDiscount = 0;
             discountType = 'percent';
