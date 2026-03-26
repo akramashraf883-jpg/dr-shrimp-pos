@@ -172,9 +172,9 @@
         .discount-section label { display: block; font-weight: bold; margin-bottom: 8px; }
         .discount-section input { width: 100%; padding: 10px; border: 2px solid #ddd; border-radius: 6px; margin-bottom: 10px; }
         .discount-display { background: #d4edda; padding: 10px; border-radius: 6px; margin-top: 10px; }
-        .stock-alert { position: fixed; top: 20px; left: 20px; background: #f8d7da; border: 2px solid #f5c6cb; padding: 15px; border-radius: 10px; z-index: 9999; display: none; max-width: 400px; }
-        .stock-alert.show { display: block; animation: slideIn 0.3s ease; }
-        @keyframes slideIn { from { transform: translateX(-100%); } to { transform: translateX(0); } }
+        .stock-alert { position: fixed; top: 20px; right: 20px; background: #f8d7da; border: 2px solid #f5c6cb; padding: 15px; border-radius: 10px; z-index: 9999; display: none; max-width: 400px; max-height: 300px; overflow-y: auto; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .stock-alert.show { display: block; animation: slideInRight 0.3s ease; }
+        @keyframes slideInRight { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
         .hidden { display: none !important; }
         @media print { body * { visibility: hidden; } #receipt, #receipt * { visibility: visible; } #receipt { position: absolute; left: 0; top: 0; width: 100%; } .no-print { display: none !important; } }
         @media (max-width: 1024px) { .order-container { flex-direction: column; } .menu-section { flex: 1; border-left: none; border-bottom: 2px solid #ddd; } .bill-section { flex: 1; } }
@@ -772,12 +772,18 @@
         }
 
         function checkLowStock() {
-            const lowStockItems = inventory.filter(i => i.stock <= i.minStock);
+            const lowStockItems = inventory.filter(i => i.stock <= i.minStock && i.stock > 0);
             if (lowStockItems.length > 0) {
                 const alertDiv = document.getElementById('stockAlert');
                 const itemsDiv = document.getElementById('stockAlertItems');
-                itemsDiv.innerHTML = lowStockItems.map(i => `<p>⚠️ ${i.name}: ${i.stock} ${i.unit}</p>`).join('');
+                itemsDiv.innerHTML = '<h4 style="margin-bottom:10px;">⚠️ تنبيه مخزون منخفض</h4>' + 
+                    lowStockItems.slice(0, 5).map(i => `<p style="padding:5px 0; border-bottom:1px solid #f5c6cb;">⚠️ ${i.name}: ${i.stock} ${i.unit}</p>`).join('') +
+                    (lowStockItems.length > 5 ? `<p style="margin-top:10px; color:#721c24;">... و${lowStockItems.length - 5} أصناف أخرى</p>` : '');
                 alertDiv.classList.add('show');
+                
+                setTimeout(() => {
+                    alertDiv.classList.remove('show');
+                }, 10000);
             }
         }
 
@@ -1847,27 +1853,39 @@
             const fi = document.getElementById('logoInput');
             const f = fi.files[0];
             if (f) {
-                if (f.size > 2 * 1024 * 1024) return alert("كبير! أقل من 2MB");
-                if (!f.type.startsWith('image/')) return alert("صورة فقط");
+                if (f.size > 2 * 1024 * 1024) return alert("الصورة كبيرة جداً! الحد الأقصى 2MB");
+                if (!f.type.startsWith('image/')) return alert("الملف يجب أن يكون صورة");
+                
                 const r = new FileReader();
                 r.onload = async function(e) {
-                    const b = e.target.result;
+                    const base64String = e.target.result;
                     try {
-                        restaurantSettings.logo = b;
-                        if (restaurantSettings.id) await updateInCollection('settings', restaurantSettings.id, { logo: b });
-                        else {
-                            const ni = await saveToCollection('settings', { ...restaurantSettings, logo: b });
-                            restaurantSettings.id = ni;
+                        restaurantSettings.logo = base64String;
+                        
+                        if (restaurantSettings.id) {
+                            await updateInCollection('settings', restaurantSettings.id, { logo: base64String });
+                        } else {
+                            const newId = await saveToCollection('settings', { 
+                                name: restaurantSettings.name || 'dr shrimp',
+                                logo: base64String 
+                            });
+                            restaurantSettings.id = newId;
                         }
-                        document.getElementById('logoPreview').innerHTML = '<img src="' + b + '" style="max-width:150px; max-height:150px; display:block; margin:0 auto;">';
-                        document.getElementById('loginLogo').src = b;
+                        
+                        document.getElementById('logoPreview').innerHTML = '<img src="' + base64String + '" style="max-width:150px; max-height:150px; display:block; margin:0 auto;">';
+                        document.getElementById('loginLogo').src = base64String;
                         document.getElementById('loginLogo').style.display = 'block';
-                        document.getElementById('headerLogo').src = b;
+                        document.getElementById('headerLogo').src = base64String;
                         document.getElementById('headerLogo').style.display = 'block';
-                        alert('✅ تم! الحجم: ' + (f.size / 1024).toFixed(2) + ' KB');
+                        
+                        alert('✅ تم حفظ اللوجو بنجاح!\nالحجم: ' + (f.size / 1024).toFixed(2) + ' KB');
                     } catch (err) {
-                        alert("خطأ: " + err.message);
+                        console.error('Error saving logo:', err);
+                        alert("❌ خطأ في حفظ اللوجو: " + err.message);
                     }
+                };
+                r.onerror = function() {
+                    alert("❌ خطأ في قراءة الملف");
                 };
                 r.readAsDataURL(f);
             }
@@ -1876,16 +1894,18 @@
         window.removeLogo = async function() {
             try {
                 restaurantSettings.logo = '';
-                if (restaurantSettings.id) await updateInCollection('settings', restaurantSettings.id, { logo: '' });
+                if (restaurantSettings.id) {
+                    await updateInCollection('settings', restaurantSettings.id, { logo: '' });
+                }
                 document.getElementById('logoInput').value = '';
                 document.getElementById('logoPreview').innerHTML = '<p>لا يوجد لوجو</p>';
                 document.getElementById('loginLogo').src = '';
                 document.getElementById('loginLogo').style.display = 'none';
                 document.getElementById('headerLogo').src = '';
                 document.getElementById('headerLogo').style.display = 'none';
-                alert('✅ تم!');
+                alert('✅ تم حذف اللوجو!');
             } catch (err) {
-                alert("خطأ");
+                alert("خطأ: " + err.message);
             }
         };
 
