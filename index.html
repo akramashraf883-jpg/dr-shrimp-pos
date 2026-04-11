@@ -219,7 +219,7 @@ body * { visibility: hidden; }
 <label>كلمة المرور</label>
 <input type="password" id="passwordInput" placeholder="أدخل كلمة المرور">
 </div>
-<button class="btn-login" onclick="window.login()">تسجيل الدخول</button>
+<button class="btn-login" onclick="login()">تسجيل الدخول</button>
 <div class="error-message" id="errorMsg"></div>
 </div>
 </div>
@@ -234,12 +234,11 @@ body * { visibility: hidden; }
 </div>
 <div class="user-info">
 <span id="shiftStatus" class="shift-badge inactive">🔴 لا يوجد شيفت نشط</span>
-<button class="btn-logout" onclick="window.logout()">خروج</button>
+<button class="btn-logout" onclick="logout()">خروج</button>
 </div>
 </div>
-
 <!-- Dashboard -->
-<div id="dashboardPage" class="page active">
+<div id="dashboardPage" class="page" style="display:block;">
 <div class="dashboard">
 <div style="background: white; padding: 25px; border-radius: 15px; margin-bottom: 25px; box-shadow: 0 5px 20px rgba(0,0,0,0.1);">
 <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px;">
@@ -247,39 +246,38 @@ body * { visibility: hidden; }
 <h2 style="color: #333; margin-bottom: 5px;">لوحة التحكم</h2>
 <p style="color: #777;">اختر العملية التي تريد تنفيذها</p>
 </div>
-<button id="startShiftBtn" class="btn-submit" style="width: auto; padding: 12px 30px;" onclick="window.openShiftStart()">🔄 بدء شيفت جديد</button>
+<button id="startShiftBtn" class="btn-submit" style="width: auto; padding: 12px 30px;" onclick="openShiftStart()">🔄 بدء شيفت جديد</button>
 </div>
 </div>
 <div class="dashboard-grid">
-<div class="dash-card" onclick="window.openOrderScreen()"><div class="dash-icon">📝</div><h3>أوردر جديد</h3><p>تسجيل طلبات العملاء</p></div>
-<div class="dash-card" onclick="window.openTableOrders()"><div class="dash-icon">🪑</div><h3>أوردرات الطاولات</h3><p>إدارة الطلبات المعلقة</p></div>
-<div class="dash-card cashier" onclick="window.openShiftClose()"><div class="dash-icon">💰</div><h3>تقفيلة الدرج</h3><p>إقفال الوردية</p></div>
-<div class="dash-card manager" id="menuExpenses" onclick="window.openExpenses()" style="display:none;"><div class="dash-icon">💸</div><h3>المصروفات</h3><p>إضافة مصروف جديد</p></div>
-<div class="dash-card manager" id="menuDeposits" onclick="window.openDeposits()" style="display:none;"><div class="dash-icon">💵</div><h3>توريد نقدية</h3><p>إضافة فلوس في الدرج</p></div>
-<div class="dash-card manager" id="menuExpenseCategories" onclick="window.openExpenseCategories()" style="display:none;"><div class="dash-icon">📋</div><h3>أنواع المصروفات</h3><p>إدارة الأنواع</p></div>
-<div class="dash-card manager" id="menuReturns" onclick="window.openReturns()" style="display:none;"><div class="dash-icon">🔄</div><h3>المرتجعات</h3><p>إرجاع الأصناف</p></div>
-<div class="dash-card manager" id="menuEditOrders" onclick="window.openEditOrders()" style="display:none;"><div class="dash-icon">✏️</div><h3>تعديل الأوردرات</h3><p>تعديل الأوردرات</p></div>
-<div class="dash-card manager" id="menuShiftHistory" onclick="window.openShiftHistory()" style="display:none;"><div class="dash-icon">📊</div><h3>سجل التقفيلات</h3><p>سجل الشيفتات</p></div>
-<div class="dash-card" onclick="window.openPurchases()"><div class="dash-icon">📦</div><h3>الطلبيات الواردة</h3><p>إضافة مخزون</p></div>
-<div class="dash-card" onclick="window.openTables()"><div class="dash-icon">🪑</div><h3>إدارة الطاولات</h3><p>حالة الطاولات</p></div>
-<div class="dash-card manager" id="menuInventory" onclick="window.openInventory()" style="display:none;"><div class="dash-icon">📦</div><h3>المخزون</h3><p>متابعة المكونات</p></div>
-<div class="dash-card manager" id="menuInventoryAdjust" onclick="window.openInventoryAdjust()" style="display:none;"><div class="dash-icon">🔄</div><h3>تعديل المخزون</h3><p>تعديل عام</p></div>
-<div class="dash-card manager" id="menuUsers" onclick="window.openUsers()" style="display:none;"><div class="dash-icon">👥</div><h3>المستخدمين</h3><p>إدارة المستخدمين</p></div>
-<div class="dash-card manager" id="menuCategories" onclick="window.openCategories()" style="display:none;"><div class="dash-icon">📁</div><h3>التصنيفات</h3><p>إضافة الأقسام</p></div>
-<div class="dash-card manager" id="menuAdmin" onclick="window.openAdmin()" style="display:none;"><div class="dash-icon">⚙️</div><h3>إدارة المنيو</h3><p>إضافة الأصناف</p></div>
-<div class="dash-card manager" id="menuReports" onclick="window.openReports()" style="display:none;"><div class="dash-icon">📈</div><h3>التقارير</h3><p>المبيعات والأرباح</p></div>
-<div class="dash-card manager" id="menuSettings" onclick="window.openSettings()" style="display:none;"><div class="dash-icon">🎨</div><h3>الإعدادات</h3><p>تخصيص النظام</p></div>
-<div class="dash-card manager" id="menuRevenues" onclick="window.openRevenues()" style="display:none;"><div class="dash-icon">💰</div><h3>الإيرادات</h3><p>عرض الإيرادات</p></div>
+<div class="dash-card" onclick="openOrderScreen()"><div class="dash-icon">📝</div><h3>أوردر جديد</h3><p>تسجيل طلبات العملاء</p></div>
+<div class="dash-card" onclick="openTableOrders()"><div class="dash-icon">🪑</div><h3>أوردرات الطاولات</h3><p>إدارة الطلبات المعلقة</p></div>
+<div class="dash-card cashier" onclick="openShiftClose()"><div class="dash-icon">💰</div><h3>تقفيلة الدرج</h3><p>إقفال الوردية</p></div>
+<div class="dash-card manager" id="menuExpenses" onclick="openExpenses()" style="display:none;"><div class="dash-icon">💸</div><h3>المصروفات</h3><p>إضافة مصروف جديد</p></div>
+<div class="dash-card manager" id="menuDeposits" onclick="openDeposits()" style="display:none;"><div class="dash-icon">💵</div><h3>توريد نقدية</h3><p>إضافة فلوس في الدرج</p></div>
+<div class="dash-card manager" id="menuExpenseCategories" onclick="openExpenseCategories()" style="display:none;"><div class="dash-icon">📋</div><h3>أنواع المصروفات</h3><p>إدارة الأنواع</p></div>
+<div class="dash-card manager" id="menuReturns" onclick="openReturns()" style="display:none;"><div class="dash-icon">🔄</div><h3>المرتجعات</h3><p>إرجاع الأصناف</p></div>
+<div class="dash-card manager" id="menuEditOrders" onclick="openEditOrders()" style="display:none;"><div class="dash-icon">✏️</div><h3>تعديل الأوردرات</h3><p>تعديل الأوردرات</p></div>
+<div class="dash-card manager" id="menuShiftHistory" onclick="openShiftHistory()" style="display:none;"><div class="dash-icon">📊</div><h3>سجل التقفيلات</h3><p>سجل الشيفتات</p></div>
+<div class="dash-card" onclick="openPurchases()"><div class="dash-icon">📦</div><h3>الطلبيات الواردة</h3><p>إضافة مخزون</p></div>
+<div class="dash-card" onclick="openTables()"><div class="dash-icon">🪑</div><h3>إدارة الطاولات</h3><p>حالة الطاولات</p></div>
+<div class="dash-card manager" id="menuInventory" onclick="openInventory()" style="display:none;"><div class="dash-icon">📦</div><h3>المخزون</h3><p>متابعة المكونات</p></div>
+<div class="dash-card manager" id="menuInventoryAdjust" onclick="openInventoryAdjust()" style="display:none;"><div class="dash-icon">🔄</div><h3>تعديل المخزون</h3><p>تعديل عام</p></div>
+<div class="dash-card manager" id="menuUsers" onclick="openUsers()" style="display:none;"><div class="dash-icon">👥</div><h3>المستخدمين</h3><p>إدارة المستخدمين</p></div>
+<div class="dash-card manager" id="menuCategories" onclick="openCategories()" style="display:none;"><div class="dash-icon">📁</div><h3>التصنيفات</h3><p>إضافة الأقسام</p></div>
+<div class="dash-card manager" id="menuAdmin" onclick="openAdmin()" style="display:none;"><div class="dash-icon">⚙️</div><h3>إدارة المنيو</h3><p>إضافة الأصناف</p></div>
+<div class="dash-card manager" id="menuReports" onclick="openReports()" style="display:none;"><div class="dash-icon">📈</div><h3>التقارير</h3><p>المبيعات والأرباح</p></div>
+<div class="dash-card manager" id="menuSettings" onclick="openSettings()" style="display:none;"><div class="dash-icon">🎨</div><h3>الإعدادات</h3><p>تخصيص النظام</p></div>
+<div class="dash-card manager" id="menuRevenues" onclick="openRevenues()" style="display:none;"><div class="dash-icon">💰</div><h3>الإيرادات</h3><p>عرض الإيرادات</p></div>
 </div>
 </div>
 </div>
-
-<!-- ALL PAGES HERE -->
+<!-- ALL PAGES - Complete HTML Structure -->
 <!-- Order Page -->
 <div id="orderPage" class="page">
 <div class="page-header">
 <h2>📝 تسجيل طلب جديد</h2>
-<button class="btn-back" onclick="window.backToDashboard()">رجوع للرئيسية</button>
+<button class="btn-back" onclick="backToDashboard()">رجوع للرئيسية</button>
 </div>
 <div class="order-layout">
 <div class="menu-section">
@@ -292,13 +290,13 @@ body * { visibility: hidden; }
 <span class="order-number" id="orderNumber">#001</span>
 </div>
 <div style="display: flex; gap: 10px; margin-bottom: 15px;">
-<button class="btn-bill" style="flex:1; background: #667eea; color: white;" onclick="window.setOrderType('dinein')" id="btnDinein">🍽️ صالة</button>
-<button class="btn-bill" style="flex:1; background: #f0f2f5; color: #333;" onclick="window.setOrderType('takeaway')" id="btnTakeaway">🛍️ تيك اواي</button>
+<button class="btn-bill" style="flex:1; background: #667eea; color: white;" onclick="setOrderType('dinein')" id="btnDinein">🍽️ صالة</button>
+<button class="btn-bill" style="flex:1; background: #f0f2f5; color: #333;" onclick="setOrderType('takeaway')" id="btnTakeaway">🛍️ تيك اواي</button>
 </div>
 <div id="selectedTableInfo" style="background: #e8f4fd; padding: 12px; border-radius: 8px; margin-bottom: 15px; display: none;">
 <div style="display: flex; justify-content: space-between; align-items: center;">
 <span id="selectedTableName">طاولة --</span>
-<button onclick="window.openTableSelect()" style="background: #667eea; color: white; border: none; padding: 5px 12px; border-radius: 5px; cursor: pointer; font-size: 12px;">🔄 تغيير</button>
+<button onclick="openTableSelect()" style="background: #667eea; color: white; border: none; padding: 5px 12px; border-radius: 5px; cursor: pointer; font-size: 12px;">🔄 تغيير</button>
 </div>
 </div>
 <div class="bill-items" id="cartItems"><p style="text-align: center; color: #777; padding: 40px;">لا توجد أصناف</p></div>
@@ -307,50 +305,25 @@ body * { visibility: hidden; }
 <div class="bill-total-amount" id="totalAmount">0 ج.م</div>
 </div>
 <div class="bill-actions">
-<button class="btn-bill btn-pay" onclick="window.openPayment()">💳 دفع</button>
-<button class="btn-bill btn-suspend" onclick="window.suspendToTable()">⏸️ تعليق على الطاولة</button>
-<button class="btn-bill btn-clear" onclick="window.clearCart()">🗑️ إلغاء</button>
+<button class="btn-bill btn-pay" onclick="openPayment()">💳 دفع</button>
+<button class="btn-bill btn-suspend" onclick="suspendToTable()">⏸️ تعليق على الطاولة</button>
+<button class="btn-bill btn-clear" onclick="clearCart()">🗑️ إلغاء</button>
 </div>
 </div>
 </div>
 </div>
-
-<!-- Tables Page -->
-<div id="tablesPage" class="page">
-<div class="page-header">
-<h2>🪑 إدارة الطاولات</h2>
-<button class="btn-back" onclick="window.backToDashboard()">رجوع للرئيسية</button>
-</div>
-<div class="form-container">
-<h3 style="margin-bottom: 20px; color: #333;">إضافة طاولة جديدة</h3>
-<div class="form-row">
-<div class="form-group">
-<label>رقم الطاولة</label>
-<input type="number" id="newTableNumber" placeholder="أدخل الرقم">
-</div>
-<div class="form-group">
-<label>عدد الكراسي</label>
-<input type="number" id="newTableCapacity" placeholder="أدخل العدد">
-</div>
-</div>
-<button class="btn-submit" onclick="window.addTable()">✅ إضافة طاولة</button>
-</div>
-<h3 style="margin-bottom: 20px; color: #333;">الطاولات الموجودة</h3>
-<div class="tables-grid" id="tablesList"></div>
-</div>
-
-<!-- Revenues Page -->
+<!-- Revenues Page (NEW) -->
 <div id="revenuesPage" class="page">
 <div class="page-header">
 <h2>💰 الإيرادات</h2>
-<button class="btn-back" onclick="window.backToDashboard()">رجوع للرئيسية</button>
+<button class="btn-back" onclick="backToDashboard()">رجوع للرئيسية</button>
 </div>
 <div class="form-container">
 <h3 style="margin-bottom: 20px;">فلترة الإيرادات</h3>
 <div class="form-row">
 <div class="form-group">
 <label>نوع التقرير</label>
-<select id="revenueType" onchange="window.toggleRevenueDateFilters()">
+<select id="revenueType" onchange="toggleRevenueDateFilters()">
 <option value="today">اليوم</option>
 <option value="monthly">الشهر</option>
 <option value="custom">تاريخ مخصص</option>
@@ -365,7 +338,7 @@ body * { visibility: hidden; }
 <input type="date" id="revenueDateTo">
 </div>
 </div>
-<button class="btn-submit" onclick="window.applyRevenueFilter()">🔍 عرض الإيرادات</button>
+<button class="btn-submit" onclick="applyRevenueFilter()">🔍 عرض الإيرادات</button>
 </div>
 <div class="stats-grid">
 <div class="stat-card sales">
@@ -390,12 +363,34 @@ body * { visibility: hidden; }
 <div id="revenuesList"></div>
 </div>
 </div>
-
+<!-- Tables Page -->
+<div id="tablesPage" class="page">
+<div class="page-header">
+<h2>🪑 إدارة الطاولات</h2>
+<button class="btn-back" onclick="backToDashboard()">رجوع للرئيسية</button>
+</div>
+<div class="form-container">
+<h3 style="margin-bottom: 20px; color: #333;">إضافة طاولة جديدة</h3>
+<div class="form-row">
+<div class="form-group">
+<label>رقم الطاولة</label>
+<input type="number" id="newTableNumber" placeholder="أدخل الرقم">
+</div>
+<div class="form-group">
+<label>عدد الكراسي</label>
+<input type="number" id="newTableCapacity" placeholder="أدخل العدد">
+</div>
+</div>
+<button class="btn-submit" onclick="addTable()">✅ إضافة طاولة</button>
+</div>
+<h3 style="margin-bottom: 20px; color: #333;">الطاولات الموجودة</h3>
+<div class="tables-grid" id="tablesList"></div>
+</div>
 <!-- Expenses Page -->
 <div id="expensesPage" class="page">
 <div class="page-header">
 <h2>💸 المصروفات</h2>
-<button class="btn-back" onclick="window.backToDashboard()">رجوع للرئيسية</button>
+<button class="btn-back" onclick="backToDashboard()">رجوع للرئيسية</button>
 </div>
 <div class="form-container">
 <h3 style="margin-bottom: 20px;">إضافة مصروف جديد</h3>
@@ -413,19 +408,18 @@ body * { visibility: hidden; }
 <label>ملاحظات</label>
 <textarea id="expenseNotes" rows="3" placeholder="أدخل ملاحظات"></textarea>
 </div>
-<button class="btn-submit" onclick="window.addExpense()">✅ إضافة مصروف</button>
+<button class="btn-submit" onclick="addExpense()">✅ إضافة مصروف</button>
 </div>
 <div class="list-container">
 <h3 style="margin-bottom: 20px;">مصروفات الشيفت الحالي</h3>
 <div id="shiftExpensesList"></div>
 </div>
 </div>
-
 <!-- Deposits Page -->
 <div id="depositsPage" class="page">
 <div class="page-header">
 <h2>💵 توريد نقدية</h2>
-<button class="btn-back" onclick="window.backToDashboard()">رجوع للرئيسية</button>
+<button class="btn-back" onclick="backToDashboard()">رجوع للرئيسية</button>
 </div>
 <div class="form-container">
 <h3 style="margin-bottom: 20px;">إضافة توريد جديد</h3>
@@ -439,19 +433,18 @@ body * { visibility: hidden; }
 <label>ملاحظات</label>
 <textarea id="depositNotes" rows="3" placeholder="أدخل ملاحظات"></textarea>
 </div>
-<button class="btn-submit" onclick="window.addDeposit()">✅ إضافة توريد</button>
+<button class="btn-submit" onclick="addDeposit()">✅ إضافة توريد</button>
 </div>
 <div class="list-container">
 <h3 style="margin-bottom: 20px;">توريدات الشيفت الحالي</h3>
 <div id="shiftDepositsList"></div>
 </div>
 </div>
-
 <!-- Expense Categories Page -->
 <div id="expenseCategoriesPage" class="page">
 <div class="page-header">
 <h2>📋 أنواع المصروفات</h2>
-<button class="btn-back" onclick="window.backToDashboard()">رجوع للرئيسية</button>
+<button class="btn-back" onclick="backToDashboard()">رجوع للرئيسية</button>
 </div>
 <div class="form-container">
 <h3 style="margin-bottom: 20px;">إضافة نوع جديد</h3>
@@ -461,19 +454,18 @@ body * { visibility: hidden; }
 <input type="text" id="newExpenseCategoryName" placeholder="مثال: رواتب، كهرباء، إلخ">
 </div>
 </div>
-<button class="btn-submit" onclick="window.addExpenseCategory()">✅ إضافة نوع</button>
+<button class="btn-submit" onclick="addExpenseCategory()">✅ إضافة نوع</button>
 </div>
 <div class="list-container">
 <h3 style="margin-bottom: 20px;">الأنواع الموجودة</h3>
 <div id="expenseCategoriesList"></div>
 </div>
 </div>
-
 <!-- Returns Page -->
 <div id="returnsPage" class="page">
 <div class="page-header">
 <h2>🔄 المرتجعات</h2>
-<button class="btn-back" onclick="window.backToDashboard()">رجوع للرئيسية</button>
+<button class="btn-back" onclick="backToDashboard()">رجوع للرئيسية</button>
 </div>
 <div class="form-container">
 <h3 style="margin-bottom: 20px;">إرجاع صنف من أوردر</h3>
@@ -483,7 +475,7 @@ body * { visibility: hidden; }
 <input type="text" id="returnOrderNumber" placeholder="أدخل رقم الأوردر">
 </div>
 </div>
-<button class="btn-submit" onclick="window.searchOrderForReturn()" style="margin-bottom: 20px;">🔍 بحث عن الأوردر</button>
+<button class="btn-submit" onclick="searchOrderForReturn()" style="margin-bottom: 20px;">🔍 بحث عن الأوردر</button>
 <div id="returnOrderDetails" style="display: none;">
 <div style="background: #f8f9fa; padding: 15px; border-radius: 10px; margin-bottom: 15px;">
 <p><strong>رقم الأوردر:</strong> <span id="returnOrderNum"></span></p>
@@ -502,7 +494,7 @@ body * { visibility: hidden; }
 <input type="text" id="returnReason" placeholder="أدخل السبب">
 </div>
 </div>
-<button class="btn-submit" onclick="window.processReturn()">✅ إتمام المرتجع</button>
+<button class="btn-submit" onclick="processReturn()">✅ إتمام المرتجع</button>
 </div>
 </div>
 <div class="list-container">
@@ -510,12 +502,11 @@ body * { visibility: hidden; }
 <div id="returnsList"></div>
 </div>
 </div>
-
 <!-- Edit Orders Page -->
 <div id="editOrdersPage" class="page">
 <div class="page-header">
 <h2>✏️ تعديل الأوردرات</h2>
-<button class="btn-back" onclick="window.backToDashboard()">رجوع للرئيسية</button>
+<button class="btn-back" onclick="backToDashboard()">رجوع للرئيسية</button>
 </div>
 <div class="form-container">
 <h3 style="margin-bottom: 20px;">بحث عن أوردر للتعديل</h3>
@@ -525,7 +516,7 @@ body * { visibility: hidden; }
 <input type="text" id="editOrderSearch" placeholder="أدخل رقم الأوردر">
 </div>
 </div>
-<button class="btn-submit" onclick="window.searchOrderForEdit()" style="margin-bottom: 20px;">🔍 بحث</button>
+<button class="btn-submit" onclick="searchOrderForEdit()" style="margin-bottom: 20px;">🔍 بحث</button>
 <div id="editOrderDetails" style="display: none;">
 <div style="background: #f8f9fa; padding: 15px; border-radius: 10px; margin-bottom: 15px;">
 <p><strong>رقم الأوردر:</strong> <span id="editOrderNum"></span></p>
@@ -534,16 +525,15 @@ body * { visibility: hidden; }
 </div>
 <h4 style="margin-bottom: 15px;">الأصناف:</h4>
 <div id="editItemsList"></div>
-<button class="btn-submit" onclick="window.saveOrderEdit()" style="margin-top: 20px;">💾 حفظ التعديلات</button>
+<button class="btn-submit" onclick="saveOrderEdit()" style="margin-top: 20px;">💾 حفظ التعديلات</button>
 </div>
 </div>
 </div>
-
 <!-- Shift History Page -->
 <div id="shiftHistoryPage" class="page">
 <div class="page-header">
 <h2>📊 سجل التقفيلات</h2>
-<button class="btn-back" onclick="window.backToDashboard()">رجوع للرئيسية</button>
+<button class="btn-back" onclick="backToDashboard()">رجوع للرئيسية</button>
 </div>
 <div class="form-container">
 <h3 style="margin-bottom: 20px;">فلترة السجل</h3>
@@ -557,19 +547,18 @@ body * { visibility: hidden; }
 <input type="date" id="shiftHistoryTo">
 </div>
 </div>
-<button class="btn-submit" onclick="window.filterShiftHistory()">🔍 تطبيق الفلتر</button>
+<button class="btn-submit" onclick="filterShiftHistory()">🔍 تطبيق الفلتر</button>
 </div>
 <div class="list-container">
 <h3 style="margin-bottom: 20px;">سجل التقفيلات</h3>
 <div id="shiftHistoryList"></div>
 </div>
 </div>
-
 <!-- Purchases Page -->
 <div id="purchasesPage" class="page">
 <div class="page-header">
 <h2>📦 الطلبيات الواردة</h2>
-<button class="btn-back" onclick="window.backToDashboard()">رجوع للرئيسية</button>
+<button class="btn-back" onclick="backToDashboard()">رجوع للرئيسية</button>
 </div>
 <div class="form-container">
 <h3 style="margin-bottom: 20px;">إضافة طلبية جديدة</h3>
@@ -599,19 +588,18 @@ body * { visibility: hidden; }
 <div style="display: flex; justify-content: space-between; margin-bottom: 8px;"><span>المخزون الحالي:</span><span id="calcCurrentStock">0</span></div>
 <div style="display: flex; justify-content: space-between; font-weight: bold; border-top: 2px solid #667eea; padding-top: 10px;"><span>المخزون الجديد:</span><span id="calcNewStock">0</span></div>
 </div>
-<button class="btn-submit" onclick="window.addPurchase()">✅ إضافة طلبية</button>
+<button class="btn-submit" onclick="addPurchase()">✅ إضافة طلبية</button>
 </div>
 <div class="list-container">
 <h3 style="margin-bottom: 20px;">سجل الطلبيات</h3>
 <div id="purchasesList"></div>
 </div>
 </div>
-
 <!-- Inventory Page -->
 <div id="inventoryPage" class="page">
 <div class="page-header">
 <h2>📦 المخزون</h2>
-<button class="btn-back" onclick="window.backToDashboard()">رجوع للرئيسية</button>
+<button class="btn-back" onclick="backToDashboard()">رجوع للرئيسية</button>
 </div>
 <div class="form-container">
 <h3 style="margin-bottom: 20px;">إضافة مكون جديد</h3>
@@ -635,19 +623,24 @@ body * { visibility: hidden; }
 <input type="number" id="newIngredientMin" placeholder="الحد الأدنى للتنبيه">
 </div>
 </div>
-<button class="btn-submit" onclick="window.addInventoryItem()">✅ إضافة مكون</button>
+<!-- NEW: Cost Input for Inventory -->
+<div class="form-group" style="margin-top: 10px;">
+    <label style="color: #2980b9;">سعر الشراء (سعر الوحدة)</label>
+    <input type="number" id="newIngredientCost" placeholder="أدخل سعر الوحدة (ج.م)">
+    <small style="color: #777;">هذا السعر سيستخدم لحساب تكلفة الأطباق تلقائياً</small>
+</div>
+<button class="btn-submit" onclick="addInventoryItem()">✅ إضافة مكون</button>
 </div>
 <div class="list-container">
 <h3 style="margin-bottom: 20px;">المخزون الحالي</h3>
 <div id="inventoryList"></div>
 </div>
 </div>
-
 <!-- Inventory Adjustment Page -->
 <div id="inventoryAdjustPage" class="page">
 <div class="page-header">
 <h2>🔄 تعديل المخزون</h2>
-<button class="btn-back" onclick="window.backToDashboard()">رجوع للرئيسية</button>
+<button class="btn-back" onclick="backToDashboard()">رجوع للرئيسية</button>
 </div>
 <div class="form-container">
 <h3 style="margin-bottom: 20px;">تعديل المخزون يدوياً</h3>
@@ -669,15 +662,14 @@ body * { visibility: hidden; }
 <p><strong>المخزون الحالي:</strong> <span id="currentStockDisplay">0</span></p>
 <p><strong>المخزون بعد التعديل:</strong> <span id="newStockDisplay">0</span></p>
 </div>
-<button class="btn-submit" onclick="window.adjustInventory()">✅ تعديل المخزون</button>
+<button class="btn-submit" onclick="adjustInventory()">✅ تعديل المخزون</button>
 </div>
 </div>
-
 <!-- Users Page -->
 <div id="usersPage" class="page">
 <div class="page-header">
 <h2>👥 إدارة المستخدمين</h2>
-<button class="btn-back" onclick="window.backToDashboard()">رجوع للرئيسية</button>
+<button class="btn-back" onclick="backToDashboard()">رجوع للرئيسية</button>
 </div>
 <div class="form-container">
 <h3 style="margin-bottom: 20px;">إضافة / تعديل مستخدم</h3>
@@ -701,20 +693,19 @@ body * { visibility: hidden; }
 </select>
 </div>
 </div>
-<button class="btn-submit" id="saveUserBtnText" onclick="window.saveUser()">✅ إضافة مستخدم جديد</button>
-<button class="btn-submit" id="cancelUserBtn" onclick="window.cancelUserEdit()" style="background: #95a5a6; margin-top: 10px; display: none;">❌ إلغاء التعديل</button>
+<button class="btn-submit" id="saveUserBtnText" onclick="saveUser()">✅ إضافة مستخدم جديد</button>
+<button class="btn-submit" id="cancelUserBtn" onclick="cancelUserEdit()" style="background: #95a5a6; margin-top: 10px; display: none;">❌ إلغاء التعديل</button>
 </div>
 <div class="list-container">
 <h3 style="margin-bottom: 20px;">المستخدمين</h3>
 <div id="usersList"></div>
 </div>
 </div>
-
 <!-- Categories Page -->
 <div id="categoriesPage" class="page">
 <div class="page-header">
 <h2>📁 التصنيفات</h2>
-<button class="btn-back" onclick="window.backToDashboard()">رجوع للرئيسية</button>
+<button class="btn-back" onclick="backToDashboard()">رجوع للرئيسية</button>
 </div>
 <div class="form-container">
 <h3 style="margin-bottom: 20px;">إضافة تصنيف جديد</h3>
@@ -724,19 +715,18 @@ body * { visibility: hidden; }
 <input type="text" id="newCategoryName" placeholder="أدخل اسم التصنيف">
 </div>
 </div>
-<button class="btn-submit" onclick="window.addCategory()">✅ إضافة تصنيف</button>
+<button class="btn-submit" onclick="addCategory()">✅ إضافة تصنيف</button>
 </div>
 <div class="list-container">
 <h3 style="margin-bottom: 20px;">التصنيفات الموجودة</h3>
 <div id="categoriesList"></div>
 </div>
 </div>
-
 <!-- Admin Page -->
 <div id="adminPage" class="page">
 <div class="page-header">
 <h2>⚙️ إدارة المنيو</h2>
-<button class="btn-back" onclick="window.backToDashboard()">رجوع للرئيسية</button>
+<button class="btn-back" onclick="backToDashboard()">رجوع للرئيسية</button>
 </div>
 <div class="form-container">
 <h3 style="margin-bottom: 20px;">إضافة / تعديل صنف</h3>
@@ -757,8 +747,8 @@ body * { visibility: hidden; }
 <input type="number" id="newItemPrice" placeholder="أدخل سعر البيع">
 </div>
 <div class="form-group">
-<label>التكلفة</label>
-<input type="number" id="newItemCost" placeholder="التكلفة" readonly>
+<label>التكلفة (تلقائي)</label>
+<input type="number" id="newItemCost" placeholder="يتم حسابه تلقائياً" readonly>
 </div>
 </div>
 <div style="background: #e8f4fd; padding: 15px; border-radius: 10px; margin-bottom: 15px;">
@@ -768,28 +758,27 @@ body * { visibility: hidden; }
 </div>
 <h4 style="margin: 15px 0;">المكونات</h4>
 <div class="ingredients-list" id="ingredientsList"></div>
-<button class="btn-submit" style="background: #f39c12; margin-bottom: 10px;" onclick="window.addIngredientField()">+ إضافة مكون</button>
-<button class="btn-submit" id="saveBtnText" onclick="window.saveItem()">✅ إضافة صنف جديد</button>
-<button class="btn-submit" id="cancelBtn" onclick="window.cancelEdit()" style="background: #95a5a6; margin-top: 10px; display: none;">❌ إلغاء التعديل</button>
+<button class="btn-submit" style="background: #f39c12; margin-bottom: 10px;" onclick="addIngredientField()">+ إضافة مكون</button>
+<button class="btn-submit" id="saveBtnText" onclick="saveItem()">✅ إضافة صنف جديد</button>
+<button class="btn-submit" id="cancelBtn" onclick="cancelEdit()" style="background: #95a5a6; margin-top: 10px; display: none;">❌ إلغاء التعديل</button>
 </div>
 <div class="list-container">
 <h3 style="margin-bottom: 20px;">الأصناف الموجودة</h3>
 <div id="adminMenuList"></div>
 </div>
 </div>
-
 <!-- Reports Page -->
 <div id="reportsPage" class="page">
 <div class="page-header">
 <h2>📈 التقارير</h2>
-<button class="btn-back" onclick="window.backToDashboard()">رجوع للرئيسية</button>
+<button class="btn-back" onclick="backToDashboard()">رجوع للرئيسية</button>
 </div>
 <div class="form-container">
 <h3 style="margin-bottom: 20px;">فلترة التقارير</h3>
 <div class="form-row">
 <div class="form-group">
 <label>نوع التقرير</label>
-<select id="reportType" onchange="window.toggleDateFilters()">
+<select id="reportType" onchange="toggleDateFilters()">
 <option value="all">كل الأوردرات</option>
 <option value="today">تقرير يومي (اليوم)</option>
 <option value="monthly">تقرير شهري</option>
@@ -805,7 +794,7 @@ body * { visibility: hidden; }
 <input type="date" id="dateTo">
 </div>
 </div>
-<button class="btn-submit" onclick="window.applyReportFilter()">🔍 تطبيق الفلتر</button>
+<button class="btn-submit" onclick="applyReportFilter()">🔍 تطبيق الفلتر</button>
 </div>
 <div class="stats-grid">
 <div class="stat-card sales">
@@ -826,12 +815,11 @@ body * { visibility: hidden; }
 <div id="ordersList"></div>
 </div>
 </div>
-
 <!-- Settings Page -->
 <div id="settingsPage" class="page">
 <div class="page-header">
 <h2>🎨 الإعدادات</h2>
-<button class="btn-back" onclick="window.backToDashboard()">رجوع للرئيسية</button>
+<button class="btn-back" onclick="backToDashboard()">رجوع للرئيسية</button>
 </div>
 <div class="form-container">
 <h3 style="margin-bottom: 20px;">معلومات المطعم</h3>
@@ -853,36 +841,34 @@ body * { visibility: hidden; }
 <label>رسالة الإيصال</label>
 <textarea id="receiptMessage" rows="3"></textarea>
 </div>
-<button class="btn-submit" onclick="window.saveSettings()">💾 حفظ الإعدادات</button>
+<button class="btn-submit" onclick="saveSettings()">💾 حفظ الإعدادات</button>
 </div>
 <div class="form-container">
 <h3 style="margin-bottom: 20px;">اللوجو</h3>
 <div class="form-group">
 <label>صورة اللوجو:</label>
-<input type="file" id="logoInput" accept="image/*" onchange="window.handleLogoUpload()">
+<input type="file" id="logoInput" accept="image/*" onchange="handleLogoUpload()">
 </div>
 <div class="logo-preview" id="logoPreview" style="max-width: 150px; max-height: 150px; margin: 20px auto; display: block; border: 2px dashed #ddd; padding: 10px; border-radius: 8px;"><p>لا يوجد لوجو</p></div>
-<button class="btn-submit" onclick="window.removeLogo()" style="background: #e74c3c;">🗑️ حذف اللوجو</button>
+<button class="btn-submit" onclick="removeLogo()" style="background: #e74c3c;">🗑️ حذف اللوجو</button>
 </div>
 </div>
-
 <!-- Table Orders Page -->
 <div id="tableOrdersPage" class="page">
 <div class="page-header">
 <h2>🪑 أوردرات الطاولات المعلقة</h2>
-<button class="btn-back" onclick="window.backToDashboard()">رجوع للرئيسية</button>
+<button class="btn-back" onclick="backToDashboard()">رجوع للرئيسية</button>
 </div>
 <div class="list-container">
 <h3 style="margin-bottom: 20px;">الطاولات اللي عليها أوردرات معلقة</h3>
 <div id="tableOrdersList"></div>
 </div>
 </div>
-
 <!-- Shift Close Page -->
 <div id="shiftClosePage" class="page">
 <div class="page-header">
 <h2>💰 تقفيلة الدرج</h2>
-<button class="btn-back" onclick="window.backToDashboard()">رجوع للرئيسية</button>
+<button class="btn-back" onclick="backToDashboard()">رجوع للرئيسية</button>
 </div>
 <div class="form-container">
 <h3 style="margin-bottom: 20px;">📊 ملخص الشيفت</h3>
@@ -919,7 +905,7 @@ body * { visibility: hidden; }
 </div>
 <div class="form-group">
 <label>المبلغ الفعلي في الدرج</label>
-<input type="number" id="shiftActualCash" placeholder="أدخل المبلغ الفعلي" oninput="window.calculateShiftDifference()">
+<input type="number" id="shiftActualCash" placeholder="أدخل المبلغ الفعلي" oninput="calculateShiftDifference()">
 </div>
 <div id="shiftDifferenceBox" style="display: none; background: #f8f9fa; padding: 20px; border-radius: 10px; margin: 20px 0;">
 <div style="display: flex; justify-content: space-between; font-weight: bold; font-size: 18px; border-top: 2px solid #667eea; padding-top: 15px;">
@@ -928,18 +914,17 @@ body * { visibility: hidden; }
 </div>
 </div>
 <div style="display: flex; gap: 15px; margin-top: 20px;">
-<button class="btn-submit" style="flex: 1; background: #95a5a6;" onclick="window.backToDashboard()">إلغاء</button>
-<button class="btn-submit" style="flex: 1;" id="printShiftBtn" disabled onclick="window.printShiftCloseReceipt()">🖨️ طباعة الرسيت</button>
-<button class="btn-submit" style="flex: 1; background: #27ae60;" id="confirmShiftBtn" onclick="window.confirmShiftClose()">✅ تأكيد وإنهاء الشيفت</button>
+<button class="btn-submit" style="flex: 1; background: #95a5a6;" onclick="backToDashboard()">إلغاء</button>
+<button class="btn-submit" style="flex: 1;" id="printShiftBtn" disabled onclick="printShiftCloseReceipt()">🖨️ طباعة الرسيت</button>
+<button class="btn-submit" style="flex: 1; background: #27ae60;" id="confirmShiftBtn" onclick="confirmShiftClose()">✅ تأكيد وإنهاء الشيفت</button>
 </div>
 </div>
 </div>
-
 <!-- Shift Start Page -->
 <div id="shiftStartPage" class="page">
 <div class="page-header">
 <h2>🔄 بدء شيفت جديد</h2>
-<button class="btn-back" onclick="window.backToDashboard()">رجوع للرئيسية</button>
+<button class="btn-back" onclick="backToDashboard()">رجوع للرئيسية</button>
 </div>
 <div class="form-container">
 <h3 style="margin-bottom: 20px; color: #333;">📊 بيانات الشيفت الجديد</h3>
@@ -961,10 +946,9 @@ body * { visibility: hidden; }
 <li>يجب إقفال الشيفت الحالي قبل بدء شيفت جديد</li>
 </ul>
 </div>
-<button class="btn-submit" onclick="window.startNewShift()">✅ بدء الشيفت</button>
+<button class="btn-submit" onclick="startNewShift()">✅ بدء الشيفت</button>
 </div>
 </div>
-
 <!-- Payment Modal -->
 <div id="paymentModal" class="modal">
 <div class="modal-content">
@@ -975,19 +959,19 @@ body * { visibility: hidden; }
 <div style="font-size: 36px; font-weight: 700;" id="modalTotal">0 ج.م</div>
 </div>
 <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 25px;">
-<div class="payment-method active" onclick="window.setPaymentMethod('cash')" id="payCash" style="background: #d4edda; border: 3px solid #27ae60; border-radius: 12px; padding: 20px; text-align: center; cursor: pointer;">
+<div class="payment-method active" onclick="setPaymentMethod('cash')" id="payCash" style="background: #d4edda; border: 3px solid #27ae60; border-radius: 12px; padding: 20px; text-align: center; cursor: pointer;">
 <div style="font-size: 30px; margin-bottom: 8px;">💵</div><div style="font-weight: 700;">كاش</div>
 </div>
-<div class="payment-method" onclick="window.setPaymentMethod('card')" id="payCard" style="background: #f8f9fa; border: 3px solid #e0e0e0; border-radius: 12px; padding: 20px; text-align: center; cursor: pointer;">
+<div class="payment-method" onclick="setPaymentMethod('card')" id="payCard" style="background: #f8f9fa; border: 3px solid #e0e0e0; border-radius: 12px; padding: 20px; text-align: center; cursor: pointer;">
 <div style="font-size: 30px; margin-bottom: 8px;">💳</div><div style="font-weight: 700;">فيزا</div>
 </div>
-<div class="payment-method" onclick="window.setPaymentMethod('wallet')" id="payWallet" style="background: #f8f9fa; border: 3px solid #e0e0e0; border-radius: 12px; padding: 20px; text-align: center; cursor: pointer;">
+<div class="payment-method" onclick="setPaymentMethod('wallet')" id="payWallet" style="background: #f8f9fa; border: 3px solid #e0e0e0; border-radius: 12px; padding: 20px; text-align: center; cursor: pointer;">
 <div style="font-size: 30px; margin-bottom: 8px;">📱</div><div style="font-weight: 700;">محفظة</div>
 </div>
 </div>
 <div class="form-group">
 <label>المبلغ المدفوع</label>
-<input type="number" id="paidAmount" placeholder="أدخل المبلغ" oninput="window.calculateChange()">
+<input type="number" id="paidAmount" placeholder="أدخل المبلغ" oninput="calculateChange()">
 </div>
 <div id="changeDisplay" style="background: #fff3cd; padding: 15px; border-radius: 10px; margin-top: 15px; display: none; text-align: center;">
 <div style="font-size: 14px; margin-bottom: 5px;">الباقي</div>
@@ -995,21 +979,19 @@ body * { visibility: hidden; }
 </div>
 </div>
 <div class="modal-footer">
-<button class="btn-modal btn-cancel" onclick="window.closeModal('paymentModal')">إلغاء</button>
-<button class="btn-modal btn-confirm" onclick="window.confirmPayment()">✅ تأكيد الدفع</button>
+<button class="btn-modal btn-cancel" onclick="closeModal('paymentModal')">إلغاء</button>
+<button class="btn-modal btn-confirm" onclick="confirmPayment()">✅ تأكيد الدفع</button>
 </div>
 </div>
 </div>
-
 <!-- Table Select Modal -->
 <div id="tableSelectModal" class="modal">
 <div class="modal-content">
 <div class="modal-header"><h2>🪑 اختيار الطاولة</h2></div>
 <div class="modal-body"><div class="tables-grid" id="tableSelectGrid"></div></div>
-<div class="modal-footer"><button class="btn-modal btn-cancel" onclick="window.closeModal('tableSelectModal')">إلغاء</button></div>
+<div class="modal-footer"><button class="btn-modal btn-cancel" onclick="closeModal('tableSelectModal')">إلغاء</button></div>
 </div>
 </div>
-
 <!-- Table Bill Modal -->
 <div id="tableBillModal" class="modal">
 <div class="modal-content">
@@ -1022,32 +1004,29 @@ body * { visibility: hidden; }
 <div class="bill-total-amount" id="billTotalAmount">0 ج.م</div>
 </div>
 <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-top: 20px;">
-<div class="payment-method active" onclick="window.setTablePaymentMethod('cash')" id="tableCashBtn" style="background: #d4edda; border: 3px solid #27ae60; border-radius: 12px; padding: 15px; text-align: center; cursor: pointer;">
+<div class="payment-method active" onclick="setTablePaymentMethod('cash')" id="tableCashBtn" style="background: #d4edda; border: 3px solid #27ae60; border-radius: 12px; padding: 15px; text-align: center; cursor: pointer;">
 <div style="font-size: 24px; margin-bottom: 5px;">💵</div><div style="font-weight: 700; font-size: 12px;">كاش</div>
 </div>
-<div class="payment-method" onclick="window.setTablePaymentMethod('card')" id="tableCardBtn" style="background: #f8f9fa; border: 3px solid #e0e0e0; border-radius: 12px; padding: 15px; text-align: center; cursor: pointer;">
+<div class="payment-method" onclick="setTablePaymentMethod('card')" id="tableCardBtn" style="background: #f8f9fa; border: 3px solid #e0e0e0; border-radius: 12px; padding: 15px; text-align: center; cursor: pointer;">
 <div style="font-size: 24px; margin-bottom: 5px;">💳</div><div style="font-weight: 700; font-size: 12px;">فيزا</div>
 </div>
-<div class="payment-method" onclick="window.setTablePaymentMethod('wallet')" id="tableWalletBtn" style="background: #f8f9fa; border: 3px solid #e0e0e0; border-radius: 12px; padding: 15px; text-align: center; cursor: pointer;">
+<div class="payment-method" onclick="setTablePaymentMethod('wallet')" id="tableWalletBtn" style="background: #f8f9fa; border: 3px solid #e0e0e0; border-radius: 12px; padding: 15px; text-align: center; cursor: pointer;">
 <div style="font-size: 24px; margin-bottom: 5px;">📱</div><div style="font-weight: 700; font-size: 12px;">محفظة</div>
 </div>
 </div>
 </div>
 <div class="modal-footer">
-<button class="btn-modal btn-cancel" onclick="window.closeModal('tableBillModal')">إلغاء</button>
-<button class="btn-modal btn-confirm" onclick="window.confirmTablePayment()">✅ دفع وتحرير الطاولة</button>
+<button class="btn-modal btn-cancel" onclick="closeModal('tableBillModal')">إلغاء</button>
+<button class="btn-modal btn-confirm" onclick="confirmTablePayment()">✅ دفع وتحرير الطاولة</button>
 </div>
 </div>
 </div>
-
 <!-- Receipt Container (Hidden) -->
 <div id="receiptContent" style="display: none;"></div>
 </div>
-
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-app.js";
 import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, deleteDoc, query, where, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-firestore.js";
-
 const firebaseConfig = {
 apiKey: "AIzaSyCucVCBRWZHQmvOf7XEG03MQuHFUvMfZes",
 authDomain: "dr-shrimp-pos.firebaseapp.com",
@@ -1056,22 +1035,18 @@ storageBucket: "dr-shrimp-pos.firebasestorage.app",
 messagingSenderId: "165111064355",
 appId: "1:165111064355:web:452d718520d50bff6d8e96"
 };
-
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
-
 let currentUser = null;
 let restaurantSettings = { name: "Dr Shrimp", logo: "" };
 let categories = [], tables = [], inventory = [], menuItems = [], users = [], orders = [], shiftClosures = [], tableOrders = [], expenses = [], cashDeposits = [], expenseCategories = [], purchases = [], returns = [];
 let orderCount = 1;
 let cart = [], currentTotal = 0, orderType = 'dinein', selectedTable = null, paymentMethod = 'cash', activeShift = null, tablePaymentMethod = 'cash';
 let tempIngredients = [], currentDiscount = 0, discountType = 'percent';
-
 async function initApp() {
 await loadAllData();
 updateUI();
 }
-
 async function loadAllData() {
 await Promise.all([
 loadSettings(), loadCategories(), loadTables(), loadInventory(),
@@ -1082,7 +1057,6 @@ loadPurchases(), loadReturns()
 await loadOrderCount();
 checkActiveShift();
 }
-
 async function loadSettings() {
 const s = await getDocs(collection(db, 'settings'));
 if (!s.empty) {
@@ -1090,7 +1064,6 @@ const data = s.docs[0].data();
 restaurantSettings = { id: s.docs[0].id, name: data.name || 'Dr Shrimp', logo: data.logo || '' };
 }
 }
-
 async function loadOrderCount() {
 const s = await getDocs(collection(db, 'system'));
 if (!s.empty) {
@@ -1101,14 +1074,12 @@ orderCount = 1;
 }
 document.getElementById('orderNumber').textContent = '#' + String(orderCount).padStart(3, '0');
 }
-
 async function saveOrderCount() {
 const s = await getDocs(collection(db, 'system'));
 if (!s.empty) {
 await updateDoc(doc(db, 'system', s.docs[0].id), { orderCount: orderCount });
 }
 }
-
 async function loadCategories() { const s = await getDocs(collection(db, 'categories')); categories = s.docs.map(d => ({ id: d.id, ...d.data() })); }
 async function loadTables() { const s = await getDocs(collection(db, 'tables')); tables = s.docs.map(d => ({ id: d.id, ...d.data() })); }
 async function loadInventory() { const s = await getDocs(collection(db, 'inventory')); inventory = s.docs.map(d => ({ id: d.id, ...d.data() })); }
@@ -1122,7 +1093,6 @@ async function loadDeposits() { const s = await getDocs(collection(db, 'cashDepo
 async function loadExpenseCategories() { const s = await getDocs(collection(db, 'expenseCategories')); expenseCategories = s.docs.map(d => ({ id: d.id, ...d.data() })); }
 async function loadPurchases() { const s = await getDocs(collection(db, 'purchases')); purchases = s.docs.map(d => ({ id: d.id, ...d.data() })); }
 async function loadReturns() { const s = await getDocs(collection(db, 'returns')); returns = s.docs.map(d => ({ id: d.id, ...d.data() })); }
-
 function checkActiveShift() {
 const today = new Date().toLocaleDateString('ar-EG');
 const active = shiftClosures.find(s => s.status === 'active' && s.date.split(' ')[0] === today);
@@ -1139,7 +1109,6 @@ badge.classList.add('inactive');
 btn.style.display = 'block';
 }
 }
-
 function updateUI() {
 document.getElementById('restaurantNameDisplay').textContent = restaurantSettings.name;
 if (restaurantSettings.logo) {
@@ -1149,7 +1118,6 @@ document.getElementById('headerLogo').src = restaurantSettings.logo;
 document.getElementById('headerLogo').style.display = 'block';
 }
 }
-
 window.login = async function() {
 const username = document.getElementById('usernameInput').value.trim();
 const password = document.getElementById('passwordInput').value;
@@ -1182,14 +1150,11 @@ errorMsg.textContent = 'خطأ: ' + err.message;
 errorMsg.style.display = 'block';
 }
 };
-
 window.logout = function() { location.reload(); };
-
 window.backToDashboard = function() {
 document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
 document.getElementById('dashboardPage').style.display = 'block';
 };
-
 window.openShiftStart = function() {
 if (activeShift) {
 alert('⚠️ يوجد شيفت نشط بالفعل!\nيجب إقفال الشيفت الحالي قبل بدء شيفت جديد.');
@@ -1198,7 +1163,6 @@ return;
 document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
 document.getElementById('shiftStartPage').style.display = 'block';
 };
-
 window.startNewShift = async function() {
 const openingCash = parseFloat(document.getElementById('shiftOpeningCash').value) || 0;
 const notes = document.getElementById('shiftNotes').value.trim();
@@ -1228,7 +1192,7 @@ await addDoc(collection(db, 'shiftClosures'), newShift);
 activeShift = newShift;
 await loadShiftClosures();
 checkActiveShift();
-window.backToDashboard();
+backToDashboard();
 document.getElementById('shiftOpeningCash').value = '';
 document.getElementById('shiftNotes').value = '';
 alert(`✅ تم بدء الشيفت #${shiftNumber} بنجاح!\nالمبلغ الابتدائي: ${openingCash.toFixed(2)} ج.م`);
@@ -1236,7 +1200,6 @@ alert(`✅ تم بدء الشيفت #${shiftNumber} بنجاح!\nالمبلغ ا
 alert('❌ خطأ في بدء الشيفت: ' + err.message);
 }
 };
-
 window.openOrderScreen = function() {
 if (!activeShift) { alert('⚠️ يجب بدء شيفت جديد أولاً!'); return; }
 document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
@@ -1244,126 +1207,107 @@ document.getElementById('orderPage').style.display = 'block';
 renderCategories();
 renderMenu();
 };
-
 window.openTables = function() {
 document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
 document.getElementById('tablesPage').style.display = 'block';
 renderTablesList();
 };
-
 window.openExpenses = function() {
 document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
 document.getElementById('expensesPage').style.display = 'block';
 renderExpenseCategories();
 renderShiftExpenses();
 };
-
 window.openDeposits = function() {
 document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
 document.getElementById('depositsPage').style.display = 'block';
 renderShiftDeposits();
 };
-
 window.openExpenseCategories = function() {
 document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
 document.getElementById('expenseCategoriesPage').style.display = 'block';
 renderExpenseCategoriesList();
 };
-
 window.openReturns = function() {
 document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
 document.getElementById('returnsPage').style.display = 'block';
 renderReturnsList();
 };
-
 window.openEditOrders = function() {
 document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
 document.getElementById('editOrdersPage').style.display = 'block';
 };
-
 window.openShiftHistory = function() {
 document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
 document.getElementById('shiftHistoryPage').style.display = 'block';
 renderShiftHistory();
 };
-
 window.openPurchases = function() {
 document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
 document.getElementById('purchasesPage').style.display = 'block';
 updatePurchaseItemSelect();
 renderPurchasesList();
 };
-
 window.openInventory = function() {
 document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
 document.getElementById('inventoryPage').style.display = 'block';
 renderInventoryList();
 };
-
 window.openInventoryAdjust = function() {
 document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
 document.getElementById('inventoryAdjustPage').style.display = 'block';
 updateAdjustmentItemSelect();
 };
-
 window.openUsers = function() {
 document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
 document.getElementById('usersPage').style.display = 'block';
 renderUsersList();
 };
-
 window.openCategories = function() {
 document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
 document.getElementById('categoriesPage').style.display = 'block';
 renderCategoriesList();
 };
-
 window.openAdmin = function() {
 document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
 document.getElementById('adminPage').style.display = 'block';
 updateCategorySelect();
 renderAdminMenuList();
 };
-
 window.openReports = function() {
 document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
 document.getElementById('reportsPage').style.display = 'block';
 toggleDateFilters();
 applyReportFilter();
 };
-
 window.openSettings = function() {
 document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
 document.getElementById('settingsPage').style.display = 'block';
 loadSettingsForm();
 };
-
 window.openTableOrders = function() {
 document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
 document.getElementById('tableOrdersPage').style.display = 'block';
 renderTableOrdersList();
 };
-
 window.openShiftClose = function() {
 if (!activeShift) { alert('لا يوجد شيفت نشط!'); return; }
 document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
 document.getElementById('shiftClosePage').style.display = 'block';
 calculateShiftSummary();
 };
-
+// NEW: Revenues Page
 window.openRevenues = function() {
 document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
 document.getElementById('revenuesPage').style.display = 'block';
 toggleRevenueDateFilters();
 applyRevenueFilter();
 };
-
 function toggleRevenueDateFilters() {
 const type = document.getElementById('revenueType').value;
 document.getElementById('revenueDateRange').style.display = type === 'custom' ? 'block' : 'none';
 document.getElementById('revenueDateRange2').style.display = type === 'custom' ? 'block' : 'none';
 }
-
 window.applyRevenueFilter = function() {
 const type = document.getElementById('revenueType').value;
 let filteredOrders = [...orders];
@@ -1397,7 +1341,7 @@ div.innerHTML = `<div class="list-item-info"><div class="list-item-title">أور
 container.appendChild(div);
 });
 };
-
+// ALL Render Functions
 function renderCategories() {
 const container = document.getElementById('categoryTabs');
 container.innerHTML = '';
@@ -1422,7 +1366,6 @@ renderMenu(cat.id);
 container.appendChild(btn);
 });
 }
-
 function renderMenu(categoryId = 'all') {
 const container = document.getElementById('menuItems');
 container.innerHTML = '';
@@ -1435,14 +1378,12 @@ card.onclick = () => addToCart(item);
 container.appendChild(card);
 });
 }
-
 function addToCart(item) {
 const existing = cart.find(i => i.id === item.id);
 if (existing) { existing.qty++; }
 else { cart.push({ ...item, qty: 1 }); }
 renderCart();
 }
-
 function renderCart() {
 const container = document.getElementById('cartItems');
 container.innerHTML = '';
@@ -1455,35 +1396,30 @@ const total = item.price * item.qty;
 currentTotal += total;
 const div = document.createElement('div');
 div.className = 'bill-item';
-div.innerHTML = `<div class="bill-item-header"><span class="bill-item-name">${item.name}</span><span class="bill-item-total">${total} ج.م</span></div><div style="display: flex; justify-content: space-between; align-items: center;"><div class="qty-controls"><button class="qty-btn qty-minus" onclick="window.changeQty(${index}, -1)">-</button><span class="qty-value">${item.qty}</span><button class="qty-btn qty-plus" onclick="window.changeQty(${index}, 1)">+</button></div><span class="delete-item" onclick="window.removeFromCart(${index})">🗑️</span></div>`;
+div.innerHTML = `<div class="bill-item-header"><span class="bill-item-name">${item.name}</span><span class="bill-item-total">${total} ج.م</span></div><div style="display: flex; justify-content: space-between; align-items: center;"><div class="qty-controls"><button class="qty-btn qty-minus" onclick="changeQty(${index}, -1)">-</button><span class="qty-value">${item.qty}</span><button class="qty-btn qty-plus" onclick="changeQty(${index}, 1)">+</button></div><span class="delete-item" onclick="removeFromCart(${index})">🗑️</span></div>`;
 container.appendChild(div);
 });
 }
 document.getElementById('totalAmount').textContent = currentTotal + ' ج.م';
 }
-
 window.changeQty = function(index, change) {
 cart[index].qty += change;
 if (cart[index].qty <= 0) { cart.splice(index, 1); }
 renderCart();
 };
-
 window.removeFromCart = function(index) {
 cart.splice(index, 1);
 renderCart();
 };
-
 window.clearCart = function() { cart = []; renderCart(); };
-
 window.setOrderType = function(type) {
 orderType = type;
 document.getElementById('btnDinein').style.background = type === 'dinein' ? '#667eea' : '#f0f2f5';
 document.getElementById('btnDinein').style.color = type === 'dinein' ? 'white' : '#333';
 document.getElementById('btnTakeaway').style.background = type === 'takeaway' ? '#667eea' : '#f0f2f5';
 document.getElementById('btnTakeaway').style.color = type === 'takeaway' ? 'white' : '#333';
-if (type === 'dinein' && !selectedTable) { window.openTableSelect(); }
+if (type === 'dinein' && !selectedTable) { openTableSelect(); }
 };
-
 window.openTableSelect = function() {
 const grid = document.getElementById('tableSelectGrid');
 grid.innerHTML = '';
@@ -1491,28 +1427,25 @@ tables.forEach(table => {
 const card = document.createElement('div');
 card.className = 'table-card ' + (table.status === 'free' ? 'free' : 'occupied');
 card.innerHTML = `<div class="table-number">طاولة ${table.number}</div><div class="table-status">${table.status === 'free' ? '✅ متاحة' : '❌ مشغولة'}</div>`;
-if (table.status === 'free') { card.onclick = () => window.selectTable(table); }
+if (table.status === 'free') { card.onclick = () => selectTable(table); }
 grid.appendChild(card);
 });
 document.getElementById('tableSelectModal').style.display = 'flex';
 };
-
 window.selectTable = function(table) {
 selectedTable = table;
 document.getElementById('selectedTableName').textContent = `طاولة ${table.number}`;
 document.getElementById('selectedTableInfo').style.display = 'block';
-window.closeModal('tableSelectModal');
+closeModal('tableSelectModal');
 };
-
 window.openPayment = function() {
 if (cart.length === 0) { alert('الفاتورة فارغة!'); return; }
 document.getElementById('modalTotal').textContent = currentTotal + ' ج.م';
 document.getElementById('paidAmount').value = '';
 document.getElementById('changeDisplay').style.display = 'none';
 document.getElementById('paymentModal').style.display = 'flex';
-window.setPaymentMethod('cash');
+setPaymentMethod('cash');
 };
-
 window.setPaymentMethod = function(method) {
 paymentMethod = method;
 ['cash', 'card', 'wallet'].forEach(m => {
@@ -1526,7 +1459,6 @@ el.style.borderColor = '#e0e0e0';
 }
 });
 };
-
 window.calculateChange = function() {
 const paid = parseFloat(document.getElementById('paidAmount').value) || 0;
 const change = paid - currentTotal;
@@ -1538,7 +1470,6 @@ document.getElementById('changeAmount').textContent = change.toFixed(2) + ' ج.�
 display.style.display = 'none';
 }
 };
-
 window.confirmPayment = async function() {
 const paid = parseFloat(document.getElementById('paidAmount').value) || 0;
 if (paymentMethod === 'cash' && paid < currentTotal) { alert('المبلغ غير كافي!'); return; }
@@ -1558,7 +1489,7 @@ await updateDoc(doc(db, 'tables', selectedTable.id), { status: 'occupied' });
 }
 printReceipt(order);
 alert('✅ تم الدفع بنجاح!');
-window.closeModal('paymentModal');
+closeModal('paymentModal');
 cart = [];
 selectedTable = null;
 document.getElementById('selectedTableInfo').style.display = 'none';
@@ -1566,7 +1497,6 @@ renderCart();
 await loadTables();
 await loadOrders();
 };
-
 function printReceipt(order) {
 const logoHtml = restaurantSettings.logo ? `<img src="${restaurantSettings.logo}" style="max-width:150px; margin:0 auto 15px auto; display:block;">` : '';
 const receiptContent = `<div style="text-align: center; font-family: monospace; padding: 20px; max-width: 400px; margin: 0 auto;">${logoHtml}<h2 style="margin: 10px 0;">${restaurantSettings.name}</h2><p>أوردر #${order.orderNumber}</p>${order.tableName ? `<p>الطاولة: ${order.tableName}</p>` : ''}<p>${order.date}</p><p>الكاشير: ${order.cashier}</p><p>النوع: ${order.type}</p><div style="border-top: 2px dashed #000; margin: 15px 0;"></div>`;
@@ -1585,10 +1515,9 @@ printWindow.document.write('<html dir="rtl"><head><title>إيصال #' + order.o
 printWindow.document.close();
 printWindow.print();
 }
-
 window.suspendToTable = async function() {
 if (cart.length === 0) { alert('الفاتورة فارغة!'); return; }
-if (!selectedTable) { alert('يجب اختيار طاولة أولاً!'); window.openTableSelect(); return; }
+if (!selectedTable) { alert('يجب اختيار طاولة أولاً!'); openTableSelect(); return; }
 const existing = tableOrders.find(to => to.tableId === selectedTable.id && to.status === 'active');
 const orderData = { items: [...cart], total: currentTotal, date: new Date().toLocaleString('ar-EG') };
 if (existing) {
@@ -1605,7 +1534,7 @@ renderCart();
 await loadTables();
 await loadTableOrders();
 };
-
+// ALL Other Functions - Full Implementation
 function renderExpenseCategories() {
 const select = document.getElementById('expenseCategory');
 select.innerHTML = '<option value="">اختر نوع المصروف</option>';
@@ -1616,7 +1545,6 @@ option.textContent = cat.name;
 select.appendChild(option);
 });
 }
-
 function renderShiftExpenses() {
 const container = document.getElementById('shiftExpensesList');
 container.innerHTML = '';
@@ -1633,7 +1561,6 @@ div.innerHTML = `<div style="display: flex; justify-content: space-between;"><st
 container.appendChild(div);
 });
 }
-
 window.addExpense = async function() {
 const categoryId = document.getElementById('expenseCategory').value;
 const amount = parseFloat(document.getElementById('expenseAmount').value);
@@ -1660,7 +1587,6 @@ await loadExpenses();
 renderShiftExpenses();
 alert('✅ تم إضافة المصروف!');
 };
-
 function renderShiftDeposits() {
 const container = document.getElementById('shiftDepositsList');
 container.innerHTML = '';
@@ -1676,7 +1602,6 @@ div.innerHTML = `<div style="display: flex; justify-content: space-between;"><st
 container.appendChild(div);
 });
 }
-
 window.addDeposit = async function() {
 const amount = parseFloat(document.getElementById('depositAmount').value);
 const notes = document.getElementById('depositNotes').value.trim();
@@ -1689,7 +1614,6 @@ await loadDeposits();
 renderShiftDeposits();
 alert('✅ تم إضافة التوريد!');
 };
-
 function renderExpenseCategoriesList() {
 const container = document.getElementById('expenseCategoriesList');
 container.innerHTML = '';
@@ -1700,11 +1624,10 @@ return;
 expenseCategories.forEach(cat => {
 const div = document.createElement('div');
 div.className = 'list-item';
-div.innerHTML = `<div class="list-item-info"><div class="list-item-title">${cat.name}</div></div><div class="list-item-actions"><button class="btn-small btn-delete" onclick="window.deleteExpenseCategory('${cat.id}')">حذف</button></div>`;
+div.innerHTML = `<div class="list-item-info"><div class="list-item-title">${cat.name}</div></div><div class="list-item-actions"><button class="btn-small btn-delete" onclick="deleteExpenseCategory('${cat.id}')">حذف</button></div>`;
 container.appendChild(div);
 });
 }
-
 window.addExpenseCategory = async function() {
 const name = document.getElementById('newExpenseCategoryName').value.trim();
 if (!name) { alert('أدخل اسم النوع'); return; }
@@ -1714,7 +1637,6 @@ await loadExpenseCategories();
 renderExpenseCategoriesList();
 alert('✅ تم إضافة نوع المصروف!');
 };
-
 window.deleteExpenseCategory = async function(id) {
 if (!confirm('متأكد من الحذف؟')) return;
 await deleteDoc(doc(db, 'expenseCategories', id));
@@ -1722,7 +1644,6 @@ await loadExpenseCategories();
 renderExpenseCategoriesList();
 alert('✅ تم الحذف!');
 };
-
 function renderReturnsList() {
 const container = document.getElementById('returnsList');
 container.innerHTML = '';
@@ -1737,7 +1658,6 @@ div.innerHTML = `<div class="list-item-info"><div class="list-item-title">أور
 container.appendChild(div);
 });
 }
-
 window.searchOrderForReturn = async function() {
 const orderNum = document.getElementById('returnOrderNumber').value;
 const order = orders.find(o => o.orderNumber == orderNum);
@@ -1751,17 +1671,15 @@ itemsDiv.innerHTML = '';
 order.items.forEach((item, index) => {
 const div = document.createElement('div');
 div.className = 'list-item';
-div.innerHTML = `<div class="list-item-info"><div class="list-item-title">${item.name}</div><div class="list-item-subtitle">الكمية: ${item.qty} | السعر: ${item.price} ج.م</div></div><div class="list-item-actions"><button class="btn-small btn-view" onclick="window.selectReturnItem(${index})">اختيار</button></div>`;
+div.innerHTML = `<div class="list-item-info"><div class="list-item-title">${item.name}</div><div class="list-item-subtitle">الكمية: ${item.qty} | السعر: ${item.price} ج.م</div></div><div class="list-item-actions"><button class="btn-small btn-view" onclick="selectReturnItem(${index})">اختيار</button></div>`;
 itemsDiv.appendChild(div);
 });
 window.selectedReturnOrder = order;
 };
-
 window.selectReturnItem = function(index) {
 window.selectedReturnItemIndex = index;
 alert('تم اختيار الصنف. أدخل الكمية والسبب واضغط إتمام المرتجع');
 };
-
 window.processReturn = async function() {
 if (!window.selectedReturnOrder || window.selectedReturnItemIndex === undefined) { alert('اختر صنف أولاً!'); return; }
 const order = window.selectedReturnOrder;
@@ -1785,7 +1703,6 @@ window.selectedReturnOrder = null;
 window.selectedReturnItemIndex = undefined;
 alert(`✅ تم المرتجع بنجاح!\nالمبلغ المسترد: ${refundAmount.toFixed(2)} ج.م`);
 };
-
 window.searchOrderForEdit = async function() {
 const orderNum = document.getElementById('editOrderSearch').value;
 const order = orders.find(o => o.orderNumber == orderNum);
@@ -1799,25 +1716,22 @@ itemsDiv.innerHTML = '';
 order.items.forEach((item, index) => {
 const div = document.createElement('div');
 div.className = 'bill-item';
-div.innerHTML = `<div class="bill-item-header"><span class="bill-item-name">${item.name}</span><span class="bill-item-total">${item.price * item.qty} ج.م</span></div><div style="display: flex; justify-content: space-between; align-items: center;"><div class="qty-controls"><button class="qty-btn qty-minus" onclick="window.editOrderQty(${index}, -1)">-</button><span class="qty-value">${item.qty}</span><button class="qty-btn qty-plus" onclick="window.editOrderQty(${index}, 1)">+</button></div><span class="delete-item" onclick="window.removeEditOrderItem(${index})">🗑️</span></div>`;
+div.innerHTML = `<div class="bill-item-header"><span class="bill-item-name">${item.name}</span><span class="bill-item-total">${item.price * item.qty} ج.م</span></div><div style="display: flex; justify-content: space-between; align-items: center;"><div class="qty-controls"><button class="qty-btn qty-minus" onclick="editOrderQty(${index}, -1)">-</button><span class="qty-value">${item.qty}</span><button class="qty-btn qty-plus" onclick="editOrderQty(${index}, 1)">+</button></div><span class="delete-item" onclick="removeEditOrderItem(${index})">🗑️</span></div>`;
 itemsDiv.appendChild(div);
 });
 window.editingOrder = order;
 };
-
 window.editOrderQty = function(index, change) {
 if (!window.editingOrder) return;
 window.editingOrder.items[index].qty += change;
 if (window.editingOrder.items[index].qty <= 0) { window.editingOrder.items.splice(index, 1); }
-window.searchOrderForEdit();
+searchOrderForEdit();
 };
-
 window.removeEditOrderItem = function(index) {
 if (!window.editingOrder) return;
 window.editingOrder.items.splice(index, 1);
-window.searchOrderForEdit();
+searchOrderForEdit();
 };
-
 window.saveOrderEdit = async function() {
 if (!window.editingOrder) { alert('لا يوجد أوردر للتعديل!'); return; }
 const order = window.editingOrder;
@@ -1835,7 +1749,6 @@ document.getElementById('editOrderDetails').style.display = 'none';
 window.editingOrder = null;
 alert('✅ تم تعديل الأوردر بنجاح!');
 };
-
 function renderShiftHistory() {
 const container = document.getElementById('shiftHistoryList');
 container.innerHTML = '';
@@ -1857,13 +1770,11 @@ const diffStatus = s.difference < 0 ? '❌ عجز' : s.difference > 0 ? '✅ أ�
 const diffColor = s.difference < 0 ? '#e74c3c' : s.difference > 0 ? '#27ae60' : '#2980b9';
 const div = document.createElement('div');
 div.className = 'shift-item';
-div.innerHTML = `<div><b>شيفت #${s.shiftNumber}</b><br>التاريخ: ${s.date}<br>الكاشير: ${s.cashier || ''}<br>الأوردرات: ${s.orders?.length || 0}</div><div style="display:flex; align-items:center; gap:10px;"><div style="text-align:right;"><div>المبيعات: ${(s.totalSales || 0).toFixed(2)} ج.م</div><div style="color:${diffColor}; font-weight:bold;">${diffStatus}: ${Math.abs(s.difference || 0).toFixed(2)} ج.م</div></div><div class="menu-actions">${currentUser?.role === 'manager' ? `<button class="btn-small btn-edit" onclick="window.editShiftClosure('${s.id}')">تعديل</button><button class="btn-small btn-delete" onclick="window.deleteShiftClosure('${s.id}')">حذف</button>` : ''}</div></div>`;
+div.innerHTML = `<div><b>شيفت #${s.shiftNumber}</b><br>التاريخ: ${s.date}<br>الكاشير: ${s.cashier || ''}<br>الأوردرات: ${s.orders?.length || 0}</div><div style="display:flex; align-items:center; gap:10px;"><div style="text-align:right;"><div>المبيعات: ${(s.totalSales || 0).toFixed(2)} ج.م</div><div style="color:${diffColor}; font-weight:bold;">${diffStatus}: ${Math.abs(s.difference || 0).toFixed(2)} ج.م</div></div><div class="menu-actions">${currentUser?.role === 'manager' ? `<button class="btn-small btn-edit" onclick="editShiftClosure('${s.id}')">تعديل</button><button class="btn-small btn-delete" onclick="deleteShiftClosure('${s.id}')">حذف</button>` : ''}</div></div>`;
 container.appendChild(div);
 });
 }
-
 window.filterShiftHistory = function() { renderShiftHistory(); };
-
 window.editShiftClosure = async function(id) {
 if (currentUser?.role !== 'manager') { alert('غير مسموح!'); return; }
 const s = shiftClosures.find(x => x.id === id);
@@ -1877,7 +1788,6 @@ renderShiftHistory();
 alert('✅ تم التعديل!');
 }
 };
-
 window.deleteShiftClosure = async function(id) {
 if (currentUser?.role !== 'manager') { alert('غير مسموح!'); return; }
 if (!confirm('⚠️ هل أنت متأكد من حذف سجل التقفيلة؟')) return;
@@ -1886,7 +1796,6 @@ await loadShiftClosures();
 renderShiftHistory();
 alert('✅ تم الحذف!');
 };
-
 function updatePurchaseItemSelect() {
 const select = document.getElementById('purchaseItem');
 select.innerHTML = '<option value="">اختر من المخزون</option>';
@@ -1898,16 +1807,13 @@ option.dataset.unit = i.unit;
 select.appendChild(option);
 });
 }
-
 document.getElementById('purchaseItem')?.addEventListener('change', function() {
 const o = this.options[this.selectedIndex];
 document.getElementById('purchaseUnit').value = o.dataset.unit || '';
 calculatePurchaseCost();
 });
-
 document.getElementById('purchaseQuantity')?.addEventListener('input', calculatePurchaseCost);
 document.getElementById('purchaseCost')?.addEventListener('input', calculatePurchaseCost);
-
 function calculatePurchaseCost() {
 const i = document.getElementById('purchaseItem').value;
 const q = parseFloat(document.getElementById('purchaseQuantity').value) || 0;
@@ -1916,13 +1822,12 @@ const b = document.getElementById('purchaseCalcBox');
 if (!i || !q || !c) { b.style.display = 'none'; return; }
 const item = inventory.find(x => x.id === i);
 if (!item) return;
-const p = c / q;
+const p = c > 0 ? c / q : (item.unitPrice || 0);
 document.getElementById('calcUnitPrice').textContent = p.toFixed(3) + ' ج.م/' + item.unit;
 document.getElementById('calcCurrentStock').textContent = item.stock + ' ' + item.unit;
 document.getElementById('calcNewStock').textContent = (item.stock + q) + ' ' + item.unit;
 b.style.display = 'block';
 }
-
 window.addPurchase = async function() {
 const i = document.getElementById('purchaseItem').value;
 const q = parseFloat(document.getElementById('purchaseQuantity').value);
@@ -1932,6 +1837,7 @@ if (!i || !q || !u) { alert('أكمل البيانات'); return; }
 const item = inventory.find(x => x.id === i);
 if (!item) { alert('الصنف غير موجود'); return; }
 const n = item.stock + q;
+// UPDATED LOGIC: Update Unit Price based on purchase cost
 const p = c > 0 ? c / q : (item.unitPrice || 0);
 await updateDoc(doc(db, 'inventory', i), { stock: n, unitPrice: p });
 await addDoc(collection(db, 'purchases'), { itemId: i, itemName: item.name, quantity: q, unit: u, cost: c, date: new Date().toLocaleString('ar-EG') });
@@ -1944,7 +1850,6 @@ updatePurchaseItemSelect();
 renderPurchasesList();
 alert('✅ تمت الإضافة!');
 };
-
 function renderPurchasesList() {
 const container = document.getElementById('purchasesList');
 container.innerHTML = '';
@@ -1955,11 +1860,10 @@ return;
 purchases.slice().reverse().forEach(p => {
 const div = document.createElement('div');
 div.className = 'purchase-item';
-div.innerHTML = `<div class="list-item-info"><div class="list-item-title">${p.itemName}</div><div class="list-item-subtitle">الكمية: +${p.quantity} ${p.unit} | ${p.date}</div></div><div class="list-item-actions"><button class="btn-small btn-edit" onclick="window.editPurchase('${p.id}')">تعديل</button><button class="btn-small btn-delete" onclick="window.deletePurchase('${p.id}')">حذف</button></div>`;
+div.innerHTML = `<div class="list-item-info"><div class="list-item-title">${p.itemName}</div><div class="list-item-subtitle">الكمية: +${p.quantity} ${p.unit} | ${p.date}</div></div><div class="list-item-actions"><button class="btn-small btn-edit" onclick="editPurchase('${p.id}')">تعديل</button><button class="btn-small btn-delete" onclick="deletePurchase('${p.id}')">حذف</button></div>`;
 container.appendChild(div);
 });
 }
-
 window.editPurchase = async function(id) {
 const p = purchases.find(x => x.id === id);
 if (!p) return;
@@ -1979,7 +1883,6 @@ alert('✅ تم التعديل!');
 }
 }
 };
-
 window.deletePurchase = async function(id) {
 if (!confirm('متأكد؟')) return;
 const p = purchases.find(x => x.id === id);
@@ -1995,7 +1898,6 @@ alert('✅ تم الحذف!');
 }
 }
 };
-
 function renderInventoryList() {
 const container = document.getElementById('inventoryList');
 container.innerHTML = '';
@@ -2003,27 +1905,30 @@ inventory.forEach(i => {
 const low = i.stock <= i.minStock;
 const div = document.createElement('div');
 div.className = 'inventory-item' + (low ? ' low-stock' : '');
-div.innerHTML = `<div><b>${i.name}</b><br>المتاح: ${i.stock} ${i.unit}</div><span class="stock-badge ${low ? 'stock-low' : 'stock-ok'}">${low ? '⚠️ منخفض' : '✅ كافٍ'}</span><div class="menu-actions"><button class="btn-small btn-edit" onclick="window.updateStock('${i.id}')">تحديث</button><button class="btn-small btn-delete" onclick="window.deleteInventoryItem('${i.id}')">حذف</button></div>${i.unitPrice ? `<div style="font-size:12px; color:#2980b9;">سعر الوحدة: ${i.unitPrice.toFixed(3)} ج.م</div>` : ''}`;
+// UPDATED DISPLAY: Show Unit Price clearly
+div.innerHTML = `<div><b>${i.name}</b><br>المتاح: ${i.stock} ${i.unit}</div><span class="stock-badge ${low ? 'stock-low' : 'stock-ok'}">${low ? '⚠️ منخفض' : '✅ كافٍ'}</span><div class="menu-actions"><button class="btn-small btn-edit" onclick="updateStock('${i.id}')">تحديث</button><button class="btn-small btn-delete" onclick="deleteInventoryItem('${i.id}')">حذف</button></div><div style="font-size:13px; color:#2980b9; font-weight:bold; margin-top:5px;">سعر الشراء: ${i.unitPrice ? i.unitPrice.toFixed(2) + ' ج.م/' + i.unit : 'غير محدد'}</div>`;
 container.appendChild(div);
 });
 }
-
 window.addInventoryItem = async function() {
 const n = document.getElementById('newIngredientName').value;
 const s = document.getElementById('newIngredientStock').value;
 const u = document.getElementById('newIngredientUnit').value;
 const m = document.getElementById('newIngredientMin').value;
+// NEW: Get cost from input
+const cost = parseFloat(document.getElementById('newIngredientCost').value) || 0;
 if (!n || !s || !u || !m) { alert('أكمل البيانات'); return; }
-await addDoc(collection(db, 'inventory'), { name: n, stock: parseInt(s), unit: u, minStock: parseInt(m), unitPrice: 0 });
+// UPDATED: Save unitPrice from input
+await addDoc(collection(db, 'inventory'), { name: n, stock: parseInt(s), unit: u, minStock: parseInt(m), unitPrice: cost });
 document.getElementById('newIngredientName').value = '';
 document.getElementById('newIngredientStock').value = '';
 document.getElementById('newIngredientUnit').value = '';
 document.getElementById('newIngredientMin').value = '';
+document.getElementById('newIngredientCost').value = ''; // Clear cost input
 await loadInventory();
 renderInventoryList();
 alert('✅ تم!');
 };
-
 window.updateStock = async function(i) {
 const it = inventory.find(x => x.id === i);
 const ns = prompt('الكمية الجديدة لـ ' + it.name + ':', it.stock);
@@ -2034,7 +1939,6 @@ renderInventoryList();
 alert('✅ تم!');
 }
 };
-
 window.deleteInventoryItem = async function(i) {
 if (confirm('متأكد؟')) {
 await deleteDoc(doc(db, 'inventory', i));
@@ -2043,7 +1947,6 @@ renderInventoryList();
 alert('✅ تم!');
 }
 };
-
 function updateAdjustmentItemSelect() {
 const select = document.getElementById('adjustmentItem');
 select.innerHTML = '<option value="">اختر الصنف</option>';
@@ -2055,16 +1958,13 @@ option.dataset.stock = i.stock;
 select.appendChild(option);
 });
 }
-
 document.getElementById('adjustmentItem')?.addEventListener('change', function() {
 const o = this.options[this.selectedIndex];
 const currentStock = parseInt(o.dataset.stock) || 0;
 document.getElementById('currentStockDisplay').textContent = currentStock;
 calculateNewStock();
 });
-
 document.getElementById('adjustmentQuantity')?.addEventListener('input', calculateNewStock);
-
 function calculateNewStock() {
 const o = document.getElementById('adjustmentItem').options[document.getElementById('adjustmentItem').selectedIndex];
 const currentStock = parseInt(o.dataset.stock) || 0;
@@ -2072,7 +1972,6 @@ const adjustment = parseFloat(document.getElementById('adjustmentQuantity').valu
 const newStock = currentStock + adjustment;
 document.getElementById('newStockDisplay').textContent = newStock;
 }
-
 window.adjustInventory = async function() {
 const itemId = document.getElementById('adjustmentItem').value;
 const quantity = parseFloat(document.getElementById('adjustmentQuantity').value);
@@ -2093,18 +1992,16 @@ renderInventoryList();
 updateAdjustmentItemSelect();
 alert('✅ تم تعديل المخزون!');
 };
-
 function renderUsersList() {
 const container = document.getElementById('usersList');
 container.innerHTML = '';
 users.forEach(u => {
 const div = document.createElement('div');
 div.className = 'user-item';
-div.innerHTML = `<div><b>${u.name || u.username}</b> (@${u.username})<br><span class="role-badge ${u.role === 'manager' ? 'role-manager' : 'role-cashier'}">${u.role === 'manager' ? 'مدير' : 'كاشير'}</span></div><div class="menu-actions">${u.username !== 'manager' ? `<button class="btn-small btn-edit" onclick="window.editUser('${u.id}')">تعديل</button><button class="btn-small btn-delete" onclick="window.deleteUser('${u.id}')">حذف</button>` : '<span style="color:#777; font-size:12px;">لا يمكن الحذف</span>'}</div>`;
+div.innerHTML = `<div><b>${u.name || u.username}</b> (@${u.username})<br><span class="role-badge ${u.role === 'manager' ? 'role-manager' : 'role-cashier'}">${u.role === 'manager' ? 'مدير' : 'كاشير'}</span></div><div class="menu-actions">${u.username !== 'manager' ? `<button class="btn-small btn-edit" onclick="editUser('${u.id}')">تعديل</button><button class="btn-small btn-delete" onclick="deleteUser('${u.id}')">حذف</button>` : '<span style="color:#777; font-size:12px;">لا يمكن الحذف</span>'}</div>`;
 container.appendChild(div);
 });
 }
-
 window.saveUser = async function() {
 const u = document.getElementById('newUsername').value.trim();
 const p = document.getElementById('newPassword').value;
@@ -2124,7 +2021,6 @@ await loadUsers();
 renderUsersList();
 alert('✅ تم!');
 };
-
 window.editUser = function(i) {
 const u = users.find(x => x.id === i);
 if (u) {
@@ -2136,7 +2032,6 @@ document.getElementById('saveUserBtnText').textContent = '💾 حفظ التعد
 document.getElementById('cancelUserBtn').style.display = 'block';
 }
 };
-
 window.deleteUser = async function(i) {
 const u = users.find(x => x.id === i);
 if (u?.username === 'manager') { alert('لا يمكن!'); return; }
@@ -2147,7 +2042,6 @@ renderUsersList();
 alert('✅ تم!');
 }
 };
-
 window.cancelUserEdit = function() {
 document.getElementById('newUsername').value = '';
 document.getElementById('newPassword').value = '';
@@ -2156,18 +2050,16 @@ document.getElementById('editUserIndex').value = '';
 document.getElementById('saveUserBtnText').textContent = '✅ إضافة مستخدم جديد';
 document.getElementById('cancelUserBtn').style.display = 'none';
 };
-
 function renderCategoriesList() {
 const container = document.getElementById('categoriesList');
 container.innerHTML = '';
 categories.forEach(c => {
 const div = document.createElement('div');
 div.className = 'category-item';
-div.innerHTML = `<span>${c.name}</span><button class="btn-small btn-delete" onclick="window.deleteCategory('${c.id}')">حذف</button>`;
+div.innerHTML = `<span>${c.name}</span><button class="btn-small btn-delete" onclick="deleteCategory('${c.id}')">حذف</button>`;
 container.appendChild(div);
 });
 }
-
 window.addCategory = async function() {
 const n = document.getElementById('newCategoryName').value;
 if (!n) { alert('أدخل الاسم'); return; }
@@ -2177,7 +2069,6 @@ await loadCategories();
 renderCategoriesList();
 alert('✅ تم!');
 };
-
 window.deleteCategory = async function(i) {
 if (confirm('متأكد؟')) {
 await deleteDoc(doc(db, 'categories', i));
@@ -2186,7 +2077,6 @@ renderCategoriesList();
 alert('✅ تم!');
 }
 };
-
 function updateCategorySelect() {
 const select = document.getElementById('newItemCategory');
 select.innerHTML = '<option value="">اختر</option>';
@@ -2197,48 +2087,44 @@ option.textContent = c.name;
 select.appendChild(option);
 });
 }
-
 function calculateIngredientsCost() {
 let t = 0;
 tempIngredients.forEach(i => {
 if (i.stockId) {
 const s = inventory.find(x => x.id === i.stockId);
+// UPDATED LOGIC: Use unitPrice for cost calculation
 if (s?.unitPrice) t += parseFloat(i.qty || 0) * s.unitPrice;
 }
 });
 return t;
 }
-
 function renderIngredientsFields() {
 const container = document.getElementById('ingredientsList');
 container.innerHTML = '';
 tempIngredients.forEach((i, x) => {
 const div = document.createElement('div');
 div.className = 'ingredient-item';
-div.innerHTML = `<select onchange="window.updateIngredientField(${x}, 'stockId', this.value); calculateItemCost()" style="padding:8px;"><option value="">اختر من المخزون</option>${inventory.map(inv => `<option value="${inv.id}" ${String(i.stockId) === String(inv.id) ? 'selected' : ''}>${inv.name} (${(inv.unitPrice || 0).toFixed(3)} ج.م/${inv.unit})</option>`).join('')}</select><input type="number" placeholder="الكمية" value="${i.qty || ''}" onchange="window.updateIngredientField(${x}, 'qty', this.value); calculateItemCost()"><button class="btn-remove-ingredient" onclick="window.removeIngredientField(${x}); calculateItemCost()">X</button>`;
+div.innerHTML = `<select onchange="updateIngredientField(${x}, 'stockId', this.value); calculateItemCost()" style="padding:8px;"><option value="">اختر من المخزون</option>${inventory.map(inv => `<option value="${inv.id}" ${String(i.stockId) === String(inv.id) ? 'selected' : ''}>${inv.name} (${(inv.unitPrice || 0).toFixed(3)} ج.م/${inv.unit})</option>`).join('')}</select><input type="number" placeholder="الكمية" value="${i.qty || ''}" onchange="updateIngredientField(${x}, 'qty', this.value); calculateItemCost()"><button class="btn-remove-ingredient" onclick="removeIngredientField(${x}); calculateItemCost()">X</button>`;
 container.appendChild(div);
 });
 calculateItemCost();
 }
-
 function calculateItemCost() {
 const c = calculateIngredientsCost();
 document.getElementById('calcIngredientsCost').textContent = c.toFixed(2) + ' ج.م';
 document.getElementById('newItemCost').value = c.toFixed(2);
 document.getElementById('calcSellingPrice').textContent = c.toFixed(2) + ' ج.م';
 }
-
 function renderAdminMenuList() {
 const container = document.getElementById('adminMenuList');
 container.innerHTML = '';
 menuItems.forEach(i => {
 const div = document.createElement('div');
 div.className = 'menu-list-item';
-div.innerHTML = `<span>${i.name}</span><div class="menu-actions"><button class="btn-small btn-edit" onclick="window.editItem('${i.id}')">تعديل</button><button class="btn-small btn-delete" onclick="window.deleteItem('${i.id}')">حذف</button></div>`;
+div.innerHTML = `<span>${i.name}</span><div class="menu-actions"><button class="btn-small btn-edit" onclick="editItem('${i.id}')">تعديل</button><button class="btn-small btn-delete" onclick="deleteItem('${i.id}')">حذف</button></div>`;
 container.appendChild(div);
 });
 }
-
 window.saveItem = async function() {
 const n = document.getElementById('newItemName').value;
 const p = document.getElementById('newItemPrice').value;
@@ -2261,7 +2147,6 @@ await loadMenu();
 renderAdminMenuList();
 alert('✅ تم!');
 };
-
 window.editItem = function(i) {
 const item = menuItems.find(x => x.id === i);
 if (item) {
@@ -2276,7 +2161,6 @@ document.getElementById('saveBtnText').textContent = '💾 حفظ التعديل
 document.getElementById('cancelBtn').style.display = 'block';
 }
 };
-
 window.deleteItem = async function(i) {
 if (confirm('متأكد؟')) {
 await deleteDoc(doc(db, 'menu', i));
@@ -2285,7 +2169,6 @@ renderAdminMenuList();
 alert('✅ تم!');
 }
 };
-
 window.cancelEdit = function() {
 document.getElementById('newItemName').value = '';
 document.getElementById('newItemPrice').value = '';
@@ -2296,30 +2179,24 @@ renderIngredientsFields();
 document.getElementById('saveBtnText').textContent = '✅ إضافة صنف جديد';
 document.getElementById('cancelBtn').style.display = 'none';
 };
-
 window.addIngredientField = function() {
 tempIngredients.push({ stockId: null, qty: 1 });
 renderIngredientsFields();
 };
-
 window.removeIngredientField = function(i) {
 tempIngredients.splice(i, 1);
 renderIngredientsFields();
 };
-
 window.updateIngredientField = function(i, f, v) {
 tempIngredients[i][f] = v;
 if (f === 'qty' || f === 'stockId') calculateItemCost();
 };
-
 function toggleDateFilters() {
 const type = document.getElementById('reportType').value;
 document.getElementById('dateRangeInputs').style.display = type === 'custom' ? 'block' : 'none';
 document.getElementById('dateRangeInputs2').style.display = type === 'custom' ? 'block' : 'none';
 }
-
 window.applyReportFilter = function() { renderReports(); };
-
 function renderReports() {
 let ts = 0, tc = 0, tp = 0, te = 0;
 const container = document.getElementById('ordersList');
@@ -2346,7 +2223,7 @@ tc += parseFloat(o.totalCost) || 0;
 tp += parseFloat(o.profit) || 0;
 const div = document.createElement('div');
 div.className = 'order-item';
-div.innerHTML = `<div style="flex:1;"><b>#${o.orderNumber}</b> - ${o.date || ''}<br>مبيعات: ${(parseFloat(o.total) || 0)} ج.م | ربح: ${(parseFloat(o.profit) || 0).toFixed(2)} ج.م</div><div class="menu-actions"><button class="btn-small btn-view" onclick="window.viewOrderDetails('${o.id}')">عرض</button></div>`;
+div.innerHTML = `<div style="flex:1;"><b>#${o.orderNumber}</b> - ${o.date || ''}<br>مبيعات: ${(parseFloat(o.total) || 0)} ج.م | ربح: ${(parseFloat(o.profit) || 0).toFixed(2)} ج.م</div><div class="menu-actions"><button class="btn-small btn-view" onclick="viewOrderDetails('${o.id}')">عرض</button></div>`;
 container.appendChild(div);
 });
 if (filteredOrders.length === 0) { container.innerHTML = '<p style="text-align: center; color: #777; padding: 20px;">لا توجد طلبات</p>'; }
@@ -2357,13 +2234,19 @@ document.getElementById('totalSales').textContent = ts.toFixed(2) + ' ج.م';
 document.getElementById('totalExpenses').textContent = te.toFixed(2) + ' ج.م';
 document.getElementById('netProfit').textContent = (ts - te).toFixed(2) + ' ج.م';
 }
-
 window.viewOrderDetails = function(orderId) {
 const order = orders.find(o => o.id === orderId);
 if (!order) return;
-alert(`تفاصيل الأوردر #${order.orderNumber}\nالتاريخ: ${order.date}\nالنوع: ${order.type}\nالطاولة: ${order.tableName || '-'}\nطريقة الدفع: ${order.paymentMethod}\nالكاشير: ${order.cashier}\nالإجمالي: ${order.total} ج.م\nالتكلفة: ${order.totalCost} ج.م\nالربح: ${order.profit.toFixed(2)} ج.م`);
+alert(`تفاصيل الأوردر #${order.orderNumber}
+التاريخ: ${order.date}
+النوع: ${order.type}
+الطاولة: ${order.tableName || '-'}
+طريقة الدفع: ${order.paymentMethod}
+الكاشير: ${order.cashier}
+الإجمالي: ${order.total} ج.م
+التكلفة: ${order.totalCost} ج.م
+الربح: ${order.profit.toFixed(2)} ج.م`);
 };
-
 function loadSettingsForm() {
 document.getElementById('restaurantName').value = restaurantSettings.name || '';
 document.getElementById('restaurantPhone').value = restaurantSettings.phone || '';
@@ -2376,7 +2259,6 @@ lp.innerHTML = `<img src="${restaurantSettings.logo}" style="max-width: 100%; ma
 lp.innerHTML = '<p>لا يوجد لوجو</p>';
 }
 }
-
 window.saveSettings = async function() {
 restaurantSettings.name = document.getElementById('restaurantName').value;
 restaurantSettings.phone = document.getElementById('restaurantPhone').value;
@@ -2387,7 +2269,6 @@ else { const newId = await addDoc(collection(db, 'settings'), restaurantSettings
 document.getElementById('restaurantNameDisplay').textContent = restaurantSettings.name;
 alert('✅ تم!');
 };
-
 window.handleLogoUpload = function() {
 const fi = document.getElementById('logoInput');
 const f = fi.files[0];
@@ -2412,7 +2293,6 @@ alert('✅ تم! الحجم: ' + (f.size / 1024).toFixed(2) + ' KB');
 r.readAsDataURL(f);
 }
 };
-
 window.removeLogo = async function() {
 try {
 restaurantSettings.logo = '';
@@ -2426,7 +2306,6 @@ document.getElementById('headerLogo').style.display = 'none';
 alert('✅ تم!');
 } catch (err) { alert('خطأ'); }
 };
-
 function renderTableOrdersList() {
 const container = document.getElementById('tableOrdersList');
 container.innerHTML = '';
@@ -2436,11 +2315,10 @@ occupiedTables.forEach(to => {
 const table = tables.find(t => t.id === to.tableId);
 const div = document.createElement('div');
 div.className = 'table-order-item';
-div.innerHTML = `<div class="list-item-info"><div class="list-item-title">طاولة ${table ? table.number : '?'}</div><div class="list-item-subtitle">عدد الأوردرات: ${to.orders?.length || 0} | الإجمالي: ${to.totalAmount?.toFixed(2) || 0} ج.م</div></div><div class="list-item-actions"><button class="btn-small btn-view" onclick="window.viewTableOrder('${to.id}')">👁️ عرض</button><button class="btn-small btn-pay" onclick="window.payTableOrder('${to.id}')">💳 دفع</button></div>`;
+div.innerHTML = `<div class="list-item-info"><div class="list-item-title">طاولة ${table ? table.number : '?'}</div><div class="list-item-subtitle">عدد الأوردرات: ${to.orders?.length || 0} | الإجمالي: ${to.totalAmount?.toFixed(2) || 0} ج.م</div></div><div class="list-item-actions"><button class="btn-small btn-view" onclick="viewTableOrder('${to.id}')">👁️ عرض</button><button class="btn-small btn-pay" onclick="payTableOrder('${to.id}')">💳 دفع</button></div>`;
 container.appendChild(div);
 });
 }
-
 window.viewTableOrder = function(tableOrderId) {
 const to = tableOrders.find(x => x.id === tableOrderId);
 if (!to) return;
@@ -2473,9 +2351,7 @@ window.currentTableOrderId = tableOrderId;
 window.currentTableTotal = total;
 modal.style.display = 'flex';
 };
-
-window.payTableOrder = function(tableOrderId) { window.viewTableOrder(tableOrderId); };
-
+window.payTableOrder = function(tableOrderId) { viewTableOrder(tableOrderId); };
 window.setTablePaymentMethod = function(m) {
 tablePaymentMethod = m;
 ['cash', 'card', 'wallet'].forEach(method => {
@@ -2484,9 +2360,7 @@ if (method === m) { el.style.background = '#d4edda'; el.style.borderColor = '#27
 else { el.style.background = '#f8f9fa'; el.style.borderColor = '#e0e0e0'; }
 });
 };
-
 window.closeModal = function(modalId) { document.getElementById(modalId).style.display = 'none'; };
-
 window.confirmTablePayment = async function() {
 if (!window.currentTableOrderId) { alert('خطأ: لا يوجد أوردر محدد'); return; }
 const to = tableOrders.find(x => x.id === window.currentTableOrderId);
@@ -2512,10 +2386,9 @@ await loadTables();
 await loadTableOrders();
 await loadOrders();
 renderTablesList();
-window.closeModal('tableBillModal');
+closeModal('tableBillModal');
 alert('✅ تم الدفع وتحرير الطاولة بنجاح!');
 };
-
 function renderTablesList() {
 const container = document.getElementById('tablesList');
 container.innerHTML = '';
@@ -2525,12 +2398,11 @@ const card = document.createElement('div');
 card.className = 'table-card ' + (table.status === 'free' ? 'free' : 'occupied');
 const tableOrder = tableOrders.find(to => to.tableId === table.id && to.status === 'active');
 const orderInfo = tableOrder ? `<div class="table-info">📋 ${tableOrder.orders?.length || 0} أوردر<br>💰 ${tableOrder.totalAmount?.toFixed(2) || 0} ج.م</div>` : '';
-const releaseBtn = table.status === 'occupied' ? `<button class="btn-table btn-release-table" onclick="window.manualReleaseTable('${table.id}')">🔓 تحرير طاولة</button>` : '';
-card.innerHTML = `<div class="table-number">طاولة ${table.number}</div><div class="table-status">${table.status === 'free' ? '✅ متاحة' : '❌ مشغولة'}</div>${orderInfo}<div class="table-actions"><button class="btn-table btn-edit-table" onclick="window.editTable('${table.id}')">✏️</button><button class="btn-table btn-delete-table" onclick="window.deleteTable('${table.id}')">🗑️</button></div>${releaseBtn}`;
+const releaseBtn = table.status === 'occupied' ? `<button class="btn-table btn-release-table" onclick="manualReleaseTable('${table.id}')">🔓 تحرير طاولة</button>` : '';
+card.innerHTML = `<div class="table-number">طاولة ${table.number}</div><div class="table-status">${table.status === 'free' ? '✅ متاحة' : '❌ مشغولة'}</div>${orderInfo}<div class="table-actions"><button class="btn-table btn-edit-table" onclick="editTable('${table.id}')">✏️</button><button class="btn-table btn-delete-table" onclick="deleteTable('${table.id}')">🗑️</button></div>${releaseBtn}`;
 container.appendChild(card);
 });
 }
-
 window.manualReleaseTable = async function(tableId) {
 const table = tables.find(t => t.id === tableId);
 if (!table) return;
@@ -2542,7 +2414,6 @@ await loadTables();
 renderTablesList();
 alert(`✅ تم تحرير طاولة ${table.number} بنجاح!`);
 };
-
 window.editTable = async function(i) {
 const t = tables.find(x => x.id === i);
 if (!t) return;
@@ -2555,7 +2426,6 @@ renderTablesList();
 alert('✅ تم!');
 }
 };
-
 window.deleteTable = async function(i) {
 const t = tables.find(x => x.id === i);
 if (!t) return;
@@ -2567,7 +2437,6 @@ renderTablesList();
 alert('✅ تم!');
 }
 };
-
 window.addTable = async function() {
 const n = document.getElementById('newTableNumber').value;
 const c = document.getElementById('newTableCapacity').value;
@@ -2580,7 +2449,6 @@ await loadTables();
 renderTablesList();
 alert('✅ تمت الإضافة!');
 };
-
 async function calculateShiftSummary() {
 const today = new Date().toLocaleDateString('ar-EG');
 const shiftOrdersList = orders.filter(o => { if (!o.date) return false; return o.date.split(' ')[0] === today && o.shiftNumber === activeShift?.shiftNumber; });
@@ -2609,7 +2477,6 @@ window.shiftDepositsValue = shiftDepositsTotal;
 window.shiftExpensesValue = shiftExpensesTotal;
 window.shiftExpectedValue = shiftExpected;
 }
-
 window.calculateShiftDifference = function() {
 const shiftActual = parseFloat(document.getElementById('shiftActualCash').value) || 0;
 const diff = shiftActual - window.shiftExpectedValue;
@@ -2623,36 +2490,32 @@ diffBox.style.display = 'none';
 document.getElementById('printShiftBtn').disabled = true;
 }
 };
-
 window.printShiftCloseReceipt = function() {
 const shiftActual = parseFloat(document.getElementById('shiftActualCash').value) || 0;
 const diff = shiftActual - window.shiftExpectedValue;
 const diffText = diff < 0 ? '❌ عجز' : diff > 0 ? '✅ أوفر' : '✅ متطابق';
 const diffColor = diff < 0 ? '#e74c3c' : diff > 0 ? '#27ae60' : '#2980b9';
 const logoHtml = restaurantSettings.logo ? `<img src="${restaurantSettings.logo}" style="max-width:150px; margin:0 auto 15px auto; display:block;">` : '';
-const receiptContent = `<div style="text-align: center; font-family: monospace; padding: 20px; max-width: 400px; margin: 0 auto;">${logoHtml}<h2 style="margin: 10px 0;">${restaurantSettings.name}</h2><p>تقفيلة شيفت #${activeShift?.shiftNumber}</p><p>التاريخ: ${new Date().toLocaleDateString('ar-EG')}</p><p>الكاشير: ${currentUser?.username || ''}</p><p>عدد الأوردرات: ${document.getElementById('shiftOrderCount').textContent}</p><div style="border-top: 2px dashed #000; margin: 15px 0;"></div><div style="display: flex; justify-content: space-between; margin: 8px 0;"><span>💵 كاش:</span><span>${window.shiftCashValue.toFixed(2)} ج.م</span></div><div style="display: flex; justify-content: space-between; margin: 8px 0;"><span>💳 فيزا:</span><span>${window.shiftCardValue.toFixed(2)} ج.م</span></div><div style="display: flex; justify-content: space-between; margin: 8px 0;"><span>📱 محفظة:</span><span>${window.shiftWalletValue.toFixed(2)} ج.م</span></div><div style="display: flex; justify-content: space-between; margin: 8px 0;"><span>💵 توريدات:</span><span>${window.shiftDepositsValue.toFixed(2)} ج.م</span></div><div style="display: flex; justify-content: space-between; margin: 8px 0; color: #e74c3c;"><span>💸 مصروفات:</span><span>-${window.shiftExpensesValue.toFixed(2)} ج.م</span></div><div style="display: flex; justify-content: space-between; margin: 8px 0; font-weight: bold;"><span>الابتدائي:</span><span>${(activeShift?.openingCash || 0).toFixed(2)} ج.م</span></div><div style="border-top: 2px dashed #000; margin: 15px 0; padding-top: 15px;"><div style="display: flex; justify-content: space-between; margin: 8px 0; font-weight: bold;"><span>المتوقع:</span><span>${window.shiftExpectedValue.toFixed(2)} ج.م</span></div><div style="display: flex; justify-content: space-between; margin: 8px 0;"><span>الفعلي:</span><span>${shiftActual.toFixed(2)} ج.م</span></div><div style="display: flex; justify-content:space-between; font-weight: bold; font-size: 18px; margin: 10px 0; color: ${diffColor};"><span>${diffText}:</span><span>${Math.abs(diff).toFixed(2)} ج.م</span></div></div><div style="border-top: 2px dashed #000; margin: 15px 0;"></div><p style="margin-top: 30px;">_________________</p><p>توقيع الكاشير</p></div>`;
+const receiptContent = `<div style="text-align: center; font-family: monospace; padding: 20px; max-width: 400px; margin: 0 auto;">${logoHtml}<h2 style="margin: 10px 0;">${restaurantSettings.name}</h2><p>تقفيلة شيفت #${activeShift?.shiftNumber}</p><p>التاريخ: ${new Date().toLocaleDateString('ar-EG')}</p><p>الكاشير: ${currentUser?.username || ''}</p><p>عدد الأوردرات: ${document.getElementById('shiftOrderCount').textContent}</p><div style="border-top: 2px dashed #000; margin: 15px 0;"></div><div style="display: flex; justify-content: space-between; margin: 8px 0;"><span>💵 كاش:</span><span>${window.shiftCashValue.toFixed(2)} ج.م</span></div><div style="display: flex; justify-content: space-between; margin: 8px 0;"><span>💳 فيزا:</span><span>${window.shiftCardValue.toFixed(2)} ج.م</span></div><div style="display: flex; justify-content: space-between; margin: 8px 0;"><span>📱 محفظة:</span><span>${window.shiftWalletValue.toFixed(2)} ج.م</span></div><div style="display: flex; justify-content: space-between; margin: 8px 0;"><span>💵 توريدات:</span><span>${window.shiftDepositsValue.toFixed(2)} ج.م</span></div><div style="display: flex; justify-content: space-between; margin: 8px 0; color: #e74c3c;"><span>💸 مصروفات:</span><span>-${window.shiftExpensesValue.toFixed(2)} ج.م</span></div><div style="display: flex; justify-content: space-between; margin: 8px 0; font-weight: bold;"><span>الابتدائي:</span><span>${(activeShift?.openingCash || 0).toFixed(2)} ج.م</span></div><div style="border-top: 2px dashed #000; margin: 15px 0; padding-top: 15px;"><div style="display: flex; justify-content: space-between; margin: 8px 0; font-weight: bold;"><span>المتوقع:</span><span>${window.shiftExpectedValue.toFixed(2)} ج.م</span></div><div style="display: flex; justify-content: space-between; margin: 8px 0;"><span>الفعلي:</span><span>${shiftActual.toFixed(2)} ج.م</span></div><div style="display: flex; justify-content: space-between; font-weight: bold; font-size: 18px; margin: 10px 0; color: ${diffColor};"><span>${diffText}:</span><span>${Math.abs(diff).toFixed(2)} ج.م</span></div></div><div style="border-top: 2px dashed #000; margin: 15px 0;"></div><p style="margin-top: 30px;">_________________</p><p>توقيع الكاشير</p></div>`;
 const printWindow = window.open('', '', 'width=400,height=800');
 printWindow.document.write('<html dir="rtl"><head><title>تقفيلة شيفت</title></head><body>' + receiptContent + '</body></html>');
 printWindow.document.close();
 printWindow.print();
 };
-
 window.confirmShiftClose = async function() {
 if (!activeShift) { alert('⚠️ لا يوجد شيفت نشط!'); return; }
 const shiftActual = parseFloat(document.getElementById('shiftActualCash').value) || 0;
 const diff = shiftActual - window.shiftExpectedValue;
 await updateDoc(doc(db, 'shiftClosures', activeShift.id), { status: 'closed', closingCash: shiftActual, expectedCash: window.shiftExpectedValue, difference: diff, closedAt: new Date().toLocaleString('ar-EG'), closedBy: currentUser.username, totalSales: window.shiftCashValue + window.shiftCardValue + window.shiftWalletValue, cashSales: window.shiftCashValue, cardSales: window.shiftCardValue, walletSales: window.shiftWalletValue, totalDeposits: window.shiftDepositsValue, totalExpenses: window.shiftExpensesValue, openingCash: activeShift.openingCash });
 for (const table of tables) { if (table.status === 'occupied') { await updateDoc(doc(db, 'tables', table.id), { status: 'free', orderId: null }); } }
-window.printShiftCloseReceipt();
+printShiftCloseReceipt();
 activeShift = null;
 await loadShiftClosures();
 checkActiveShift();
-window.backToDashboard();
+backToDashboard();
 alert(`✅ تم إقفال الشيفت!\n${diff === 0 ? 'الرصيد متطابق' : diff < 0 ? 'في عجز: ' + Math.abs(diff).toFixed(2) + ' ج.م' : 'في أوفر: ' + diff.toFixed(2) + ' ج.م'}`);
 };
-
 window.onclick = function(event) { if (event.target.classList.contains('modal')) { event.target.style.display = 'none'; } };
-
 initApp();
 </script>
 </body>
