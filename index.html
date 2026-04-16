@@ -7,16 +7,65 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
 <style>
-/* ... (Previous CSS styles remain the same) ... */
-:root { --primary: #2980b9; --secondary: #2c3e50; --accent: #e74c3c; --success: #27ae60; --warning: #f39c12; --bg: #f5f7fa; }
-* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Cairo', sans-serif; }
-body { background: var(--bg); color: #333; direction: rtl; }
-/* ... (Styles copied from previous context) ... */
-#loginScreen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(10px); display: flex; justify-content: center; align-items: center; z-index: 10000; }
-.login-container { background: white; padding: 40px; border-radius: 20px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); width: 90%; max-width: 450px; animation: slideUp 0.5s ease; }
-@keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+font-family: 'Cairo', sans-serif;
+background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+min-height: 100vh;
+overflow-x: hidden;
+}
+.bg-animation {
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+z-index: -1;
+background: linear-gradient(-45deg, #667eea, #764ba2, #f093fb, #4facfe);
+background-size: 400% 400%;
+animation: gradientBG 15s ease infinite;
+}
+@keyframes gradientBG {
+0% { background-position: 0% 50%; }
+50% { background-position: 100% 50%; }
+100% { background-position: 0% 50%; }
+}
+#loginScreen {
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background: rgba(0,0,0,0.8);
+backdrop-filter: blur(10px);
+display: flex;
+justify-content: center;
+align-items: center;
+z-index: 10000;
+}
+.login-container {
+background: white;
+padding: 40px;
+border-radius: 20px;
+box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+width: 90%;
+max-width: 450px;
+animation: slideUp 0.5s ease;
+}
+@keyframes slideUp {
+from { transform: translateY(50px); opacity: 0; }
+to { transform: translateY(0); opacity: 1; }
+}
 .login-header { text-align: center; margin-bottom: 30px; }
-.login-logo { width: 120px; height: 120px; border-radius: 50%; object-fit: cover; margin: 0 auto 15px auto; border: 4px solid #667eea; display: block; }
+.login-logo {
+width: 120px;
+height: 120px;
+border-radius: 50%;
+object-fit: cover;
+margin: 0 auto 15px auto;
+border: 4px solid #667eea;
+display: block;
+}
 .login-header h1 { color: #667eea; font-size: 28px; margin-bottom: 5px; }
 .login-header p { color: #777; font-size: 14px; }
 .input-group { margin-bottom: 20px; }
@@ -27,7 +76,7 @@ body { background: var(--bg); color: #333; direction: rtl; }
 .btn-login:hover { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(102,126,234,0.4); }
 .error-message { background: #fee; color: #c33; padding: 12px; border-radius: 8px; margin-top: 15px; display: none; border-right: 4px solid #c33; }
 #mainApp { display: none; min-height: 100vh; }
-.top-bar { background: white; padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 20px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 100; }
+.top-bar { background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 20px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 100; }
 .brand { display: flex; align-items: center; gap: 15px; }
 .brand-logo { width: 50px; height: 50px; border-radius: 50%; object-fit: cover; border: 3px solid #667eea; }
 .brand-text h2 { color: #333; font-size: 22px; margin-bottom: 3px; }
@@ -144,12 +193,17 @@ body { background: var(--bg); color: #333; direction: rtl; }
 .btn-edit { background: #f39c12; color: white; }
 .btn-delete { background: #e74c3c; color: white; }
 .hidden { display: none !important; }
-@media print { body * { visibility: hidden; } #receiptContent, #receiptContent * { visibility: visible; } #receiptContent { position: absolute; left: 0; top: 0; width: 100%; } }
+@media print {
+body * { visibility: hidden; }
+#receiptContent, #receiptContent * { visibility: visible; }
+#receiptContent { position: absolute; left: 0; top: 0; width: 100%; }
+}
 @media (max-width: 1024px) { .order-layout { grid-template-columns: 1fr; } .dashboard-grid { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); } }
 @media (max-width: 768px) { .top-bar { flex-direction: column; gap: 15px; text-align: center; } .page-header { flex-direction: column; gap: 15px; text-align: center; } .form-row { grid-template-columns: 1fr; } }
 </style>
 </head>
 <body>
+<div class="bg-animation"></div>
 <div id="loginScreen">
 <div class="login-container">
 <div class="login-header">
@@ -218,7 +272,7 @@ body { background: var(--bg); color: #333; direction: rtl; }
 </div>
 </div>
 </div>
-<!-- ALL PAGES -->
+<!-- ALL PAGES - Complete HTML Structure -->
 <!-- Order Page -->
 <div id="orderPage" class="page">
 <div class="page-header">
@@ -256,6 +310,57 @@ body { background: var(--bg); color: #333; direction: rtl; }
 <button class="btn-bill btn-clear" onclick="clearCart()">🗑️ إلغاء</button>
 </div>
 </div>
+</div>
+</div>
+<!-- Revenues Page (NEW) -->
+<div id="revenuesPage" class="page">
+<div class="page-header">
+<h2>💰 الإيرادات</h2>
+<button class="btn-back" onclick="backToDashboard()">رجوع للرئيسية</button>
+</div>
+<div class="form-container">
+<h3 style="margin-bottom: 20px;">فلترة الإيرادات</h3>
+<div class="form-row">
+<div class="form-group">
+<label>نوع التقرير</label>
+<select id="revenueType" onchange="toggleRevenueDateFilters()">
+<option value="today">اليوم</option>
+<option value="monthly">الشهر</option>
+<option value="custom">تاريخ مخصص</option>
+</select>
+</div>
+<div class="form-group" id="revenueDateRange" style="display: none;">
+<label>من</label>
+<input type="date" id="revenueDateFrom">
+</div>
+<div class="form-group" id="revenueDateRange2" style="display: none;">
+<label>إلى</label>
+<input type="date" id="revenueDateTo">
+</div>
+</div>
+<button class="btn-submit" onclick="applyRevenueFilter()">🔍 عرض الإيرادات</button>
+</div>
+<div class="stats-grid">
+<div class="stat-card sales">
+<div class="stat-label">إجمالي المبيعات</div>
+<div class="stat-value" id="revenueTotalSales">0 ج.م</div>
+</div>
+<div class="stat-card" style="border-top: 4px solid #3498db;">
+<div class="stat-label">كاش</div>
+<div class="stat-value" id="revenueCash">0 ج.م</div>
+</div>
+<div class="stat-card" style="border-top: 4px solid #9b59b6;">
+<div class="stat-label">فيزا</div>
+<div class="stat-value" id="revenueCard">0 ج.م</div>
+</div>
+<div class="stat-card" style="border-top: 4px solid #2ecc71;">
+<div class="stat-label">محفظة</div>
+<div class="stat-value" id="revenueWallet">0 ج.م</div>
+</div>
+</div>
+<div class="list-container">
+<h3 style="margin-bottom: 20px;">تفاصيل الإيرادات</h3>
+<div id="revenuesList"></div>
 </div>
 </div>
 <!-- Tables Page -->
@@ -698,10 +803,6 @@ body { background: var(--bg); color: #333; direction: rtl; }
 <div class="stat-label">صافي الربح</div>
 <div class="stat-value" id="netProfit">0 ج.م</div>
 </div>
-<div class="stat-card profit" style="border-top: 4px solid #f39c12;">
-    <div class="stat-label">نسبة الربح</div>
-    <div class="stat-value" id="profitPercent" style="color: #f39c12;">0%</div>
-</div>
 </div>
 <div class="list-container">
 <h3 style="margin-bottom: 20px;">سجل الطلبات</h3>
@@ -917,7 +1018,6 @@ body { background: var(--bg); color: #333; direction: rtl; }
 <!-- Receipt Container (Hidden) -->
 <div id="receiptContent" style="display: none;"></div>
 </div>
-
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-app.js";
 import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, deleteDoc, query, where, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-firestore.js";
@@ -1051,7 +1151,8 @@ document.getElementById('dashboardPage').style.display = 'block';
 };
 window.openShiftStart = function() {
 if (activeShift) {
-alert('⚠️ يوجد شيفت نشط بالفعل!\nيجب إقفال الشيفت الحالي قبل بدء شيفت جديد.');
+alert('⚠️ يوجد شيفت نشط بالفعل!
+يجب إقفال الشيفت الحالي قبل بدء شيفت جديد.');
 return;
 }
 document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
@@ -1064,7 +1165,10 @@ if (openingCash < 0) {
 alert('❌ المبلغ الابتدائي لا يمكن أن يكون سالب!');
 return;
 }
-if (!confirm(`✅ تأكيد بدء شيفت جديد\nالمبلغ الابتدائي: ${openingCash.toFixed(2)} ج.م\nالملاحظات: ${notes || 'لا يوجد'}\nهل أنت متأكد؟`)) {
+if (!confirm(`✅ تأكيد بدء شيفت جديد
+المبلغ الابتدائي: ${openingCash.toFixed(2)} ج.م
+الملاحظات: ${notes || 'لا يوجد'}
+هل أنت متأكد؟`)) {
 return;
 }
 const shiftNumber = shiftClosures.length + 1;
@@ -1089,7 +1193,8 @@ checkActiveShift();
 backToDashboard();
 document.getElementById('shiftOpeningCash').value = '';
 document.getElementById('shiftNotes').value = '';
-alert(`✅ تم بدء الشيفت #${shiftNumber} بنجاح!\nالمبلغ الابتدائي: ${openingCash.toFixed(2)} ج.م`);
+alert(`✅ تم بدء الشيفت #${shiftNumber} بنجاح!
+المبلغ الابتدائي: ${openingCash.toFixed(2)} ج.م`);
 } catch (err) {
 alert('❌ خطأ في بدء الشيفت: ' + err.message);
 }
@@ -1367,15 +1472,7 @@ display.style.display = 'none';
 window.confirmPayment = async function() {
 const paid = parseFloat(document.getElementById('paidAmount').value) || 0;
 if (paymentMethod === 'cash' && paid < currentTotal) { alert('المبلغ غير كافي!'); return; }
-
-// FIX: Calculate Total Cost based on ingredients
-let totalOrderCost = 0;
-cart.forEach(item => {
-    totalOrderCost += (parseFloat(item.cost) || 0) * item.qty;
-});
-const orderProfit = currentTotal - totalOrderCost;
-
-const order = { orderNumber: orderCount, date: new Date().toLocaleString('ar-EG'), type: orderType, items: [...cart], total: currentTotal, totalCost: totalOrderCost, profit: orderProfit, paymentMethod: paymentMethod, cashier: currentUser.username, tableId: selectedTable?.id || null, tableName: selectedTable?.number || null, shiftNumber: activeShift?.shiftNumber || null };
+const order = { orderNumber: orderCount, date: new Date().toLocaleString('ar-EG'), type: orderType, items: [...cart], total: currentTotal, paymentMethod: paymentMethod, cashier: currentUser.username, tableId: selectedTable?.id || null, tableName: selectedTable?.number || null, shiftNumber: activeShift?.shiftNumber || null };
 await addDoc(collection(db, 'orders'), order);
 orderCount++;
 await saveOrderCount();
@@ -1476,7 +1573,9 @@ const currentDepositsTotal = shiftDeposits.reduce((sum, d) => sum + (parseFloat(
 const shiftCashSales = orders.filter(o => o.shiftNumber === activeShift?.shiftNumber && o.paymentMethod === 'cash').reduce((sum, o) => sum + (parseFloat(o.total) || 0), 0);
 const availableCash = (activeShift?.openingCash || 0) + shiftCashSales + currentDepositsTotal - currentExpensesTotal;
 if (amount > availableCash) {
-alert(`❌ الرصيد لا يكفي!\nالمتاح في الدرج: ${availableCash.toFixed(2)} ج.م\nالمصروف المطلوب: ${amount.toFixed(2)} ج.م`);
+alert(`❌ الرصيد لا يكفي!
+المتاح في الدرج: ${availableCash.toFixed(2)} ج.م
+المصروف المطلوب: ${amount.toFixed(2)} ج.م`);
 return;
 }
 const cat = expenseCategories.find(c => c.id === categoryId);
@@ -1603,7 +1702,8 @@ document.getElementById('returnQuantity').value = '1';
 document.getElementById('returnReason').value = '';
 window.selectedReturnOrder = null;
 window.selectedReturnItemIndex = undefined;
-alert(`✅ تم المرتجع بنجاح!\nالمبلغ المسترد: ${refundAmount.toFixed(2)} ج.م`);
+alert(`✅ تم المرتجع بنجاح!
+المبلغ المسترد: ${refundAmount.toFixed(2)} ج.م`);
 };
 window.searchOrderForEdit = async function() {
 const orderNum = document.getElementById('editOrderSearch').value;
@@ -2093,7 +2193,7 @@ document.getElementById('dateRangeInputs2').style.display = type === 'custom' ? 
 }
 window.applyReportFilter = function() { renderReports(); };
 function renderReports() {
-let ts = 0, te = 0, tp = 0, tcogs = 0;
+let ts = 0, tc = 0, tp = 0, te = 0;
 const container = document.getElementById('ordersList');
 container.innerHTML = '';
 let filteredOrders = [...orders];
@@ -2114,31 +2214,33 @@ filteredOrders = orders.filter(o => { if (!o.date) return false; const orderDate
 }
 filteredOrders.forEach(o => {
 ts += parseFloat(o.total) || 0;
-tcogs += parseFloat(o.totalCost) || 0;
+tc += parseFloat(o.totalCost) || 0;
+tp += parseFloat(o.profit) || 0;
 const div = document.createElement('div');
 div.className = 'order-item';
-div.innerHTML = `<div style="flex:1;"><b>#${o.orderNumber}</b> - ${o.date || ''}<br>مبيعات: ${(parseFloat(o.total) || 0)} ج.م</div><div class="menu-actions"><button class="btn-small btn-view" onclick="viewOrderDetails('${o.id}')">عرض</button></div>`;
+div.innerHTML = `<div style="flex:1;"><b>#${o.orderNumber}</b> - ${o.date || ''}<br>مبيعات: ${(parseFloat(o.total) || 0)} ج.م | ربح: ${(parseFloat(o.profit) || 0).toFixed(2)} ج.م</div><div class="menu-actions"><button class="btn-small btn-view" onclick="viewOrderDetails('${o.id}')">عرض</button></div>`;
 container.appendChild(div);
 });
 if (filteredOrders.length === 0) { container.innerHTML = '<p style="text-align: center; color: #777; padding: 20px;">لا توجد طلبات</p>'; }
 const today = new Date().toLocaleDateString('ar-EG');
 const shiftExpenses = expenses.filter(e => e.date.split(' ')[0] === today);
 te = shiftExpenses.reduce((sum, e) => sum + (parseFloat(e.amount) || 0), 0);
-
-// FIX: Calculate Net Profit and Percentage Correctly
-const grossProfit = ts - tcogs;
-const netProfit = grossProfit - te;
-const profitMargin = ts > 0 ? ((netProfit / ts) * 100).toFixed(1) : 0;
-
 document.getElementById('totalSales').textContent = ts.toFixed(2) + ' ج.م';
 document.getElementById('totalExpenses').textContent = te.toFixed(2) + ' ج.م';
-document.getElementById('netProfit').textContent = netProfit.toFixed(2) + ' ج.م';
-document.getElementById('profitPercent').textContent = profitMargin + '%';
+document.getElementById('netProfit').textContent = (ts - te).toFixed(2) + ' ج.م';
 }
 window.viewOrderDetails = function(orderId) {
 const order = orders.find(o => o.id === orderId);
 if (!order) return;
-alert(`تفاصيل الأوردر #${order.orderNumber}\nالتاريخ: ${order.date}\nالنوع: ${order.type}\nالطاولة: ${order.tableName || '-'}\nطريقة الدفع: ${order.paymentMethod}\nالكاشير: ${order.cashier}\nالإجمالي: ${order.total} ج.م\nالتكلفة: ${order.totalCost} ج.م\nالربح: ${order.profit.toFixed(2)} ج.م`);
+alert(`تفاصيل الأوردر #${order.orderNumber}
+التاريخ: ${order.date}
+النوع: ${order.type}
+الطاولة: ${order.tableName || '-'}
+طريقة الدفع: ${order.paymentMethod}
+الكاشير: ${order.cashier}
+الإجمالي: ${order.total} ج.م
+التكلفة: ${order.totalCost} ج.م
+الربح: ${order.profit.toFixed(2)} ج.م`);
 };
 function loadSettingsForm() {
 document.getElementById('restaurantName').value = restaurantSettings.name || '';
@@ -2299,7 +2401,8 @@ container.appendChild(card);
 window.manualReleaseTable = async function(tableId) {
 const table = tables.find(t => t.id === tableId);
 if (!table) return;
-if (!confirm(`⚠️ هل أنت متأكد من تحرير طاولة ${table.number}؟\nسيتم حذف أي أوردرات معلقة!`)) { return; }
+if (!confirm(`⚠️ هل أنت متأكد من تحرير طاولة ${table.number}؟
+سيتم حذف أي أوردرات معلقة!`)) { return; }
 const tableOrder = tableOrders.find(to => to.tableId === tableId && to.status === 'active');
 if (tableOrder) { await deleteDoc(doc(db, 'tableOrders', tableOrder.id)); await loadTableOrders(); }
 await updateDoc(doc(db, 'tables', tableId), { status: 'free' });
@@ -2406,7 +2509,8 @@ activeShift = null;
 await loadShiftClosures();
 checkActiveShift();
 backToDashboard();
-alert(`✅ تم إقفال الشيفت!\n${diff === 0 ? 'الرصيد متطابق' : diff < 0 ? 'في عجز: ' + Math.abs(diff).toFixed(2) + ' ج.م' : 'في أوفر: ' + diff.toFixed(2) + ' ج.م'}`);
+alert(`✅ تم إقفال الشيفت!
+${diff === 0 ? 'الرصيد متطابق' : diff < 0 ? 'في عجز: ' + Math.abs(diff).toFixed(2) + ' ج.م' : 'في أوفر: ' + diff.toFixed(2) + ' ج.م'}`);
 };
 window.onclick = function(event) { if (event.target.classList.contains('modal')) { event.target.style.display = 'none'; } };
 initApp();
