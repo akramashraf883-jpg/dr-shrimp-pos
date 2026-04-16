@@ -4,41 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dr Shrimp - نظام إدارة المطاعم</title>
-    <!-- مكتبة التصدير لإكسل -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-    <!-- الخطوط -->
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
-        /* CSS Styles */
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body {
-            font-family: 'Cairo', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            overflow-x: hidden;
-        }
-        .bg-animation {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
-            background: linear-gradient(-45deg, #667eea, #764ba2, #f093fb, #4facfe);
-            background-size: 400% 400%; animation: gradientBG 15s ease infinite;
-        }
+        body { font-family: 'Cairo', sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; overflow-x: hidden; }
+        .bg-animation { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; background: linear-gradient(-45deg, #667eea, #764ba2, #f093fb, #4facfe); background-size: 400% 400%; animation: gradientBG 15s ease infinite; }
         @keyframes gradientBG { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
         
-        #loginScreen {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.8); backdrop-filter: blur(10px);
-            display: flex; justify-content: center; align-items: center; z-index: 10000;
-        }
-        .login-container {
-            background: white; padding: 40px; border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3); width: 90%; max-width: 450px;
-            animation: slideUp 0.5s ease;
-        }
+        #loginScreen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(10px); display: flex; justify-content: center; align-items: center; z-index: 10000; }
+        .login-container { background: white; padding: 40px; border-radius: 20px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); width: 90%; max-width: 450px; animation: slideUp 0.5s ease; }
         @keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        
         .login-header { text-align: center; margin-bottom: 30px; }
         .login-logo { width: 120px; height: 120px; border-radius: 50%; object-fit: cover; margin: 0 auto 15px auto; border: 4px solid #667eea; display: block; }
         .login-header h1 { color: #667eea; font-size: 28px; margin-bottom: 5px; }
         .login-header p { color: #777; font-size: 14px; }
+        
         .input-group { margin-bottom: 20px; }
         .input-group label { display: block; margin-bottom: 8px; color: #333; font-weight: 600; }
         .input-group input { width: 100%; padding: 14px; border: 2px solid #e0e0e0; border-radius: 10px; font-size: 15px; transition: all 0.3s; }
@@ -54,6 +36,7 @@
         .brand-text h2 { color: #333; font-size: 22px; margin-bottom: 3px; }
         .brand-text p { color: #777; font-size: 13px; }
         .user-info { display: flex; align-items: center; gap: 15px; }
+        
         .shift-badge { background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%); color: white; padding: 8px 20px; border-radius: 25px; font-weight: 600; font-size: 14px; }
         .shift-badge.inactive { background: linear-gradient(135deg, #eb3349 0%, #f45c43 100%); }
         .btn-logout { background: linear-gradient(135deg, #eb3349 0%, #f45c43 100%); color: white; border: none; padding: 10px 25px; border-radius: 8px; cursor: pointer; font-weight: 600; transition: transform 0.2s; }
@@ -162,6 +145,7 @@
         .stat-card.sales .stat-value { color: #11998e; }
         .stat-card.expenses .stat-value { color: #e74c3c; }
         .stat-card.profit .stat-value { color: #667eea; }
+        
         .list-container { background: white; border-radius: 15px; padding: 20px; box-shadow: 0 5px 20px rgba(0,0,0,0.1); }
         .list-item { background: #f8f9fa; padding: 15px; border-radius: 10px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
         .list-item-info { flex: 1; }
@@ -172,8 +156,8 @@
         .btn-view { background: #3498db; color: white; }
         .btn-edit { background: #f39c12; color: white; }
         .btn-delete { background: #e74c3c; color: white; }
-        
         .hidden { display: none !important; }
+        
         @media print { body * { visibility: hidden; } #receiptContent, #receiptContent * { visibility: visible; } #receiptContent { position: absolute; left: 0; top: 0; width: 100%; } }
         @media (max-width: 1024px) { .order-layout { grid-template-columns: 1fr; } .dashboard-grid { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); } }
         @media (max-width: 768px) { .top-bar { flex-direction: column; gap: 15px; text-align: center; } .page-header { flex-direction: column; gap: 15px; text-align: center; } .form-row { grid-template-columns: 1fr; } }
@@ -181,7 +165,7 @@
 </head>
 <body>
     <div class="bg-animation"></div>
-    
+
     <!-- Login Screen -->
     <div id="loginScreen">
         <div class="login-container">
@@ -198,7 +182,7 @@
                 <label>كلمة المرور</label>
                 <input type="password" id="passwordInput" placeholder="أدخل كلمة المرور">
             </div>
-            <button class="btn-login" onclick="window.login()">تسجيل الدخول</button>
+            <button class="btn-login" onclick="login()">تسجيل الدخول</button>
             <div class="error-message" id="errorMsg"></div>
         </div>
     </div>
@@ -215,7 +199,7 @@
             </div>
             <div class="user-info">
                 <span id="shiftStatus" class="shift-badge inactive">🔴 لا يوجد شيفت نشط</span>
-                <button class="btn-logout" onclick="window.logout()">خروج</button>
+                <button class="btn-logout" onclick="logout()">خروج</button>
             </div>
         </div>
 
@@ -228,29 +212,28 @@
                             <h2 style="color: #333; margin-bottom: 5px;">لوحة التحكم</h2>
                             <p style="color: #777;">اختر العملية التي تريد تنفيذها</p>
                         </div>
-                        <button id="startShiftBtn" class="btn-submit" style="width: auto; padding: 12px 30px;" onclick="window.openShiftStart()">🔄 بدء شيفت جديد</button>
+                        <button id="startShiftBtn" class="btn-submit" style="width: auto; padding: 12px 30px;" onclick="startNewShift()">🔄 بدء شيفت جديد</button>
                     </div>
                 </div>
                 <div class="dashboard-grid">
-                    <div class="dash-card" onclick="window.openOrderScreen()"><div class="dash-icon">📝</div><h3>أوردر جديد</h3><p>تسجيل طلبات العملاء</p></div>
-                    <div class="dash-card" onclick="window.openTableOrders()"><div class="dash-icon">🪑</div><h3>أوردرات الطاولات</h3><p>إدارة الطلبات المعلقة</p></div>
-                    <div class="dash-card cashier" onclick="window.openShiftClose()"><div class="dash-icon">💰</div><h3>تقفيلة الدرج</h3><p>إقفال الوردية</p></div>
-                    <div class="dash-card manager" id="menuExpenses" onclick="window.openExpenses()" style="display:none;"><div class="dash-icon">💸</div><h3>المصروفات</h3><p>إضافة مصروف جديد</p></div>
-                    <div class="dash-card manager" id="menuDeposits" onclick="window.openDeposits()" style="display:none;"><div class="dash-icon">💵</div><h3>توريد نقدية</h3><p>إضافة فلوس في الدرج</p></div>
-                    <div class="dash-card manager" id="menuExpenseCategories" onclick="window.openExpenseCategories()" style="display:none;"><div class="dash-icon">📋</div><h3>أنواع المصروفات</h3><p>إدارة الأنواع</p></div>
-                    <div class="dash-card manager" id="menuReturns" onclick="window.openReturns()" style="display:none;"><div class="dash-icon">🔄</div><h3>المرتجعات</h3><p>إرجاع الأصناف</p></div>
-                    <div class="dash-card manager" id="menuEditOrders" onclick="window.openEditOrders()" style="display:none;"><div class="dash-icon">✏️</div><h3>تعديل الأوردرات</h3><p>تعديل الأوردرات</p></div>
-                    <div class="dash-card manager" id="menuShiftHistory" onclick="window.openShiftHistory()" style="display:none;"><div class="dash-icon">📊</div><h3>سجل التقفيلات</h3><p>سجل الشيفتات</p></div>
-                    <div class="dash-card" onclick="window.openPurchases()"><div class="dash-icon">📦</div><h3>الطلبيات الواردة</h3><p>إضافة مخزون</p></div>
-                    <div class="dash-card" onclick="window.openTables()"><div class="dash-icon">🪑</div><h3>إدارة الطاولات</h3><p>حالة الطاولات</p></div>
-                    <div class="dash-card manager" id="menuInventory" onclick="window.openInventory()" style="display:none;"><div class="dash-icon">📦</div><h3>المخزون</h3><p>متابعة المكونات</p></div>
-                    <div class="dash-card manager" id="menuInventoryAdjust" onclick="window.openInventoryAdjust()" style="display:none;"><div class="dash-icon">🔄</div><h3>تعديل المخزون</h3><p>تعديل عام</p></div>
-                    <div class="dash-card manager" id="menuUsers" onclick="window.openUsers()" style="display:none;"><div class="dash-icon">👥</div><h3>المستخدمين</h3><p>إدارة المستخدمين</p></div>
-                    <div class="dash-card manager" id="menuCategories" onclick="window.openCategories()" style="display:none;"><div class="dash-icon">📁</div><h3>التصنيفات</h3><p>إضافة الأقسام</p></div>
-                    <div class="dash-card manager" id="menuAdmin" onclick="window.openAdmin()" style="display:none;"><div class="dash-icon">⚙️</div><h3>إدارة المنيو</h3><p>إضافة الأصناف</p></div>
-                    <div class="dash-card manager" id="menuReports" onclick="window.openReports()" style="display:none;"><div class="dash-icon">📈</div><h3>التقارير</h3><p>المبيعات والأرباح</p></div>
-                    <div class="dash-card manager" id="menuSettings" onclick="window.openSettings()" style="display:none;"><div class="dash-icon">🎨</div><h3>الإعدادات</h3><p>تخصيص النظام</p></div>
-                    <div class="dash-card manager" id="menuRevenues" onclick="window.openRevenues()" style="display:none;"><div class="dash-icon">💰</div><h3>الإيرادات</h3><p>عرض الإيرادات</p></div>
+                    <div class="dash-card" onclick="openOrderScreen()"><div class="dash-icon">📝</div><h3>أوردر جديد</h3><p>تسجيل طلبات العملاء</p></div>
+                    <div class="dash-card" onclick="openTableOrders()"><div class="dash-icon">🪑</div><h3>أوردرات الطاولات</h3><p>إدارة الطلبات المعلقة</p></div>
+                    <div class="dash-card cashier" onclick="openShiftClose()"><div class="dash-icon">💰</div><h3>تقفيلة الدرج</h3><p>إقفال الوردية</p></div>
+                    <div class="dash-card manager" id="menuExpenses" onclick="openExpenses()" style="display:none;"><div class="dash-icon">💸</div><h3>المصروفات</h3><p>إضافة مصروف جديد</p></div>
+                    <div class="dash-card manager" id="menuDeposits" onclick="openDeposits()" style="display:none;"><div class="dash-icon">💵</div><h3>توريد نقدية</h3><p>إضافة فلوس في الدرج</p></div>
+                    <div class="dash-card manager" id="menuExpenseCategories" onclick="openExpenseCategories()" style="display:none;"><div class="dash-icon">📋</div><h3>أنواع المصروفات</h3><p>إدارة الأنواع</p></div>
+                    <div class="dash-card manager" id="menuReturns" onclick="openReturns()" style="display:none;"><div class="dash-icon">🔄</div><h3>المرتجعات</h3><p>إرجاع الأصناف</p></div>
+                    <div class="dash-card manager" id="menuEditOrders" onclick="openEditOrders()" style="display:none;"><div class="dash-icon">✏️</div><h3>تعديل الأوردرات</h3><p>تعديل الأوردرات</p></div>
+                    <div class="dash-card manager" id="menuShiftHistory" onclick="openShiftHistory()" style="display:none;"><div class="dash-icon">📊</div><h3>سجل التقفيلات</h3><p>سجل الشيفتات</p></div>
+                    <div class="dash-card" onclick="openPurchases()"><div class="dash-icon">📦</div><h3>الطلبيات الواردة</h3><p>إضافة مخزون</p></div>
+                    <div class="dash-card" onclick="openTables()"><div class="dash-icon">🪑</div><h3>إدارة الطاولات</h3><p>حالة الطاولات</p></div>
+                    <div class="dash-card manager" id="menuInventory" onclick="openInventory()" style="display:none;"><div class="dash-icon">📦</div><h3>المخزون</h3><p>متابعة المكونات</p></div>
+                    <div class="dash-card manager" id="menuInventoryAdjust" onclick="openInventoryAdjust()" style="display:none;"><div class="dash-icon">🔄</div><h3>تعديل المخزون</h3><p>تعديل عام</p></div>
+                    <div class="dash-card manager" id="menuUsers" onclick="openUsers()" style="display:none;"><div class="dash-icon">👥</div><h3>المستخدمين</h3><p>إدارة المستخدمين</p></div>
+                    <div class="dash-card manager" id="menuCategories" onclick="openCategories()" style="display:none;"><div class="dash-icon">📁</div><h3>التصنيفات</h3><p>إضافة الأقسام</p></div>
+                    <div class="dash-card manager" id="menuAdmin" onclick="openAdmin()" style="display:none;"><div class="dash-icon">⚙️</div><h3>إدارة المنيو</h3><p>إضافة الأصناف</p></div>
+                    <div class="dash-card manager" id="menuReports" onclick="openReports()" style="display:none;"><div class="dash-icon">📈</div><h3>التقارير</h3><p>المبيعات والأرباح</p></div>
+                    <div class="dash-card manager" id="menuSettings" onclick="openSettings()" style="display:none;"><div class="dash-icon">🎨</div><h3>الإعدادات</h3><p>تخصيص النظام</p></div>
                 </div>
             </div>
         </div>
@@ -259,7 +242,7 @@
         <div id="orderPage" class="page">
             <div class="page-header">
                 <h2>📝 تسجيل طلب جديد</h2>
-                <button class="btn-back" onclick="window.backToDashboard()">رجوع للرئيسية</button>
+                <button class="btn-back" onclick="backToDashboard()">رجوع للرئيسية</button>
             </div>
             <div class="order-layout">
                 <div class="menu-section">
@@ -272,13 +255,13 @@
                         <span class="order-number" id="orderNumber">#001</span>
                     </div>
                     <div style="display: flex; gap: 10px; margin-bottom: 15px;">
-                        <button class="btn-bill" style="flex:1; background: #667eea; color: white;" onclick="window.setOrderType('dinein')" id="btnDinein">🍽️ صالة</button>
-                        <button class="btn-bill" style="flex:1; background: #f0f2f5; color: #333;" onclick="window.setOrderType('takeaway')" id="btnTakeaway">🛍️ تيك اواي</button>
+                        <button class="btn-bill" style="flex:1; background: #667eea; color: white;" onclick="setOrderType('dinein')" id="btnDinein">🍽️ صالة</button>
+                        <button class="btn-bill" style="flex:1; background: #f0f2f5; color: #333;" onclick="setOrderType('takeaway')" id="btnTakeaway">🛍️ تيك اواي</button>
                     </div>
                     <div id="selectedTableInfo" style="background: #e8f4fd; padding: 12px; border-radius: 8px; margin-bottom: 15px; display: none;">
                         <div style="display: flex; justify-content: space-between; align-items: center;">
                             <span id="selectedTableName">طاولة --</span>
-                            <button onclick="window.openTableSelect()" style="background: #667eea; color: white; border: none; padding: 5px 12px; border-radius: 5px; cursor: pointer; font-size: 12px;">🔄 تغيير</button>
+                            <button onclick="openTableSelect()" style="background: #667eea; color: white; border: none; padding: 5px 12px; border-radius: 5px; cursor: pointer; font-size: 12px;">🔄 تغيير</button>
                         </div>
                     </div>
                     <div class="bill-items" id="cartItems"><p style="text-align: center; color: #777; padding: 40px;">لا توجد أصناف</p></div>
@@ -287,9 +270,9 @@
                         <div class="bill-total-amount" id="totalAmount">0 ج.م</div>
                     </div>
                     <div class="bill-actions">
-                        <button class="btn-bill btn-pay" onclick="window.openPayment()">💳 دفع</button>
-                        <button class="btn-bill btn-suspend" onclick="window.suspendToTable()">⏸️ تعليق على الطاولة</button>
-                        <button class="btn-bill btn-clear" onclick="window.clearCart()">🗑️ إلغاء</button>
+                        <button class="btn-bill btn-pay" onclick="openPayment()">💳 دفع</button>
+                        <button class="btn-bill btn-suspend" onclick="suspendToTable()">⏸️ تعليق على الطاولة</button>
+                        <button class="btn-bill btn-clear" onclick="clearCart()">🗑️ إلغاء</button>
                     </div>
                 </div>
             </div>
@@ -299,7 +282,7 @@
         <div id="tablesPage" class="page">
             <div class="page-header">
                 <h2>🪑 إدارة الطاولات</h2>
-                <button class="btn-back" onclick="window.backToDashboard()">رجوع للرئيسية</button>
+                <button class="btn-back" onclick="backToDashboard()">رجوع للرئيسية</button>
             </div>
             <div class="form-container">
                 <h3 style="margin-bottom: 20px; color: #333;">إضافة طاولة جديدة</h3>
@@ -313,7 +296,7 @@
                         <input type="number" id="newTableCapacity" placeholder="أدخل العدد">
                     </div>
                 </div>
-                <button class="btn-submit" onclick="window.addTable()">✅ إضافة طاولة</button>
+                <button class="btn-submit" onclick="addTable()">✅ إضافة طاولة</button>
             </div>
             <h3 style="margin-bottom: 20px; color: #333;">الطاولات الموجودة</h3>
             <div class="tables-grid" id="tablesList"></div>
@@ -323,7 +306,7 @@
         <div id="expensesPage" class="page">
             <div class="page-header">
                 <h2>💸 المصروفات</h2>
-                <button class="btn-back" onclick="window.backToDashboard()">رجوع للرئيسية</button>
+                <button class="btn-back" onclick="backToDashboard()">رجوع للرئيسية</button>
             </div>
             <div class="form-container">
                 <h3 style="margin-bottom: 20px;">إضافة مصروف جديد</h3>
@@ -341,7 +324,7 @@
                     <label>ملاحظات</label>
                     <textarea id="expenseNotes" rows="3" placeholder="أدخل ملاحظات"></textarea>
                 </div>
-                <button class="btn-submit" onclick="window.addExpense()">✅ إضافة مصروف</button>
+                <button class="btn-submit" onclick="addExpense()">✅ إضافة مصروف</button>
             </div>
             <div class="list-container">
                 <h3 style="margin-bottom: 20px;">مصروفات الشيفت الحالي</h3>
@@ -353,7 +336,7 @@
         <div id="depositsPage" class="page">
             <div class="page-header">
                 <h2>💵 توريد نقدية</h2>
-                <button class="btn-back" onclick="window.backToDashboard()">رجوع للرئيسية</button>
+                <button class="btn-back" onclick="backToDashboard()">رجوع للرئيسية</button>
             </div>
             <div class="form-container">
                 <h3 style="margin-bottom: 20px;">إضافة توريد جديد</h3>
@@ -367,7 +350,7 @@
                     <label>ملاحظات</label>
                     <textarea id="depositNotes" rows="3" placeholder="أدخل ملاحظات"></textarea>
                 </div>
-                <button class="btn-submit" onclick="window.addDeposit()">✅ إضافة توريد</button>
+                <button class="btn-submit" onclick="addDeposit()">✅ إضافة توريد</button>
             </div>
             <div class="list-container">
                 <h3 style="margin-bottom: 20px;">توريدات الشيفت الحالي</h3>
@@ -379,7 +362,7 @@
         <div id="expenseCategoriesPage" class="page">
             <div class="page-header">
                 <h2>📋 أنواع المصروفات</h2>
-                <button class="btn-back" onclick="window.backToDashboard()">رجوع للرئيسية</button>
+                <button class="btn-back" onclick="backToDashboard()">رجوع للرئيسية</button>
             </div>
             <div class="form-container">
                 <h3 style="margin-bottom: 20px;">إضافة نوع جديد</h3>
@@ -389,7 +372,7 @@
                         <input type="text" id="newExpenseCategoryName" placeholder="مثال: رواتب، كهرباء، إلخ">
                     </div>
                 </div>
-                <button class="btn-submit" onclick="window.addExpenseCategory()">✅ إضافة نوع</button>
+                <button class="btn-submit" onclick="addExpenseCategory()">✅ إضافة نوع</button>
             </div>
             <div class="list-container">
                 <h3 style="margin-bottom: 20px;">الأنواع الموجودة</h3>
@@ -401,7 +384,7 @@
         <div id="returnsPage" class="page">
             <div class="page-header">
                 <h2>🔄 المرتجعات</h2>
-                <button class="btn-back" onclick="window.backToDashboard()">رجوع للرئيسية</button>
+                <button class="btn-back" onclick="backToDashboard()">رجوع للرئيسية</button>
             </div>
             <div class="form-container">
                 <h3 style="margin-bottom: 20px;">إرجاع صنف من أوردر</h3>
@@ -411,7 +394,7 @@
                         <input type="text" id="returnOrderNumber" placeholder="أدخل رقم الأوردر">
                     </div>
                 </div>
-                <button class="btn-submit" onclick="window.searchOrderForReturn()" style="margin-bottom: 20px;">🔍 بحث عن الأوردر</button>
+                <button class="btn-submit" onclick="searchOrderForReturn()" style="margin-bottom: 20px;">🔍 بحث عن الأوردر</button>
                 <div id="returnOrderDetails" style="display: none;">
                     <div style="background: #f8f9fa; padding: 15px; border-radius: 10px; margin-bottom: 15px;">
                         <p><strong>رقم الأوردر:</strong> <span id="returnOrderNum"></span></p>
@@ -430,7 +413,7 @@
                             <input type="text" id="returnReason" placeholder="أدخل السبب">
                         </div>
                     </div>
-                    <button class="btn-submit" onclick="window.processReturn()">✅ إتمام المرتجع</button>
+                    <button class="btn-submit" onclick="processReturn()">✅ إتمام المرتجع</button>
                 </div>
             </div>
             <div class="list-container">
@@ -443,7 +426,7 @@
         <div id="editOrdersPage" class="page">
             <div class="page-header">
                 <h2>✏️ تعديل الأوردرات</h2>
-                <button class="btn-back" onclick="window.backToDashboard()">رجوع للرئيسية</button>
+                <button class="btn-back" onclick="backToDashboard()">رجوع للرئيسية</button>
             </div>
             <div class="form-container">
                 <h3 style="margin-bottom: 20px;">بحث عن أوردر للتعديل</h3>
@@ -453,7 +436,7 @@
                         <input type="text" id="editOrderSearch" placeholder="أدخل رقم الأوردر">
                     </div>
                 </div>
-                <button class="btn-submit" onclick="window.searchOrderForEdit()" style="margin-bottom: 20px;">🔍 بحث</button>
+                <button class="btn-submit" onclick="searchOrderForEdit()" style="margin-bottom: 20px;">🔍 بحث</button>
                 <div id="editOrderDetails" style="display: none;">
                     <div style="background: #f8f9fa; padding: 15px; border-radius: 10px; margin-bottom: 15px;">
                         <p><strong>رقم الأوردر:</strong> <span id="editOrderNum"></span></p>
@@ -462,7 +445,7 @@
                     </div>
                     <h4 style="margin-bottom: 15px;">الأصناف:</h4>
                     <div id="editItemsList"></div>
-                    <button class="btn-submit" onclick="window.saveOrderEdit()" style="margin-top: 20px;">💾 حفظ التعديلات</button>
+                    <button class="btn-submit" onclick="saveOrderEdit()" style="margin-top: 20px;">💾 حفظ التعديلات</button>
                 </div>
             </div>
         </div>
@@ -471,7 +454,7 @@
         <div id="shiftHistoryPage" class="page">
             <div class="page-header">
                 <h2>📊 سجل التقفيلات</h2>
-                <button class="btn-back" onclick="window.backToDashboard()">رجوع للرئيسية</button>
+                <button class="btn-back" onclick="backToDashboard()">رجوع للرئيسية</button>
             </div>
             <div class="form-container">
                 <h3 style="margin-bottom: 20px;">فلترة السجل</h3>
@@ -485,7 +468,7 @@
                         <input type="date" id="shiftHistoryTo">
                     </div>
                 </div>
-                <button class="btn-submit" onclick="window.filterShiftHistory()">🔍 تطبيق الفلتر</button>
+                <button class="btn-submit" onclick="filterShiftHistory()">🔍 تطبيق الفلتر</button>
             </div>
             <div class="list-container">
                 <h3 style="margin-bottom: 20px;">سجل التقفيلات</h3>
@@ -497,7 +480,7 @@
         <div id="purchasesPage" class="page">
             <div class="page-header">
                 <h2>📦 الطلبيات الواردة</h2>
-                <button class="btn-back" onclick="window.backToDashboard()">رجوع للرئيسية</button>
+                <button class="btn-back" onclick="backToDashboard()">رجوع للرئيسية</button>
             </div>
             <div class="form-container">
                 <h3 style="margin-bottom: 20px;">إضافة طلبية جديدة</h3>
@@ -527,7 +510,7 @@
                     <div style="display: flex; justify-content: space-between; margin-bottom: 8px;"><span>المخزون الحالي:</span><span id="calcCurrentStock">0</span></div>
                     <div style="display: flex; justify-content: space-between; font-weight: bold; border-top: 2px solid #667eea; padding-top: 10px;"><span>المخزون الجديد:</span><span id="calcNewStock">0</span></div>
                 </div>
-                <button class="btn-submit" onclick="window.addPurchase()">✅ إضافة طلبية</button>
+                <button class="btn-submit" onclick="addPurchase()">✅ إضافة طلبية</button>
             </div>
             <div class="list-container">
                 <h3 style="margin-bottom: 20px;">سجل الطلبيات</h3>
@@ -539,7 +522,7 @@
         <div id="inventoryPage" class="page">
             <div class="page-header">
                 <h2>📦 المخزون</h2>
-                <button class="btn-back" onclick="window.backToDashboard()">رجوع للرئيسية</button>
+                <button class="btn-back" onclick="backToDashboard()">رجوع للرئيسية</button>
             </div>
             <div class="form-container">
                 <h3 style="margin-bottom: 20px;">إضافة مكون جديد</h3>
@@ -563,7 +546,7 @@
                         <input type="number" id="newIngredientMin" placeholder="الحد الأدنى للتنبيه">
                     </div>
                 </div>
-                <button class="btn-submit" onclick="window.addInventoryItem()">✅ إضافة مكون</button>
+                <button class="btn-submit" onclick="addInventoryItem()">✅ إضافة مكون</button>
             </div>
             <div class="list-container">
                 <h3 style="margin-bottom: 20px;">المخزون الحالي</h3>
@@ -575,7 +558,7 @@
         <div id="inventoryAdjustPage" class="page">
             <div class="page-header">
                 <h2>🔄 تعديل المخزون</h2>
-                <button class="btn-back" onclick="window.backToDashboard()">رجوع للرئيسية</button>
+                <button class="btn-back" onclick="backToDashboard()">رجوع للرئيسية</button>
             </div>
             <div class="form-container">
                 <h3 style="margin-bottom: 20px;">تعديل المخزون يدوياً</h3>
@@ -597,7 +580,7 @@
                     <p><strong>المخزون الحالي:</strong> <span id="currentStockDisplay">0</span></p>
                     <p><strong>المخزون بعد التعديل:</strong> <span id="newStockDisplay">0</span></p>
                 </div>
-                <button class="btn-submit" onclick="window.adjustInventory()">✅ تعديل المخزون</button>
+                <button class="btn-submit" onclick="adjustInventory()">✅ تعديل المخزون</button>
             </div>
         </div>
 
@@ -605,7 +588,7 @@
         <div id="usersPage" class="page">
             <div class="page-header">
                 <h2>👥 إدارة المستخدمين</h2>
-                <button class="btn-back" onclick="window.backToDashboard()">رجوع للرئيسية</button>
+                <button class="btn-back" onclick="backToDashboard()">رجوع للرئيسية</button>
             </div>
             <div class="form-container">
                 <h3 style="margin-bottom: 20px;">إضافة / تعديل مستخدم</h3>
@@ -629,8 +612,8 @@
                         </select>
                     </div>
                 </div>
-                <button class="btn-submit" id="saveUserBtnText" onclick="window.saveUser()">✅ إضافة مستخدم جديد</button>
-                <button class="btn-submit" id="cancelUserBtn" onclick="window.cancelUserEdit()" style="background: #95a5a6; margin-top: 10px; display: none;">❌ إلغاء التعديل</button>
+                <button class="btn-submit" id="saveUserBtnText" onclick="saveUser()">✅ إضافة مستخدم جديد</button>
+                <button class="btn-submit" id="cancelUserBtn" onclick="cancelUserEdit()" style="background: #95a5a6; margin-top: 10px; display: none;">❌ إلغاء التعديل</button>
             </div>
             <div class="list-container">
                 <h3 style="margin-bottom: 20px;">المستخدمين</h3>
@@ -642,7 +625,7 @@
         <div id="categoriesPage" class="page">
             <div class="page-header">
                 <h2>📁 التصنيفات</h2>
-                <button class="btn-back" onclick="window.backToDashboard()">رجوع للرئيسية</button>
+                <button class="btn-back" onclick="backToDashboard()">رجوع للرئيسية</button>
             </div>
             <div class="form-container">
                 <h3 style="margin-bottom: 20px;">إضافة تصنيف جديد</h3>
@@ -652,7 +635,7 @@
                         <input type="text" id="newCategoryName" placeholder="أدخل اسم التصنيف">
                     </div>
                 </div>
-                <button class="btn-submit" onclick="window.addCategory()">✅ إضافة تصنيف</button>
+                <button class="btn-submit" onclick="addCategory()">✅ إضافة تصنيف</button>
             </div>
             <div class="list-container">
                 <h3 style="margin-bottom: 20px;">التصنيفات الموجودة</h3>
@@ -664,7 +647,7 @@
         <div id="adminPage" class="page">
             <div class="page-header">
                 <h2>⚙️ إدارة المنيو</h2>
-                <button class="btn-back" onclick="window.backToDashboard()">رجوع للرئيسية</button>
+                <button class="btn-back" onclick="backToDashboard()">رجوع للرئيسية</button>
             </div>
             <div class="form-container">
                 <h3 style="margin-bottom: 20px;">إضافة / تعديل صنف</h3>
@@ -696,9 +679,9 @@
                 </div>
                 <h4 style="margin: 15px 0;">المكونات</h4>
                 <div class="ingredients-list" id="ingredientsList"></div>
-                <button class="btn-submit" style="background: #f39c12; margin-bottom: 10px;" onclick="window.addIngredientField()">+ إضافة مكون</button>
-                <button class="btn-submit" id="saveBtnText" onclick="window.saveItem()">✅ إضافة صنف جديد</button>
-                <button class="btn-submit" id="cancelBtn" onclick="window.cancelEdit()" style="background: #95a5a6; margin-top: 10px; display: none;">❌ إلغاء التعديل</button>
+                <button class="btn-submit" style="background: #f39c12; margin-bottom: 10px;" onclick="addIngredientField()">+ إضافة مكون</button>
+                <button class="btn-submit" id="saveBtnText" onclick="saveItem()">✅ إضافة صنف جديد</button>
+                <button class="btn-submit" id="cancelBtn" onclick="cancelEdit()" style="background: #95a5a6; margin-top: 10px; display: none;">❌ إلغاء التعديل</button>
             </div>
             <div class="list-container">
                 <h3 style="margin-bottom: 20px;">الأصناف الموجودة</h3>
@@ -710,14 +693,14 @@
         <div id="reportsPage" class="page">
             <div class="page-header">
                 <h2>📈 التقارير</h2>
-                <button class="btn-back" onclick="window.backToDashboard()">رجوع للرئيسية</button>
+                <button class="btn-back" onclick="backToDashboard()">رجوع للرئيسية</button>
             </div>
             <div class="form-container">
                 <h3 style="margin-bottom: 20px;">فلترة التقارير</h3>
                 <div class="form-row">
                     <div class="form-group">
                         <label>نوع التقرير</label>
-                        <select id="reportType" onchange="window.toggleDateFilters()">
+                        <select id="reportType" onchange="toggleDateFilters()">
                             <option value="all">كل الأوردرات</option>
                             <option value="today">تقرير يومي (اليوم)</option>
                             <option value="monthly">تقرير شهري</option>
@@ -733,7 +716,7 @@
                         <input type="date" id="dateTo">
                     </div>
                 </div>
-                <button class="btn-submit" onclick="window.applyReportFilter()">🔍 تطبيق الفلتر</button>
+                <button class="btn-submit" onclick="applyReportFilter()">🔍 تطبيق الفلتر</button>
             </div>
             <div class="stats-grid">
                 <div class="stat-card sales">
@@ -759,7 +742,7 @@
         <div id="settingsPage" class="page">
             <div class="page-header">
                 <h2>🎨 الإعدادات</h2>
-                <button class="btn-back" onclick="window.backToDashboard()">رجوع للرئيسية</button>
+                <button class="btn-back" onclick="backToDashboard()">رجوع للرئيسية</button>
             </div>
             <div class="form-container">
                 <h3 style="margin-bottom: 20px;">معلومات المطعم</h3>
@@ -781,16 +764,16 @@
                     <label>رسالة الإيصال</label>
                     <textarea id="receiptMessage" rows="3"></textarea>
                 </div>
-                <button class="btn-submit" onclick="window.saveSettings()">💾 حفظ الإعدادات</button>
+                <button class="btn-submit" onclick="saveSettings()">💾 حفظ الإعدادات</button>
             </div>
             <div class="form-container">
                 <h3 style="margin-bottom: 20px;">اللوجو</h3>
                 <div class="form-group">
                     <label>صورة اللوجو:</label>
-                    <input type="file" id="logoInput" accept="image/*" onchange="window.handleLogoUpload()">
+                    <input type="file" id="logoInput" accept="image/*" onchange="handleLogoUpload()">
                 </div>
                 <div class="logo-preview" id="logoPreview" style="max-width: 150px; max-height: 150px; margin: 20px auto; display: block; border: 2px dashed #ddd; padding: 10px; border-radius: 8px;"><p>لا يوجد لوجو</p></div>
-                <button class="btn-submit" onclick="window.removeLogo()" style="background: #e74c3c;">🗑️ حذف اللوجو</button>
+                <button class="btn-submit" onclick="removeLogo()" style="background: #e74c3c;">🗑️ حذف اللوجو</button>
             </div>
         </div>
 
@@ -798,7 +781,7 @@
         <div id="tableOrdersPage" class="page">
             <div class="page-header">
                 <h2>🪑 أوردرات الطاولات المعلقة</h2>
-                <button class="btn-back" onclick="window.backToDashboard()">رجوع للرئيسية</button>
+                <button class="btn-back" onclick="backToDashboard()">رجوع للرئيسية</button>
             </div>
             <div class="list-container">
                 <h3 style="margin-bottom: 20px;">الطاولات اللي عليها أوردرات معلقة</h3>
@@ -810,7 +793,7 @@
         <div id="shiftClosePage" class="page">
             <div class="page-header">
                 <h2>💰 تقفيلة الدرج</h2>
-                <button class="btn-back" onclick="window.backToDashboard()">رجوع للرئيسية</button>
+                <button class="btn-back" onclick="backToDashboard()">رجوع للرئيسية</button>
             </div>
             <div class="form-container">
                 <h3 style="margin-bottom: 20px;">📊 ملخص الشيفت</h3>
@@ -847,7 +830,7 @@
                 </div>
                 <div class="form-group">
                     <label>المبلغ الفعلي في الدرج</label>
-                    <input type="number" id="shiftActualCash" placeholder="أدخل المبلغ الفعلي" oninput="window.calculateShiftDifference()">
+                    <input type="number" id="shiftActualCash" placeholder="أدخل المبلغ الفعلي" oninput="calculateShiftDifference()">
                 </div>
                 <div id="shiftDifferenceBox" style="display: none; background: #f8f9fa; padding: 20px; border-radius: 10px; margin: 20px 0;">
                     <div style="display: flex; justify-content: space-between; font-weight: bold; font-size: 18px; border-top: 2px solid #667eea; padding-top: 15px;">
@@ -856,9 +839,9 @@
                     </div>
                 </div>
                 <div style="display: flex; gap: 15px; margin-top: 20px;">
-                    <button class="btn-submit" style="flex: 1; background: #95a5a6;" onclick="window.backToDashboard()">إلغاء</button>
-                    <button class="btn-submit" style="flex: 1;" id="printShiftBtn" disabled onclick="window.printShiftCloseReceipt()">🖨️ طباعة الرسيت</button>
-                    <button class="btn-submit" style="flex: 1; background: #27ae60;" id="confirmShiftBtn" onclick="window.confirmShiftClose()">✅ تأكيد وإنهاء الشيفت</button>
+                    <button class="btn-submit" style="flex: 1; background: #95a5a6;" onclick="backToDashboard()">إلغاء</button>
+                    <button class="btn-submit" style="flex: 1;" id="printShiftBtn" disabled onclick="printShiftCloseReceipt()">🖨️ طباعة الرسيت</button>
+                    <button class="btn-submit" style="flex: 1; background: #27ae60;" id="confirmShiftBtn" onclick="confirmShiftClose()">✅ تأكيد وإنهاء الشيفت</button>
                 </div>
             </div>
         </div>
@@ -867,7 +850,7 @@
         <div id="shiftStartPage" class="page">
             <div class="page-header">
                 <h2>🔄 بدء شيفت جديد</h2>
-                <button class="btn-back" onclick="window.backToDashboard()">رجوع للرئيسية</button>
+                <button class="btn-back" onclick="backToDashboard()">رجوع للرئيسية</button>
             </div>
             <div class="form-container">
                 <h3 style="margin-bottom: 20px; color: #333;">📊 بيانات الشيفت الجديد</h3>
@@ -889,59 +872,7 @@
                         <li>يجب إقفال الشيفت الحالي قبل بدء شيفت جديد</li>
                     </ul>
                 </div>
-                <button class="btn-submit" onclick="window.startNewShift()">✅ بدء الشيفت</button>
-            </div>
-        </div>
-
-        <!-- Revenues Page -->
-        <div id="revenuesPage" class="page">
-            <div class="page-header">
-                <h2>💰 الإيرادات</h2>
-                <button class="btn-back" onclick="window.backToDashboard()">رجوع للرئيسية</button>
-            </div>
-            <div class="form-container">
-                <h3 style="margin-bottom: 20px;">فلترة الإيرادات</h3>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>نوع التقرير</label>
-                        <select id="revenueType" onchange="window.toggleRevenueDateFilters()">
-                            <option value="today">اليوم</option>
-                            <option value="monthly">الشهر</option>
-                            <option value="custom">تاريخ مخصص</option>
-                        </select>
-                    </div>
-                    <div class="form-group" id="revenueDateRange" style="display: none;">
-                        <label>من</label>
-                        <input type="date" id="revenueDateFrom">
-                    </div>
-                    <div class="form-group" id="revenueDateRange2" style="display: none;">
-                        <label>إلى</label>
-                        <input type="date" id="revenueDateTo">
-                    </div>
-                </div>
-                <button class="btn-submit" onclick="window.applyRevenueFilter()">🔍 عرض الإيرادات</button>
-            </div>
-            <div class="stats-grid">
-                <div class="stat-card sales">
-                    <div class="stat-label">إجمالي المبيعات</div>
-                    <div class="stat-value" id="revenueTotalSales">0 ج.م</div>
-                </div>
-                <div class="stat-card" style="border-top: 4px solid #3498db;">
-                    <div class="stat-label">كاش</div>
-                    <div class="stat-value" id="revenueCash">0 ج.م</div>
-                </div>
-                <div class="stat-card" style="border-top: 4px solid #9b59b6;">
-                    <div class="stat-label">فيزا</div>
-                    <div class="stat-value" id="revenueCard">0 ج.م</div>
-                </div>
-                <div class="stat-card" style="border-top: 4px solid #2ecc71;">
-                    <div class="stat-label">محفظة</div>
-                    <div class="stat-value" id="revenueWallet">0 ج.م</div>
-                </div>
-            </div>
-            <div class="list-container">
-                <h3 style="margin-bottom: 20px;">تفاصيل الإيرادات</h3>
-                <div id="revenuesList"></div>
+                <button class="btn-submit" onclick="startNewShift()">✅ بدء الشيفت</button>
             </div>
         </div>
 
@@ -955,19 +886,19 @@
                         <div style="font-size: 36px; font-weight: 700;" id="modalTotal">0 ج.م</div>
                     </div>
                     <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 25px;">
-                        <div class="payment-method active" onclick="window.setPaymentMethod('cash')" id="payCash" style="background: #d4edda; border: 3px solid #27ae60; border-radius: 12px; padding: 20px; text-align: center; cursor: pointer;">
+                        <div class="payment-method active" onclick="setPaymentMethod('cash')" id="payCash" style="background: #d4edda; border: 3px solid #27ae60; border-radius: 12px; padding: 20px; text-align: center; cursor: pointer;">
                             <div style="font-size: 30px; margin-bottom: 8px;">💵</div><div style="font-weight: 700;">كاش</div>
                         </div>
-                        <div class="payment-method" onclick="window.setPaymentMethod('card')" id="payCard" style="background: #f8f9fa; border: 3px solid #e0e0e0; border-radius: 12px; padding: 20px; text-align: center; cursor: pointer;">
+                        <div class="payment-method" onclick="setPaymentMethod('card')" id="payCard" style="background: #f8f9fa; border: 3px solid #e0e0e0; border-radius: 12px; padding: 20px; text-align: center; cursor: pointer;">
                             <div style="font-size: 30px; margin-bottom: 8px;">💳</div><div style="font-weight: 700;">فيزا</div>
                         </div>
-                        <div class="payment-method" onclick="window.setPaymentMethod('wallet')" id="payWallet" style="background: #f8f9fa; border: 3px solid #e0e0e0; border-radius: 12px; padding: 20px; text-align: center; cursor: pointer;">
+                        <div class="payment-method" onclick="setPaymentMethod('wallet')" id="payWallet" style="background: #f8f9fa; border: 3px solid #e0e0e0; border-radius: 12px; padding: 20px; text-align: center; cursor: pointer;">
                             <div style="font-size: 30px; margin-bottom: 8px;">📱</div><div style="font-weight: 700;">محفظة</div>
                         </div>
                     </div>
                     <div class="form-group">
                         <label>المبلغ المدفوع</label>
-                        <input type="number" id="paidAmount" placeholder="أدخل المبلغ" oninput="window.calculateChange()">
+                        <input type="number" id="paidAmount" placeholder="أدخل المبلغ" oninput="calculateChange()">
                     </div>
                     <div id="changeDisplay" style="background: #fff3cd; padding: 15px; border-radius: 10px; margin-top: 15px; display: none; text-align: center;">
                         <div style="font-size: 14px; margin-bottom: 5px;">الباقي</div>
@@ -975,8 +906,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn-modal btn-cancel" onclick="window.closeModal('paymentModal')">إلغاء</button>
-                    <button class="btn-modal btn-confirm" onclick="window.confirmPayment()">✅ تأكيد الدفع</button>
+                    <button class="btn-modal btn-cancel" onclick="closeModal('paymentModal')">إلغاء</button>
+                    <button class="btn-modal btn-confirm" onclick="confirmPayment()">✅ تأكيد الدفع</button>
                 </div>
             </div>
         </div>
@@ -986,7 +917,7 @@
             <div class="modal-content">
                 <div class="modal-header"><h2>🪑 اختيار الطاولة</h2></div>
                 <div class="modal-body"><div class="tables-grid" id="tableSelectGrid"></div></div>
-                <div class="modal-footer"><button class="btn-modal btn-cancel" onclick="window.closeModal('tableSelectModal')">إلغاء</button></div>
+                <div class="modal-footer"><button class="btn-modal btn-cancel" onclick="closeModal('tableSelectModal')">إلغاء</button></div>
             </div>
         </div>
 
@@ -1002,20 +933,20 @@
                         <div class="bill-total-amount" id="billTotalAmount">0 ج.م</div>
                     </div>
                     <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-top: 20px;">
-                        <div class="payment-method active" onclick="window.setTablePaymentMethod('cash')" id="tableCashBtn" style="background: #d4edda; border: 3px solid #27ae60; border-radius: 12px; padding: 15px; text-align: center; cursor: pointer;">
+                        <div class="payment-method active" onclick="setTablePaymentMethod('cash')" id="tableCashBtn" style="background: #d4edda; border: 3px solid #27ae60; border-radius: 12px; padding: 15px; text-align: center; cursor: pointer;">
                             <div style="font-size: 24px; margin-bottom: 5px;">💵</div><div style="font-weight: 700; font-size: 12px;">كاش</div>
                         </div>
-                        <div class="payment-method" onclick="window.setTablePaymentMethod('card')" id="tableCardBtn" style="background: #f8f9fa; border: 3px solid #e0e0e0; border-radius: 12px; padding: 15px; text-align: center; cursor: pointer;">
+                        <div class="payment-method" onclick="setTablePaymentMethod('card')" id="tableCardBtn" style="background: #f8f9fa; border: 3px solid #e0e0e0; border-radius: 12px; padding: 15px; text-align: center; cursor: pointer;">
                             <div style="font-size: 24px; margin-bottom: 5px;">💳</div><div style="font-weight: 700; font-size: 12px;">فيزا</div>
                         </div>
-                        <div class="payment-method" onclick="window.setTablePaymentMethod('wallet')" id="tableWalletBtn" style="background: #f8f9fa; border: 3px solid #e0e0e0; border-radius: 12px; padding: 15px; text-align: center; cursor: pointer;">
+                        <div class="payment-method" onclick="setTablePaymentMethod('wallet')" id="tableWalletBtn" style="background: #f8f9fa; border: 3px solid #e0e0e0; border-radius: 12px; padding: 15px; text-align: center; cursor: pointer;">
                             <div style="font-size: 24px; margin-bottom: 5px;">📱</div><div style="font-weight: 700; font-size: 12px;">محفظة</div>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn-modal btn-cancel" onclick="window.closeModal('tableBillModal')">إلغاء</button>
-                    <button class="btn-modal btn-confirm" onclick="window.confirmTablePayment()">✅ دفع وتحرير الطاولة</button>
+                    <button class="btn-modal btn-cancel" onclick="closeModal('tableBillModal')">إلغاء</button>
+                    <button class="btn-modal btn-confirm" onclick="confirmTablePayment()">✅ دفع وتحرير الطاولة</button>
                 </div>
             </div>
         </div>
@@ -1046,9 +977,6 @@
         let orderCount = 1;
         let cart = [], currentTotal = 0, orderType = 'dinein', selectedTable = null, paymentMethod = 'cash', activeShift = null, tablePaymentMethod = 'cash';
         let tempIngredients = [], currentDiscount = 0, discountType = 'percent';
-        
-        // متغير لمنع تكرار الطلبات
-        let isOrderProcessing = false;
 
         async function initApp() {
             await loadAllData();
@@ -1148,7 +1076,7 @@
                         document.getElementById('mainApp').style.display = 'block';
                         document.getElementById('welcomeUser').textContent = `مرحباً، ${user.name || user.username}`;
                         const isManager = user.role === 'manager';
-                        ['menuExpenses', 'menuDeposits', 'menuExpenseCategories', 'menuReturns', 'menuEditOrders', 'menuShiftHistory', 'menuInventory', 'menuInventoryAdjust', 'menuUsers', 'menuCategories', 'menuAdmin', 'menuReports', 'menuSettings', 'menuRevenues'].forEach(id => {
+                        ['menuExpenses', 'menuDeposits', 'menuExpenseCategories', 'menuReturns', 'menuEditOrders', 'menuShiftHistory', 'menuInventory', 'menuInventoryAdjust', 'menuUsers', 'menuCategories', 'menuAdmin', 'menuReports', 'menuSettings'].forEach(id => {
                             document.getElementById(id).style.display = isManager ? 'block' : 'none';
                         });
                         errorMsg.style.display = 'none';
@@ -1174,7 +1102,7 @@
 
         window.openShiftStart = function() {
             if (activeShift) {
-                alert('⚠️ يوجد شيفت نشط بالفعل! يجب إقفال الشيفت الحالي قبل بدء شيفت جديد.');
+                alert('⚠️ يوجد شيفت نشط بالفعل!\nيجب إقفال الشيفت الحالي قبل بدء شيفت جديد.');
                 return;
             }
             document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
@@ -1206,6 +1134,11 @@
                 walletSales: 0
             };
             try {
+                // ✅ Reset Order Counter on New Shift
+                orderCount = 1;
+                await saveOrderCount();
+                document.getElementById('orderNumber').textContent = '#001';
+
                 await addDoc(collection(db, 'shiftClosures'), newShift);
                 activeShift = newShift;
                 await loadShiftClosures();
@@ -1333,53 +1266,7 @@
             calculateShiftSummary();
         };
 
-        window.openRevenues = function() {
-            document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
-            document.getElementById('revenuesPage').style.display = 'block';
-            toggleRevenueDateFilters();
-            applyRevenueFilter();
-        };
-
-        function toggleRevenueDateFilters() {
-            const type = document.getElementById('revenueType').value;
-            document.getElementById('revenueDateRange').style.display = type === 'custom' ? 'block' : 'none';
-            document.getElementById('revenueDateRange2').style.display = type === 'custom' ? 'block' : 'none';
-        }
-
-        window.applyRevenueFilter = function() {
-            const type = document.getElementById('revenueType').value;
-            let filteredOrders = [...orders];
-            if (type === 'today') {
-                const today = new Date().toLocaleDateString('ar-EG');
-                filteredOrders = orders.filter(o => o.date.split(' ')[0] === today);
-            } else if (type === 'custom') {
-                const from = document.getElementById('revenueDateFrom').value;
-                const to = document.getElementById('revenueDateTo').value;
-                if (from && to) {
-                    filteredOrders = orders.filter(o => {
-                        const orderDate = o.date.split(' ')[0];
-                        return orderDate >= from && orderDate <= to;
-                    });
-                }
-            }
-            const totalSales = filteredOrders.reduce((sum, o) => sum + (parseFloat(o.total) || 0), 0);
-            const cash = filteredOrders.filter(o => o.paymentMethod === 'cash').reduce((sum, o) => sum + (parseFloat(o.total) || 0), 0);
-            const card = filteredOrders.filter(o => o.paymentMethod === 'card').reduce((sum, o) => sum + (parseFloat(o.total) || 0), 0);
-            const wallet = filteredOrders.filter(o => o.paymentMethod === 'wallet').reduce((sum, o) => sum + (parseFloat(o.total) || 0), 0);
-            document.getElementById('revenueTotalSales').textContent = totalSales.toFixed(2) + ' ج.م';
-            document.getElementById('revenueCash').textContent = cash.toFixed(2) + ' ج.م';
-            document.getElementById('revenueCard').textContent = card.toFixed(2) + ' ج.م';
-            document.getElementById('revenueWallet').textContent = wallet.toFixed(2) + ' ج.م';
-            const container = document.getElementById('revenuesList');
-            container.innerHTML = '';
-            filteredOrders.forEach(o => {
-                const div = document.createElement('div');
-                div.className = 'list-item';
-                div.innerHTML = `<div class="list-item-info"><div class="list-item-title">أوردر #${o.orderNumber}</div><div class="list-item-subtitle">${o.date} | ${o.paymentMethod}</div></div><div class="list-item-title">${o.total.toFixed(2)} ج.م</div>`;
-                container.appendChild(div);
-            });
-        };
-
+        // Render Functions
         function renderCategories() {
             const container = document.getElementById('categoryTabs');
             container.innerHTML = '';
@@ -1522,45 +1409,31 @@
         };
 
         window.confirmPayment = async function() {
-            // منع الضغط المتكرر
-            if (isOrderProcessing) return;
-            isOrderProcessing = true;
-
             const paid = parseFloat(document.getElementById('paidAmount').value) || 0;
-            if (paymentMethod === 'cash' && paid < currentTotal) { 
-                alert('المبلغ غير كافي!'); 
-                isOrderProcessing = false;
-                return; 
-            }
+            if (paymentMethod === 'cash' && paid < currentTotal) { alert('المبلغ غير كافي!'); return; }
             const order = { orderNumber: orderCount, date: new Date().toLocaleString('ar-EG'), type: orderType, items: [...cart], total: currentTotal, paymentMethod: paymentMethod, cashier: currentUser.username, tableId: selectedTable?.id || null, tableName: selectedTable?.number || null, shiftNumber: activeShift?.shiftNumber || null };
-            try {
-                await addDoc(collection(db, 'orders'), order);
-                orderCount++;
-                await saveOrderCount();
-                if (activeShift) {
-                    activeShift.totalSales = (activeShift.totalSales || 0) + currentTotal;
-                    if (paymentMethod === 'cash') activeShift.cashSales = (activeShift.cashSales || 0) + currentTotal;
-                    else if (paymentMethod === 'card') activeShift.cardSales = (activeShift.cardSales || 0) + currentTotal;
-                    else if (paymentMethod === 'wallet') activeShift.walletSales = (activeShift.walletSales || 0) + currentTotal;
-                    await updateDoc(doc(db, 'shiftClosures', activeShift.id), { totalSales: activeShift.totalSales, cashSales: activeShift.cashSales, cardSales: activeShift.cardSales, walletSales: activeShift.walletSales });
-                }
-                if (selectedTable && orderType === 'dinein') {
-                    await updateDoc(doc(db, 'tables', selectedTable.id), { status: 'occupied' });
-                }
-                printReceipt(order);
-                alert('✅ تم الدفع بنجاح!');
-                closeModal('paymentModal');
-                cart = [];
-                selectedTable = null;
-                document.getElementById('selectedTableInfo').style.display = 'none';
-                renderCart();
-                await loadTables();
-                await loadOrders();
-            } catch (err) {
-                alert('❌ حدث خطأ أثناء الحفظ: ' + err.message);
-            } finally {
-                isOrderProcessing = false; // إعادة تفعيل الزر
+            await addDoc(collection(db, 'orders'), order);
+            orderCount++;
+            await saveOrderCount();
+            if (activeShift) {
+                activeShift.totalSales = (activeShift.totalSales || 0) + currentTotal;
+                if (paymentMethod === 'cash') activeShift.cashSales = (activeShift.cashSales || 0) + currentTotal;
+                else if (paymentMethod === 'card') activeShift.cardSales = (activeShift.cardSales || 0) + currentTotal;
+                else if (paymentMethod === 'wallet') activeShift.walletSales = (activeShift.walletSales || 0) + currentTotal;
+                await updateDoc(doc(db, 'shiftClosures', activeShift.id), { totalSales: activeShift.totalSales, cashSales: activeShift.cashSales, cardSales: activeShift.cardSales, walletSales: activeShift.walletSales });
             }
+            if (selectedTable && orderType === 'dinein') {
+                await updateDoc(doc(db, 'tables', selectedTable.id), { status: 'occupied' });
+            }
+            printReceipt(order);
+            alert('✅ تم الدفع بنجاح!');
+            closeModal('paymentModal');
+            cart = [];
+            selectedTable = null;
+            document.getElementById('selectedTableInfo').style.display = 'none';
+            renderCart();
+            await loadTables();
+            await loadOrders();
         };
 
         function printReceipt(order) {
@@ -2637,7 +2510,7 @@
             if (!activeShift) { alert('⚠️ لا يوجد شيفت نشط!'); return; }
             const shiftActual = parseFloat(document.getElementById('shiftActualCash').value) || 0;
             const diff = shiftActual - window.shiftExpectedValue;
-            await updateDoc(doc(db, 'shiftClosures', activeShift.id), { status: 'closed', closingCash: shiftActual, expectedCash: shiftExpected, difference: diff, closedAt: new Date().toLocaleString('ar-EG'), closedBy: currentUser.username, totalSales: window.shiftCashValue + window.shiftCardValue + window.shiftWalletValue, cashSales: window.shiftCashValue, cardSales: window.shiftCardValue, walletSales: window.shiftWalletValue, totalDeposits: window.shiftDepositsValue, totalExpenses: window.shiftExpensesValue, openingCash: activeShift.openingCash });
+            await updateDoc(doc(db, 'shiftClosures', activeShift.id), { status: 'closed', closingCash: shiftActual, expectedCash: window.shiftExpectedValue, difference: diff, closedAt: new Date().toLocaleString('ar-EG'), closedBy: currentUser.username, totalSales: window.shiftCashValue + window.shiftCardValue + window.shiftWalletValue, cashSales: window.shiftCashValue, cardSales: window.shiftCardValue, walletSales: window.shiftWalletValue, totalDeposits: window.shiftDepositsValue, totalExpenses: window.shiftExpensesValue, openingCash: activeShift.openingCash });
             for (const table of tables) { if (table.status === 'occupied') { await updateDoc(doc(db, 'tables', table.id), { status: 'free', orderId: null }); } }
             printShiftCloseReceipt();
             activeShift = null;
@@ -2648,6 +2521,7 @@
         };
 
         window.onclick = function(event) { if (event.target.classList.contains('modal')) { event.target.style.display = 'none'; } };
+
         initApp();
     </script>
 </body>
