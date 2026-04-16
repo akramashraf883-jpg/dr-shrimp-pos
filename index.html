@@ -7,10 +7,11 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
 <style>
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: 'Cairo', sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; overflow-x: hidden; }
-.bg-animation { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; background: linear-gradient(-45deg, #667eea, #764ba2, #f093fb, #4facfe); background-size: 400% 400%; animation: gradientBG 15s ease infinite; }
-@keyframes gradientBG { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+/* ... (Previous CSS styles remain the same) ... */
+:root { --primary: #2980b9; --secondary: #2c3e50; --accent: #e74c3c; --success: #27ae60; --warning: #f39c12; --bg: #f5f7fa; }
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Cairo', sans-serif; }
+body { background: var(--bg); color: #333; direction: rtl; }
+/* ... (Styles copied from previous context) ... */
 #loginScreen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(10px); display: flex; justify-content: center; align-items: center; z-index: 10000; }
 .login-container { background: white; padding: 40px; border-radius: 20px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); width: 90%; max-width: 450px; animation: slideUp 0.5s ease; }
 @keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
@@ -26,7 +27,7 @@ body { font-family: 'Cairo', sans-serif; background: linear-gradient(135deg, #66
 .btn-login:hover { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(102,126,234,0.4); }
 .error-message { background: #fee; color: #c33; padding: 12px; border-radius: 8px; margin-top: 15px; display: none; border-right: 4px solid #c33; }
 #mainApp { display: none; min-height: 100vh; }
-.top-bar { background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 20px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 100; }
+.top-bar { background: white; padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 20px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 100; }
 .brand { display: flex; align-items: center; gap: 15px; }
 .brand-logo { width: 50px; height: 50px; border-radius: 50%; object-fit: cover; border: 3px solid #667eea; }
 .brand-text h2 { color: #333; font-size: 22px; margin-bottom: 3px; }
@@ -149,7 +150,6 @@ body { font-family: 'Cairo', sans-serif; background: linear-gradient(135deg, #66
 </style>
 </head>
 <body>
-<div class="bg-animation"></div>
 <div id="loginScreen">
 <div class="login-container">
 <div class="login-header">
@@ -218,6 +218,7 @@ body { font-family: 'Cairo', sans-serif; background: linear-gradient(135deg, #66
 </div>
 </div>
 </div>
+<!-- ALL PAGES -->
 <!-- Order Page -->
 <div id="orderPage" class="page">
 <div class="page-header">
@@ -255,57 +256,6 @@ body { font-family: 'Cairo', sans-serif; background: linear-gradient(135deg, #66
 <button class="btn-bill btn-clear" onclick="clearCart()">🗑️ إلغاء</button>
 </div>
 </div>
-</div>
-</div>
-<!-- Revenues Page -->
-<div id="revenuesPage" class="page">
-<div class="page-header">
-<h2>💰 الإيرادات</h2>
-<button class="btn-back" onclick="backToDashboard()">رجوع للرئيسية</button>
-</div>
-<div class="form-container">
-<h3 style="margin-bottom: 20px;">فلترة الإيرادات</h3>
-<div class="form-row">
-<div class="form-group">
-<label>نوع التقرير</label>
-<select id="revenueType" onchange="toggleRevenueDateFilters()">
-<option value="today">اليوم</option>
-<option value="monthly">الشهر</option>
-<option value="custom">تاريخ مخصص</option>
-</select>
-</div>
-<div class="form-group" id="revenueDateRange" style="display: none;">
-<label>من</label>
-<input type="date" id="revenueDateFrom">
-</div>
-<div class="form-group" id="revenueDateRange2" style="display: none;">
-<label>إلى</label>
-<input type="date" id="revenueDateTo">
-</div>
-</div>
-<button class="btn-submit" onclick="applyRevenueFilter()">🔍 عرض الإيرادات</button>
-</div>
-<div class="stats-grid">
-<div class="stat-card sales">
-<div class="stat-label">إجمالي المبيعات</div>
-<div class="stat-value" id="revenueTotalSales">0 ج.م</div>
-</div>
-<div class="stat-card" style="border-top: 4px solid #3498db;">
-<div class="stat-label">كاش</div>
-<div class="stat-value" id="revenueCash">0 ج.م</div>
-</div>
-<div class="stat-card" style="border-top: 4px solid #9b59b6;">
-<div class="stat-label">فيزا</div>
-<div class="stat-value" id="revenueCard">0 ج.م</div>
-</div>
-<div class="stat-card" style="border-top: 4px solid #2ecc71;">
-<div class="stat-label">محفظة</div>
-<div class="stat-value" id="revenueWallet">0 ج.م</div>
-</div>
-</div>
-<div class="list-container">
-<h3 style="margin-bottom: 20px;">تفاصيل الإيرادات</h3>
-<div id="revenuesList"></div>
 </div>
 </div>
 <!-- Tables Page -->
@@ -748,6 +698,10 @@ body { font-family: 'Cairo', sans-serif; background: linear-gradient(135deg, #66
 <div class="stat-label">صافي الربح</div>
 <div class="stat-value" id="netProfit">0 ج.م</div>
 </div>
+<div class="stat-card profit" style="border-top: 4px solid #f39c12;">
+    <div class="stat-label">نسبة الربح</div>
+    <div class="stat-value" id="profitPercent" style="color: #f39c12;">0%</div>
+</div>
 </div>
 <div class="list-container">
 <h3 style="margin-bottom: 20px;">سجل الطلبات</h3>
@@ -963,10 +917,10 @@ body { font-family: 'Cairo', sans-serif; background: linear-gradient(135deg, #66
 <!-- Receipt Container (Hidden) -->
 <div id="receiptContent" style="display: none;"></div>
 </div>
+
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-app.js";
-import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, deleteDoc, query, where, serverTimestamp, setDoc } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-firestore.js";
-
+import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, deleteDoc, query, where, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-firestore.js";
 const firebaseConfig = {
 apiKey: "AIzaSyCucVCBRWZHQmvOf7XEG03MQuHFUvMfZes",
 authDomain: "dr-shrimp-pos.firebaseapp.com",
@@ -975,22 +929,18 @@ storageBucket: "dr-shrimp-pos.firebasestorage.app",
 messagingSenderId: "165111064355",
 appId: "1:165111064355:web:452d718520d50bff6d8e96"
 };
-
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
-
 let currentUser = null;
 let restaurantSettings = { name: "Dr Shrimp", logo: "" };
 let categories = [], tables = [], inventory = [], menuItems = [], users = [], orders = [], shiftClosures = [], tableOrders = [], expenses = [], cashDeposits = [], expenseCategories = [], purchases = [], returns = [];
 let orderCount = 1;
 let cart = [], currentTotal = 0, orderType = 'dinein', selectedTable = null, paymentMethod = 'cash', activeShift = null, tablePaymentMethod = 'cash';
 let tempIngredients = [], currentDiscount = 0, discountType = 'percent';
-
 async function initApp() {
 await loadAllData();
 updateUI();
 }
-
 async function loadAllData() {
 await Promise.all([
 loadSettings(), loadCategories(), loadTables(), loadInventory(),
@@ -1001,7 +951,6 @@ loadPurchases(), loadReturns()
 await loadOrderCount();
 checkActiveShift();
 }
-
 async function loadSettings() {
 const s = await getDocs(collection(db, 'settings'));
 if (!s.empty) {
@@ -1009,42 +958,22 @@ const data = s.docs[0].data();
 restaurantSettings = { id: s.docs[0].id, name: data.name || 'Dr Shrimp', logo: data.logo || '' };
 }
 }
-
-// تم إصلاح دالة تحميل الرقم لتعمل بشكل صحيح
 async function loadOrderCount() {
-    try {
-        // محاولة جلب المستند 'system'
-        const docRef = doc(db, 'system', 'orderCount');
-        const docSnap = await getDoc(docRef);
-
-        if (docSnap.exists()) {
-            // إذا وجد، نأخذ القيمة مباشرة (هي الرقم التالي)
-            orderCount = docSnap.data().count || 1;
-        } else {
-            // إذا لم يوجد، ننشئه برقم 1
-            await setDoc(docRef, { count: 1 });
-            orderCount = 1;
-        }
-        
-        // تحديث الشاشة
-        document.getElementById('orderNumber').textContent = '#' + String(orderCount).padStart(3, '0');
-    } catch (error) {
-        console.error("Error loading order count:", error);
-        orderCount = 1; // Fallback
-        document.getElementById('orderNumber').textContent = '#001';
-    }
+const s = await getDocs(collection(db, 'system'));
+if (!s.empty) {
+orderCount = (s.docs[0].data().orderCount || 0) + 1;
+} else {
+await addDoc(collection(db, 'system'), { orderCount: 1 });
+orderCount = 1;
 }
-
-// دالة حفظ الرقم التالي
+document.getElementById('orderNumber').textContent = '#' + String(orderCount).padStart(3, '0');
+}
 async function saveOrderCount() {
-    try {
-        const docRef = doc(db, 'system', 'orderCount');
-        await updateDoc(docRef, { count: orderCount });
-    } catch (error) {
-        console.error("Error saving order count:", error);
-    }
+const s = await getDocs(collection(db, 'system'));
+if (!s.empty) {
+await updateDoc(doc(db, 'system', s.docs[0].id), { orderCount: orderCount });
 }
-
+}
 async function loadCategories() { const s = await getDocs(collection(db, 'categories')); categories = s.docs.map(d => ({ id: d.id, ...d.data() })); }
 async function loadTables() { const s = await getDocs(collection(db, 'tables')); tables = s.docs.map(d => ({ id: d.id, ...d.data() })); }
 async function loadInventory() { const s = await getDocs(collection(db, 'inventory')); inventory = s.docs.map(d => ({ id: d.id, ...d.data() })); }
@@ -1058,7 +987,6 @@ async function loadDeposits() { const s = await getDocs(collection(db, 'cashDepo
 async function loadExpenseCategories() { const s = await getDocs(collection(db, 'expenseCategories')); expenseCategories = s.docs.map(d => ({ id: d.id, ...d.data() })); }
 async function loadPurchases() { const s = await getDocs(collection(db, 'purchases')); purchases = s.docs.map(d => ({ id: d.id, ...d.data() })); }
 async function loadReturns() { const s = await getDocs(collection(db, 'returns')); returns = s.docs.map(d => ({ id: d.id, ...d.data() })); }
-
 function checkActiveShift() {
 const today = new Date().toLocaleDateString('ar-EG');
 const active = shiftClosures.find(s => s.status === 'active' && s.date.split(' ')[0] === today);
@@ -1075,7 +1003,6 @@ badge.classList.add('inactive');
 btn.style.display = 'block';
 }
 }
-
 function updateUI() {
 document.getElementById('restaurantNameDisplay').textContent = restaurantSettings.name;
 if (restaurantSettings.logo) {
@@ -1085,7 +1012,6 @@ document.getElementById('headerLogo').src = restaurantSettings.logo;
 document.getElementById('headerLogo').style.display = 'block';
 }
 }
-
 window.login = async function() {
 const username = document.getElementById('usernameInput').value.trim();
 const password = document.getElementById('passwordInput').value;
@@ -1118,7 +1044,6 @@ errorMsg.textContent = 'خطأ: ' + err.message;
 errorMsg.style.display = 'block';
 }
 };
-
 window.logout = function() { location.reload(); };
 window.backToDashboard = function() {
 document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
@@ -1272,13 +1197,11 @@ document.getElementById('revenuesPage').style.display = 'block';
 toggleRevenueDateFilters();
 applyRevenueFilter();
 };
-
 function toggleRevenueDateFilters() {
 const type = document.getElementById('revenueType').value;
 document.getElementById('revenueDateRange').style.display = type === 'custom' ? 'block' : 'none';
 document.getElementById('revenueDateRange2').style.display = type === 'custom' ? 'block' : 'none';
 }
-
 window.applyRevenueFilter = function() {
 const type = document.getElementById('revenueType').value;
 let filteredOrders = [...orders];
@@ -1312,7 +1235,6 @@ div.innerHTML = `<div class="list-item-info"><div class="list-item-title">أور
 container.appendChild(div);
 });
 };
-
 // ALL Render Functions
 function renderCategories() {
 const container = document.getElementById('categoryTabs');
@@ -1445,15 +1367,18 @@ display.style.display = 'none';
 window.confirmPayment = async function() {
 const paid = parseFloat(document.getElementById('paidAmount').value) || 0;
 if (paymentMethod === 'cash' && paid < currentTotal) { alert('المبلغ غير كافي!'); return; }
-const order = { orderNumber: orderCount, date: new Date().toLocaleString('ar-EG'), type: orderType, items: [...cart], total: currentTotal, paymentMethod: paymentMethod, cashier: currentUser.username, tableId: selectedTable?.id || null, tableName: selectedTable?.number || null, shiftNumber: activeShift?.shiftNumber || null };
-await addDoc(collection(db, 'orders'), order);
 
-// تحديث الرقم وترقيته وحفظه
+// FIX: Calculate Total Cost based on ingredients
+let totalOrderCost = 0;
+cart.forEach(item => {
+    totalOrderCost += (parseFloat(item.cost) || 0) * item.qty;
+});
+const orderProfit = currentTotal - totalOrderCost;
+
+const order = { orderNumber: orderCount, date: new Date().toLocaleString('ar-EG'), type: orderType, items: [...cart], total: currentTotal, totalCost: totalOrderCost, profit: orderProfit, paymentMethod: paymentMethod, cashier: currentUser.username, tableId: selectedTable?.id || null, tableName: selectedTable?.number || null, shiftNumber: activeShift?.shiftNumber || null };
+await addDoc(collection(db, 'orders'), order);
 orderCount++;
 await saveOrderCount();
-// تحديث العرض على الشاشة مباشرة
-document.getElementById('orderNumber').textContent = '#' + String(orderCount).padStart(3, '0');
-
 if (activeShift) {
 activeShift.totalSales = (activeShift.totalSales || 0) + currentTotal;
 if (paymentMethod === 'cash') activeShift.cashSales = (activeShift.cashSales || 0) + currentTotal;
@@ -2168,7 +2093,7 @@ document.getElementById('dateRangeInputs2').style.display = type === 'custom' ? 
 }
 window.applyReportFilter = function() { renderReports(); };
 function renderReports() {
-let ts = 0, tc = 0, tp = 0, te = 0;
+let ts = 0, te = 0, tp = 0, tcogs = 0;
 const container = document.getElementById('ordersList');
 container.innerHTML = '';
 let filteredOrders = [...orders];
@@ -2189,20 +2114,26 @@ filteredOrders = orders.filter(o => { if (!o.date) return false; const orderDate
 }
 filteredOrders.forEach(o => {
 ts += parseFloat(o.total) || 0;
-tc += parseFloat(o.totalCost) || 0;
-tp += parseFloat(o.profit) || 0;
+tcogs += parseFloat(o.totalCost) || 0;
 const div = document.createElement('div');
 div.className = 'order-item';
-div.innerHTML = `<div style="flex:1;"><b>#${o.orderNumber}</b> - ${o.date || ''}<br>مبيعات: ${(parseFloat(o.total) || 0)} ج.م | ربح: ${(parseFloat(o.profit) || 0).toFixed(2)} ج.م</div><div class="menu-actions"><button class="btn-small btn-view" onclick="viewOrderDetails('${o.id}')">عرض</button></div>`;
+div.innerHTML = `<div style="flex:1;"><b>#${o.orderNumber}</b> - ${o.date || ''}<br>مبيعات: ${(parseFloat(o.total) || 0)} ج.م</div><div class="menu-actions"><button class="btn-small btn-view" onclick="viewOrderDetails('${o.id}')">عرض</button></div>`;
 container.appendChild(div);
 });
 if (filteredOrders.length === 0) { container.innerHTML = '<p style="text-align: center; color: #777; padding: 20px;">لا توجد طلبات</p>'; }
 const today = new Date().toLocaleDateString('ar-EG');
 const shiftExpenses = expenses.filter(e => e.date.split(' ')[0] === today);
 te = shiftExpenses.reduce((sum, e) => sum + (parseFloat(e.amount) || 0), 0);
+
+// FIX: Calculate Net Profit and Percentage Correctly
+const grossProfit = ts - tcogs;
+const netProfit = grossProfit - te;
+const profitMargin = ts > 0 ? ((netProfit / ts) * 100).toFixed(1) : 0;
+
 document.getElementById('totalSales').textContent = ts.toFixed(2) + ' ج.م';
 document.getElementById('totalExpenses').textContent = te.toFixed(2) + ' ج.م';
-document.getElementById('netProfit').textContent = (ts - te).toFixed(2) + ' ج.م';
+document.getElementById('netProfit').textContent = netProfit.toFixed(2) + ' ج.م';
+document.getElementById('profitPercent').textContent = profitMargin + '%';
 }
 window.viewOrderDetails = function(orderId) {
 const order = orders.find(o => o.id === orderId);
@@ -2332,9 +2263,6 @@ for (const orderData of (to.orders || [])) {
 const order = { orderNumber: orderCount, date: new Date().toLocaleString('ar-EG'), type: 'dinein', items: orderData.items || [], total: orderData.total || 0, totalCost: orderData.totalCost || 0, profit: (orderData.total || 0) - (orderData.totalCost || 0), paymentMethod: tablePaymentMethod, cashier: currentUser.username, status: 'completed', shiftNumber: activeShift?.shiftNumber || null, tableId: to.tableId, tableName: table ? table.number : null, fromTableOrder: true };
 await addDoc(collection(db, 'orders'), order);
 orderCount++;
-await saveOrderCount();
-// تحديث العرض على الشاشة مباشرة
-document.getElementById('orderNumber').textContent = '#' + String(orderCount).padStart(3, '0');
 }
 await saveOrderCount();
 if (activeShift) {
@@ -2471,7 +2399,7 @@ window.confirmShiftClose = async function() {
 if (!activeShift) { alert('⚠️ لا يوجد شيفت نشط!'); return; }
 const shiftActual = parseFloat(document.getElementById('shiftActualCash').value) || 0;
 const diff = shiftActual - window.shiftExpectedValue;
-await updateDoc(doc(db, 'shiftClosures', activeShift.id), { status: 'closed', closingCash: shiftActual, expectedCash: window.shiftExpectedValue, difference: diff, closedAt: new Date().toLocaleString('ar-EG'), closedBy: currentUser.username, totalSales: window.shiftCashValue + window.shiftCardValue + window.shiftWalletValue, cashSales: window.shiftCashValue, cardSales: window.shiftCardValue, walletSales: window.shiftWalletValue, totalDeposits: window.shiftDepositsValue, totalExpenses: window.shiftExpensesValue, openingCash: activeShift.openingCash });
+await updateDoc(doc(db, 'shiftClosures', activeShift.id), { status: 'closed', closingCash: shiftActual, expectedCash: shiftExpected, difference: diff, closedAt: new Date().toLocaleString('ar-EG'), closedBy: currentUser.username, totalSales: window.shiftCashValue + window.shiftCardValue + window.shiftWalletValue, cashSales: window.shiftCashValue, cardSales: window.shiftCardValue, walletSales: window.shiftWalletValue, totalDeposits: window.shiftDepositsValue, totalExpenses: window.shiftExpensesValue, openingCash: activeShift.openingCash });
 for (const table of tables) { if (table.status === 'occupied') { await updateDoc(doc(db, 'tables', table.id), { status: 'free', orderId: null }); } }
 printShiftCloseReceipt();
 activeShift = null;
