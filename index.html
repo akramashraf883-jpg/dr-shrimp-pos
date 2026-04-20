@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -143,68 +144,6 @@ body { font-family: 'Cairo', sans-serif; background: linear-gradient(135deg, #66
 .btn-edit { background: #f39c12; color: white; }
 .btn-delete { background: #e74c3c; color: white; }
 .hidden { display: none !important; }
-
-/* ===== DISCOUNT SECTION STYLES ===== */
-.discount-section {
-    background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
-    padding: 15px;
-    border-radius: 12px;
-    margin: 15px 0;
-    border: 2px dashed #f39c12;
-}
-.discount-header {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 10px;
-    color: #856404;
-    font-weight: 700;
-}
-.discount-inputs {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    flex-wrap: wrap;
-}
-.discount-input {
-    width: 80px;
-    padding: 8px;
-    border: 2px solid #f39c12;
-    border-radius: 8px;
-    text-align: center;
-    font-size: 16px;
-    font-weight: 700;
-}
-.discount-input:focus {
-    outline: none;
-    border-color: #e67e22;
-    box-shadow: 0 0 0 3px rgba(243,156,18,0.2);
-}
-.discount-type-btn {
-    padding: 8px 15px;
-    border: 2px solid #f39c12;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: 700;
-    font-size: 14px;
-    transition: all 0.3s;
-}
-.discount-type-btn.active {
-    background: #f39c12;
-    color: white;
-}
-.discount-result {
-    margin-top: 10px;
-    padding: 8px;
-    background: rgba(255,255,255,0.7);
-    border-radius: 8px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-.discount-amount { color: #e74c3c; font-weight: 700; }
-.discount-final { color: #27ae60; font-weight: 700; font-size: 18px; }
-
 @media print { body * { visibility: hidden; } #receiptContent, #receiptContent * { visibility: visible; } #receiptContent { position: absolute; left: 0; top: 0; width: 100%; } }
 @media (max-width: 1024px) { .order-layout { grid-template-columns: 1fr; } .dashboard-grid { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); } }
 @media (max-width: 768px) { .top-bar { flex-direction: column; gap: 15px; text-align: center; } .page-header { flex-direction: column; gap: 15px; text-align: center; } .form-row { grid-template-columns: 1fr; } }
@@ -307,34 +246,14 @@ body { font-family: 'Cairo', sans-serif; background: linear-gradient(135deg, #66
 </div>
 </div>
 <div class="bill-items" id="cartItems"><p style="text-align: center; color: #777; padding: 40px;">لا توجد أصناف</p></div>
-
-<!-- ===== DISCOUNT SECTION FOR OFFERS ===== -->
-<div class="discount-section">
-    <div class="discount-header">
-        🏷️ نسبة الخصم (العروض)
-    </div>
-    <div class="discount-inputs">
-        <input type="number" id="discountPercent" class="discount-input" placeholder="0" min="0" max="100" value="0" oninput="applyDiscount()">
-        <span style="font-weight: 700; color: #856404;">%</span>
-    </div>
-    <div class="discount-result">
-        <span>قيمة الخصم:</span>
-        <span class="discount-amount" id="discountAmount">0 ج.م</span>
-    </div>
-    <div class="discount-result" style="margin-top: 5px;">
-        <span>الإجمالي بعد الخصم:</span>
-        <span class="discount-final" id="discountFinal">0 ج.م</span>
-    </div>
-</div>
-
 <div class="bill-total">
-    <div class="bill-total-label">الإجمالي</div>
-    <div class="bill-total-amount" id="totalAmount">0 ج.م</div>
+<div class="bill-total-label">الإجمالي</div>
+<div class="bill-total-amount" id="totalAmount">0 ج.م</div>
 </div>
 <div class="bill-actions">
-    <button class="btn-bill btn-pay" onclick="openPayment()">💳 دفع</button>
-    <button class="btn-bill btn-suspend" onclick="suspendToTable()">⏸️ تعليق على الطاولة</button>
-    <button class="btn-bill btn-clear" onclick="clearCart()">🗑️ إلغاء</button>
+<button class="btn-bill btn-pay" onclick="openPayment()">💳 دفع</button>
+<button class="btn-bill btn-suspend" onclick="suspendToTable()">⏸️ تعليق على الطاولة</button>
+<button class="btn-bill btn-clear" onclick="clearCart()">🗑️ إلغاء</button>
 </div>
 </div>
 </div>
@@ -1021,7 +940,6 @@ let categories = [], tables = [], inventory = [], menuItems = [], users = [], or
 let orderCount = 1;
 let cart = [], currentTotal = 0, orderType = 'dinein', selectedTable = null, paymentMethod = 'cash', activeShift = null, tablePaymentMethod = 'cash';
 let tempIngredients = [];
-let currentDiscountPercent = 0; // نسبة الخصم الحالية
 
 async function initApp() {
 await loadAllData();
@@ -1202,10 +1120,6 @@ document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
 document.getElementById('orderPage').style.display = 'block';
 renderCategories();
 renderMenu();
-// Reset discount when opening new order
-currentDiscountPercent = 0;
-document.getElementById('discountPercent').value = '0';
-applyDiscount();
 };
 
 window.openTables = function() {
@@ -1422,7 +1336,7 @@ div.innerHTML = `<div class="bill-item-header"><span class="bill-item-name">${it
 container.appendChild(div);
 });
 }
-applyDiscount();
+document.getElementById('totalAmount').textContent = currentTotal + ' ج.م';
 }
 
 window.changeQty = function(index, change) {
@@ -1436,20 +1350,7 @@ cart.splice(index, 1);
 renderCart();
 };
 
-window.clearCart = function() { cart = []; currentDiscountPercent = 0; document.getElementById('discountPercent').value = '0'; applyDiscount(); };
-
-// ===== DISCOUNT FUNCTION FOR OFFERS =====
-window.applyDiscount = function() {
-const percent = parseFloat(document.getElementById('discountPercent').value) || 0;
-currentDiscountPercent = Math.min(100, Math.max(0, percent));
-
-const discountAmount = (currentTotal * currentDiscountPercent) / 100;
-const finalAmount = currentTotal - discountAmount;
-
-document.getElementById('discountAmount').textContent = discountAmount.toFixed(2) + ' ج.م';
-document.getElementById('discountFinal').textContent = finalAmount.toFixed(2) + ' ج.م';
-document.getElementById('totalAmount').textContent = finalAmount.toFixed(2) + ' ج.م';
-};
+window.clearCart = function() { cart = []; renderCart(); };
 
 window.setOrderType = function(type) {
 orderType = type;
@@ -1482,7 +1383,7 @@ closeModal('tableSelectModal');
 
 window.openPayment = function() {
 if (cart.length === 0) { alert('الفاتورة فارغة!'); return; }
-document.getElementById('modalTotal').textContent = document.getElementById('totalAmount').textContent;
+document.getElementById('modalTotal').textContent = currentTotal + ' ج.م';
 document.getElementById('paidAmount').value = '';
 document.getElementById('changeDisplay').style.display = 'none';
 document.getElementById('paymentModal').style.display = 'flex';
@@ -1504,9 +1405,8 @@ el.style.borderColor = '#e0e0e0';
 };
 
 window.calculateChange = function() {
-const finalAmount = parseFloat(document.getElementById('totalAmount').textContent) || 0;
 const paid = parseFloat(document.getElementById('paidAmount').value) || 0;
-const change = paid - finalAmount;
+const change = paid - currentTotal;
 const display = document.getElementById('changeDisplay');
 if (paid > 0) {
 display.style.display = 'block';
@@ -1517,33 +1417,17 @@ display.style.display = 'none';
 };
 
 window.confirmPayment = async function() {
-const finalAmount = parseFloat(document.getElementById('totalAmount').textContent) || 0;
 const paid = parseFloat(document.getElementById('paidAmount').value) || 0;
-if (paymentMethod === 'cash' && paid < finalAmount) { alert('المبلغ غير كافي!'); return; }
-
-const order = {
-orderNumber: orderCount,
-date: new Date().toLocaleString('ar-EG'),
-type: orderType,
-items: [...cart],
-total: finalAmount,
-subtotal: currentTotal,
-discount: currentDiscountPercent,
-discountAmount: (currentTotal * currentDiscountPercent) / 100,
-paymentMethod: paymentMethod,
-cashier: currentUser.username,
-tableId: selectedTable?.id || null,
-tableName: selectedTable?.number || null,
-shiftNumber: activeShift?.shiftNumber || null
-};
+if (paymentMethod === 'cash' && paid < currentTotal) { alert('المبلغ غير كافي!'); return; }
+const order = { orderNumber: orderCount, date: new Date().toLocaleString('ar-EG'), type: orderType, items: [...cart], total: currentTotal, paymentMethod: paymentMethod, cashier: currentUser.username, tableId: selectedTable?.id || null, tableName: selectedTable?.number || null, shiftNumber: activeShift?.shiftNumber || null };
 await addDoc(collection(db, 'orders'), order);
 orderCount++;
 await saveOrderCount();
 if (activeShift) {
-activeShift.totalSales = (activeShift.totalSales || 0) + finalAmount;
-if (paymentMethod === 'cash') activeShift.cashSales = (activeShift.cashSales || 0) + finalAmount;
-else if (paymentMethod === 'card') activeShift.cardSales = (activeShift.cardSales || 0) + finalAmount;
-else if (paymentMethod === 'wallet') activeShift.walletSales = (activeShift.walletSales || 0) + finalAmount;
+activeShift.totalSales = (activeShift.totalSales || 0) + currentTotal;
+if (paymentMethod === 'cash') activeShift.cashSales = (activeShift.cashSales || 0) + currentTotal;
+else if (paymentMethod === 'card') activeShift.cardSales = (activeShift.cardSales || 0) + currentTotal;
+else if (paymentMethod === 'wallet') activeShift.walletSales = (activeShift.walletSales || 0) + currentTotal;
 await updateDoc(doc(db, 'shiftClosures', activeShift.id), { totalSales: activeShift.totalSales, cashSales: activeShift.cashSales, cardSales: activeShift.cardSales, walletSales: activeShift.walletSales });
 }
 if (selectedTable && orderType === 'dinein') {
@@ -1553,9 +1437,6 @@ printReceipt(order);
 alert('✅ تم الدفع بنجاح!');
 closeModal('paymentModal');
 cart = [];
-currentDiscountPercent = 0;
-document.getElementById('discountPercent').value = '0';
-applyDiscount();
 selectedTable = null;
 document.getElementById('selectedTableInfo').style.display = 'none';
 renderCart();
@@ -1565,13 +1446,15 @@ await loadOrders();
 
 function printReceipt(order) {
 const logoHtml = restaurantSettings.logo ? `<img src="${restaurantSettings.logo}" style="max-width:150px; margin:0 auto 15px auto; display:block;">` : '';
-const discountHtml = order.discount > 0 ? `<div style="display:flex; justify-content:space-between; margin:8px 0; color:#e74c3c;"><span>الخصم (${order.discount}%):</span><span>-${order.discountAmount.toFixed(2)} ج.م</span></div>` : '';
 const receiptContent = `<div style="text-align: center; font-family: monospace; padding: 20px; max-width: 400px; margin: 0 auto;">${logoHtml}<h2 style="margin: 10px 0;">${restaurantSettings.name}</h2><p>أوردر #${order.orderNumber}</p>${order.tableName ? `<p>الطاولة: ${order.tableName}</p>` : ''}<p>${order.date}</p><p>الكاشير: ${order.cashier}</p><p>النوع: ${order.type}</p><div style="border-top: 2px dashed #000; margin: 15px 0;"></div>`;
 let itemsHtml = '';
+let total = 0;
 order.items.forEach(item => {
 const itemTotal = item.price * item.qty;
+total += itemTotal;
 itemsHtml += `<div style="display:flex; justify-content:space-between; margin:8px 0;"><span>${item.name} x${item.qty}${item.note ? ' (' + item.note + ')' : ''}</span><span>${itemTotal.toFixed(2)} ج.م</span></div>`;
 });
+const discountHtml = order.discount > 0 ? `<div style="display:flex; justify-content:space-between; margin:8px 0; color:#e74c3c;"><span>الخصم:</span><span>-${order.discount.toFixed(2)} ج.م</span></div>` : '';
 const receiptEnd = `${itemsHtml}<div style="border-top: 2px dashed #000; margin: 15px 0;"></div>${discountHtml}<div style="display:flex; justify-content:space-between; font-weight:bold; font-size:18px; margin:10px 0;"><span>الإجمالي:</span><span>${order.total.toFixed(2)} ج.م</span></div><div style="display:flex; justify-content:space-between;"><span>طريقة الدفع:</span><span>${{ cash: 'كاش', card: 'فيزا', wallet: 'محفظة' }[order.paymentMethod] || 'كاش'}</span></div><div style="border-top: 2px dashed #000; margin: 15px 0;"></div><p style="margin-top:20px;">${restaurantSettings.message || 'شكراً لزيارتكم!'}</p></div>`;
 const fullReceipt = receiptContent + receiptEnd;
 const printWindow = window.open('', '', 'width=400,height=700');
@@ -1595,9 +1478,6 @@ await addDoc(collection(db, 'tableOrders'), { tableId: selectedTable.id, tableNa
 await updateDoc(doc(db, 'tables', selectedTable.id), { status: 'occupied' });
 alert('✅ تم تعليق الأوردر على الطاولة!');
 cart = [];
-currentDiscountPercent = 0;
-document.getElementById('discountPercent').value = '0';
-applyDiscount();
 renderCart();
 await loadTables();
 await loadTableOrders();
@@ -2615,18 +2495,87 @@ window.shiftProfitValue = shiftProfit;
 window.shiftProfitPercentValue = shiftProfitPercent;
 }
 
-window.calculateShiftDifference = function() {
-const shiftActual = parseFloat(document.getElementById('shiftActualCash').value) || 0;
-const diff = shiftActual - window.shiftExpectedValue;
-const diffBox = document.getElementById('shiftDifferenceBox');
-if (document.getElementById('shiftActualCash').value !== '') {
-diffBox.style.display = 'block';
-document.getElementById('shiftDifferenceValue').textContent = Math.abs(diff).toFixed(2) + ' ج.م';
-document.getElementById('printShiftBtn').disabled = false;
-} else {
-diffBox.style.display = 'none';
-document.getElementById('printShiftBtn').disabled = true;
-}
+window.confirmShiftClose = async function() {
+    // 1. التأكد إن في شيفت نشط أصلاً
+    if (!activeShift) {
+        alert('⚠️ لا يوجد شيفت نشط حالياً!');
+        return;
+    }
+
+    // 2. جلب المبلغ الفعلي اللي الكاشير دخله
+    const shiftActual = parseFloat(document.getElementById('shiftActualCash').value) || 0;
+
+    try {
+        // 3. حساب المبيعات والمصروفات من البيانات الحالية لضمان الدقة
+        // بنجمع كل الأوردرات بتاعة الشيفت ده
+        const currentShiftOrders = orders.filter(o => o.shiftNumber === activeShift.shiftNumber);
+        
+        // بنجمع المبيعات حسب طريقة الدفع
+        const cashSales = currentShiftOrders.filter(o => o.paymentMethod === 'cash').reduce((sum, o) => sum + (parseFloat(o.total) || 0), 0);
+        const cardSales = currentShiftOrders.filter(o => o.paymentMethod === 'card').reduce((sum, o) => sum + (parseFloat(o.total) || 0), 0);
+        const walletSales = currentShiftOrders.filter(o => o.paymentMethod === 'wallet').reduce((sum, o) => sum + (parseFloat(o.total) || 0), 0);
+        const totalSales = cashSales + cardSales + walletSales;
+
+        // بنجمع المصروفات بتاعة الشيفت ده
+        const currentShiftExpenses = expenses.filter(e => e.shiftNumber === activeShift.shiftNumber).reduce((sum, e) => sum + (parseFloat(e.amount) || 0), 0);
+        
+        // بنجمع التوريدات بتاعة الشيفت ده
+        const currentShiftDeposits = cashDeposits.filter(d => d.shiftNumber === activeShift.shiftNumber).reduce((sum, d) => sum + (parseFloat(d.amount) || 0), 0);
+
+        // 4. حساب المبلغ المتوقع (المعادلة الحسابية)
+        // المتوقع = المبلغ الابتدائي + كاش مبيعات + توريدات - مصروفات
+        const expectedCash = (activeShift.openingCash || 0) + cashSales + currentShiftDeposits - currentShiftExpenses;
+        
+        // حساب الفرق (العجز أو الأوفر)
+        const diff = shiftActual - expectedCash;
+
+        // 5. تحديث البيانات في قاعدة البيانات
+        await updateDoc(doc(db, 'shiftClosures', activeShift.id), {
+            status: 'closed',
+            closingCash: shiftActual,
+            expectedCash: expectedCash,
+            difference: diff,
+            closedAt: new Date().toLocaleString('ar-EG'),
+            closedBy: currentUser.username,
+            totalSales: totalSales,
+            cashSales: cashSales,
+            cardSales: cardSales,
+            walletSales: walletSales,
+            totalDeposits: currentShiftDeposits,
+            totalExpenses: currentShiftExpenses,
+            openingCash: activeShift.openingCash
+        });
+
+        // 6. إعادة تحرير الطاولات (إرجاع حالتها لـ free)
+        const occupiedTables = tables.filter(t => t.status === 'occupied');
+        for (const table of occupiedTables) {
+            await updateDoc(doc(db, 'tables', table.id), { status: 'free', orderId: null });
+        }
+
+        // 7. طباعة الإيصال
+        printShiftCloseReceipt();
+
+        // 8. إعادة تعيين حالة النظام
+        activeShift = null;
+        await loadShiftClosures();
+        checkActiveShift();
+        backToDashboard();
+
+        // 9. رسالة النجاح النهائية
+        let message = `✅ تم إقفال الشيفت بنجاح!`;
+        if (diff < 0) {
+            message += `\n❌ يوجد عجز في الحساب: ${Math.abs(diff).toFixed(2)} ج.م`;
+        } else if (diff > 0) {
+            message += `\n✅ يوجد أوفر في الحساب: ${diff.toFixed(2)} ج.م`;
+        } else {
+            message += '\n✅ الحسابات متطابقة تماماً!';
+        }
+        alert(message);
+
+    } catch (error) {
+        // في حال حدوث أي خطأ (مثل انقطاع الإنترنت)
+        alert('❌ حدث خطأ أثناء حفظ البيانات: ' + error.message);
+    }
 };
 
 window.printShiftCloseReceipt = function() {
@@ -2658,9 +2607,11 @@ alert(`✅ تم إقفال الشيفت!\n${diff === 0 ? 'الرصيد متطا�
 
 window.onclick = function(event) { if (event.target.classList.contains('modal')) { event.target.style.display = 'none'; } };
 
+// سجل المصروفات الكامل
 window.openExpenseHistory = function() {
 document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
 document.getElementById('expenseHistoryPage').style.display = 'block';
+
 const select = document.getElementById('expenseHistoryCategory');
 select.innerHTML = '<option value="all">الكل</option>';
 expenseCategories.forEach(cat => {
@@ -2669,6 +2620,7 @@ option.value = cat.id;
 option.textContent = cat.name;
 select.appendChild(option);
 });
+
 filterExpenseHistory();
 };
 
@@ -2676,33 +2628,55 @@ window.filterExpenseHistory = function() {
 const from = document.getElementById('expenseHistoryFrom').value;
 const to = document.getElementById('expenseHistoryTo').value;
 const categoryId = document.getElementById('expenseHistoryCategory').value;
+
 let filteredExpenses = [...expenses];
+
 if (from && to) {
 const fromDate = new Date(from);
 const toDate = new Date(to);
 toDate.setHours(23, 59, 59, 999);
+
 filteredExpenses = filteredExpenses.filter(e => {
 if (!e.date) return false;
 const expenseDate = new Date(e.date);
 return expenseDate >= fromDate && expenseDate <= toDate;
 });
 }
+
 if (categoryId !== 'all') {
 filteredExpenses = filteredExpenses.filter(e => e.categoryId === categoryId);
 }
+
 const totalAmount = filteredExpenses.reduce((sum, e) => sum + (parseFloat(e.amount) || 0), 0);
 document.getElementById('totalExpensesAmount').textContent = totalAmount.toFixed(2) + ' ج.م';
+
 const listContainer = document.getElementById('expenseHistoryList');
 listContainer.innerHTML = '';
+
 if (filteredExpenses.length === 0) {
 listContainer.innerHTML = '<p style="text-align: center; color: #777; padding: 20px;">لا توجد مصاريف</p>';
 return;
 }
+
 filteredExpenses.slice().reverse().forEach(exp => {
 const cat = expenseCategories.find(c => c.id === exp.categoryId);
 const div = document.createElement('div');
 div.className = 'expense-record';
-div.innerHTML = `<div class="expense-record-header"><div><div style="font-weight: 700; margin-bottom: 5px;">${cat?.name || 'غير محدد'}</div><div class="expense-record-details">${exp.date} | ${exp.addedBy}${exp.notes ? '<br>📝 ' + exp.notes : ''}${exp.shiftNumber ? ' | شيفت #' + exp.shiftNumber : ''}</div></div><div style="font-weight: 700; color: #e74c3c; font-size: 18px;">-${exp.amount.toFixed(2)} ج.م</div></div>`;
+div.innerHTML = `
+<div class="expense-record-header">
+<div>
+<div style="font-weight: 700; margin-bottom: 5px;">${cat?.name || 'غير محدد'}</div>
+<div class="expense-record-details">
+${exp.date} | ${exp.addedBy}
+${exp.notes ? `<br>📝 ${exp.notes}` : ''}
+${exp.shiftNumber ? `| شيفت #${exp.shiftNumber}` : ''}
+</div>
+</div>
+<div style="font-weight: 700; color: #e74c3c; font-size: 18px;">
+-${exp.amount.toFixed(2)} ج.م
+</div>
+</div>
+`;
 listContainer.appendChild(div);
 });
 };
@@ -2711,34 +2685,49 @@ window.exportExpensesToExcel = function() {
 const from = document.getElementById('expenseHistoryFrom').value;
 const to = document.getElementById('expenseHistoryTo').value;
 const categoryId = document.getElementById('expenseHistoryCategory').value;
+
 let filteredExpenses = [...expenses];
+
 if (from && to) {
 const fromDate = new Date(from);
 const toDate = new Date(to);
 toDate.setHours(23, 59, 59, 999);
+
 filteredExpenses = filteredExpenses.filter(e => {
 if (!e.date) return false;
 const expenseDate = new Date(e.date);
 return expenseDate >= fromDate && expenseDate <= toDate;
 });
 }
+
 if (categoryId !== 'all') {
 filteredExpenses = filteredExpenses.filter(e => e.categoryId === categoryId);
 }
+
 const ws = XLSX.utils.json_to_sheet(filteredExpenses.map(e => {
 const cat = expenseCategories.find(c => c.id === e.categoryId);
-return {'التاريخ': e.date, 'النوع': cat?.name || 'غير محدد', 'المبلغ': e.amount, 'الملاحظات': e.notes || '', 'الشيفت': '#' + (e.shiftNumber || ''), 'المستخدم': e.addedBy};
+return {
+'التاريخ': e.date,
+'النوع': cat?.name || 'غير محدد',
+'المبلغ': e.amount,
+'الملاحظات': e.notes || '',
+'الشيفت': `#${e.shiftNumber}`,
+'المستخدم': e.addedBy
+};
 }));
+
 const wb = XLSX.utils.book_new();
 XLSX.utils.book_append_sheet(wb, ws, "المصروفات");
-XLSX.writeFile(wb, 'المصروفات_' + new Date().toLocaleDateString('ar-EG') + '.xlsx');
+XLSX.writeFile(wb, `المصروفات_${new Date().toLocaleDateString('ar-EG')}.xlsx`);
 };
 
 window.exportReportsToExcel = function() {
 const from = document.getElementById('dateFrom').value;
 const to = document.getElementById('dateTo').value;
 const type = document.getElementById('reportType').value;
+
 let filteredOrders = [...orders];
+
 if (type === 'today') {
 const today = new Date().toLocaleDateString('ar-EG');
 filteredOrders = orders.filter(o => o.date.split(' ')[0] === today);
@@ -2754,19 +2743,25 @@ toDate.setHours(23, 59, 59, 999);
 filteredOrders = orders.filter(o => { if (!o.date) return false; const orderDate = new Date(o.date); return orderDate >= fromDate && orderDate <= toDate; });
 }
 }
+
 const ws = XLSX.utils.json_to_sheet(filteredOrders.map(o => ({
-'رقم الأوردر': '#' + o.orderNumber, 'التاريخ': o.date, 'النوع': o.type === 'dinein' ? 'صالة' : 'تيك اواي',
-'المبيعات': o.total, 'التكلفة': o.totalCost, 'الربح': o.profit,
+'رقم الأوردر': `#${o.orderNumber}`,
+'التاريخ': o.date,
+'النوع': o.type === 'dinein' ? 'صالة' : 'تيك اواي',
+'المبيعات': o.total,
+'التكلفة': o.totalCost,
+'الربح': o.profit,
 'طريقة الدفع': o.paymentMethod === 'cash' ? 'كاش' : o.paymentMethod === 'card' ? 'فيزا' : 'محفظة',
-'الكاشير': o.cashier, 'الطاولة': o.tableName || '-'
+'الكاشير': o.cashier,
+'الطاولة': o.tableName || '-'
 })));
+
 const wb = XLSX.utils.book_new();
 XLSX.utils.book_append_sheet(wb, ws, "التقارير");
-XLSX.writeFile(wb, 'التقارير_' + new Date().toLocaleDateString('ar-EG') + '.xlsx');
+XLSX.writeFile(wb, `التقارير_${new Date().toLocaleDateString('ar-EG')}.xlsx`);
 };
 
 initApp();
 </script>
 </body>
 </html>
-
