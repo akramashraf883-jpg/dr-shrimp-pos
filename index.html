@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Dr Shrimp - نظام إدارة المطاعم</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/fontsource/css/cairo/index.css" rel="stylesheet">
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { font-family: 'Cairo', sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; overflow-x: hidden; }
@@ -143,11 +143,6 @@ body { font-family: 'Cairo', sans-serif; background: linear-gradient(135deg, #66
 .btn-edit { background: #f39c12; color: white; }
 .btn-delete { background: #e74c3c; color: white; }
 .hidden { display: none !important; }
-.discount-section { background: #fff3cd; padding: 15px; border-radius: 12px; margin: 15px 0; border: 1px solid #ffeeba; }
-.discount-header { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; color: #856404; font-weight: 700; }
-.discount-inputs { display: flex; align-items: center; gap: 10px; }
-.discount-input { width: 80px; padding: 8px; text-align: center; border: 1px solid #ced4da; border-radius: 5px; }
-.discount-result { margin-top: 10px; font-weight: 700; color: #856404; }
 @media print { body * { visibility: hidden; } #receiptContent, #receiptContent * { visibility: visible; } #receiptContent { position: absolute; left: 0; top: 0; width: 100%; } }
 @media (max-width: 1024px) { .order-layout { grid-template-columns: 1fr; } .dashboard-grid { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); } }
 @media (max-width: 768px) { .top-bar { flex-direction: column; gap: 15px; text-align: center; } .page-header { flex-direction: column; gap: 15px; text-align: center; } .form-row { grid-template-columns: 1fr; } }
@@ -222,7 +217,6 @@ body { font-family: 'Cairo', sans-serif; background: linear-gradient(135deg, #66
 </div>
 </div>
 </div>
-<!-- Order Page -->
 <div id="orderPage" class="page">
 <div class="page-header">
 <h2>📝 تسجيل طلب جديد</h2>
@@ -249,18 +243,6 @@ body { font-family: 'Cairo', sans-serif; background: linear-gradient(135deg, #66
 </div>
 </div>
 <div class="bill-items" id="cartItems"><p style="text-align: center; color: #777; padding: 40px;">لا توجد أصناف</p></div>
-<div class="discount-section">
-<div class="discount-header">🏷️ نسبة الخصم (العروض)</div>
-<div class="discount-inputs">
-<input type="number" id="discountInput" class="discount-input" placeholder="0" min="0" max="100" oninput="calculateDiscount()">
-<span>%</span>
-<button class="btn-small" onclick="applyDiscount()">تطبيق</button>
-</div>
-<div class="discount-result">
-<span>الخصم:</span>
-<span id="discountResult">0 ج.م</span>
-</div>
-</div>
 <div class="bill-total">
 <div class="bill-total-label">الإجمالي</div>
 <div class="bill-total-amount" id="totalAmount">0 ج.م</div>
@@ -273,7 +255,6 @@ body { font-family: 'Cairo', sans-serif; background: linear-gradient(135deg, #66
 </div>
 </div>
 </div>
-<!-- Tables Page -->
 <div id="tablesPage" class="page">
 <div class="page-header">
 <h2>🪑 إدارة الطاولات</h2>
@@ -296,7 +277,6 @@ body { font-family: 'Cairo', sans-serif; background: linear-gradient(135deg, #66
 <h3 style="margin-bottom: 20px; color: #333;">الطاولات الموجودة</h3>
 <div class="tables-grid" id="tablesList"></div>
 </div>
-<!-- Expenses Page -->
 <div id="expensesPage" class="page">
 <div class="page-header">
 <h2>💸 المصروفات</h2>
@@ -325,7 +305,6 @@ body { font-family: 'Cairo', sans-serif; background: linear-gradient(135deg, #66
 <div id="shiftExpensesList"></div>
 </div>
 </div>
-<!-- Deposits Page -->
 <div id="depositsPage" class="page">
 <div class="page-header">
 <h2>💵 توريد نقدية</h2>
@@ -350,7 +329,6 @@ body { font-family: 'Cairo', sans-serif; background: linear-gradient(135deg, #66
 <div id="shiftDepositsList"></div>
 </div>
 </div>
-<!-- Expense Categories Page -->
 <div id="expenseCategoriesPage" class="page">
 <div class="page-header">
 <h2>📋 أنواع المصروفات</h2>
@@ -371,7 +349,6 @@ body { font-family: 'Cairo', sans-serif; background: linear-gradient(135deg, #66
 <div id="expenseCategoriesList"></div>
 </div>
 </div>
-<!-- Returns Page -->
 <div id="returnsPage" class="page">
 <div class="page-header">
 <h2>🔄 المرتجعات</h2>
@@ -412,7 +389,6 @@ body { font-family: 'Cairo', sans-serif; background: linear-gradient(135deg, #66
 <div id="returnsList"></div>
 </div>
 </div>
-<!-- Edit Orders Page -->
 <div id="editOrdersPage" class="page">
 <div class="page-header">
 <h2>✏️ تعديل الأوردرات</h2>
@@ -439,7 +415,6 @@ body { font-family: 'Cairo', sans-serif; background: linear-gradient(135deg, #66
 </div>
 </div>
 </div>
-<!-- Shift History Page -->
 <div id="shiftHistoryPage" class="page">
 <div class="page-header">
 <h2>📊 سجل التقفيلات</h2>
@@ -464,7 +439,6 @@ body { font-family: 'Cairo', sans-serif; background: linear-gradient(135deg, #66
 <div id="shiftHistoryList"></div>
 </div>
 </div>
-<!-- Purchases Page -->
 <div id="purchasesPage" class="page">
 <div class="page-header">
 <h2>📦 الطلبيات الواردة</h2>
@@ -492,6 +466,7 @@ body { font-family: 'Cairo', sans-serif; background: linear-gradient(135deg, #66
 <input type="text" id="purchaseSupplier" placeholder="أدخل اسم المورد">
 </div>
 </div>
+<input type="hidden" id="purchaseUnit">
 <div id="purchaseCalcBox" style="background: #e8f4fd; padding: 15px; border-radius: 10px; margin-bottom: 15px; display: none;">
 <h5 style="color: #667eea; margin-bottom: 10px;">🧮 الحساب</h5>
 <div style="display: flex; justify-content: space-between; margin-bottom: 8px;"><span>سعر الوحدة:</span><span id="calcUnitPrice">0</span></div>
@@ -505,7 +480,6 @@ body { font-family: 'Cairo', sans-serif; background: linear-gradient(135deg, #66
 <div id="purchasesList"></div>
 </div>
 </div>
-<!-- Inventory Page -->
 <div id="inventoryPage" class="page">
 <div class="page-header">
 <h2>📦 المخزون</h2>
@@ -540,7 +514,6 @@ body { font-family: 'Cairo', sans-serif; background: linear-gradient(135deg, #66
 <div id="inventoryList"></div>
 </div>
 </div>
-<!-- Inventory Adjustment Page -->
 <div id="inventoryAdjustPage" class="page">
 <div class="page-header">
 <h2>🔄 تعديل المخزون</h2>
@@ -569,7 +542,6 @@ body { font-family: 'Cairo', sans-serif; background: linear-gradient(135deg, #66
 <button class="btn-submit" onclick="adjustInventory()">✅ تعديل المخزون</button>
 </div>
 </div>
-<!-- Users Page -->
 <div id="usersPage" class="page">
 <div class="page-header">
 <h2>👥 إدارة المستخدمين</h2>
@@ -605,7 +577,6 @@ body { font-family: 'Cairo', sans-serif; background: linear-gradient(135deg, #66
 <div id="usersList"></div>
 </div>
 </div>
-<!-- Categories Page -->
 <div id="categoriesPage" class="page">
 <div class="page-header">
 <h2>📁 التصنيفات</h2>
@@ -626,7 +597,6 @@ body { font-family: 'Cairo', sans-serif; background: linear-gradient(135deg, #66
 <div id="categoriesList"></div>
 </div>
 </div>
-<!-- Admin Page -->
 <div id="adminPage" class="page">
 <div class="page-header">
 <h2>⚙️ إدارة المنيو</h2>
@@ -671,7 +641,6 @@ body { font-family: 'Cairo', sans-serif; background: linear-gradient(135deg, #66
 <div id="adminMenuList"></div>
 </div>
 </div>
-<!-- Reports Page -->
 <div id="reportsPage" class="page">
 <div class="page-header">
 <h2>📈 التقارير</h2>
@@ -702,16 +671,24 @@ body { font-family: 'Cairo', sans-serif; background: linear-gradient(135deg, #66
 </div>
 <div class="stats-grid">
 <div class="stat-card sales">
-<div class="stat-label">المبيعات</div>
+<div class="stat-label">💵 المبيعات</div>
 <div class="stat-value" id="totalSales">0 ج.م</div>
 </div>
+<div class="stat-card" style="border-top: 4px solid #e74c3c;">
+<div class="stat-label">📦 تكلفة المبيعات</div>
+<div class="stat-value" id="totalCost" style="color: #e74c3c;">0 ج.م</div>
+</div>
 <div class="stat-card expenses">
-<div class="stat-label">المصروفات</div>
+<div class="stat-label">💸 المصروفات</div>
 <div class="stat-value" id="totalExpenses">0 ج.م</div>
 </div>
 <div class="stat-card profit">
-<div class="stat-label">صافي الربح</div>
+<div class="stat-label">📊 صافي الربح</div>
 <div class="stat-value" id="netProfit">0 ج.م</div>
+</div>
+<div class="stat-card" style="border-top: 4px solid #f39c12;">
+<div class="stat-label">📈 نسبة الربح</div>
+<div class="stat-value" id="profitPercent">0%</div>
 </div>
 </div>
 <div class="list-container">
@@ -719,7 +696,57 @@ body { font-family: 'Cairo', sans-serif; background: linear-gradient(135deg, #66
 <div id="ordersList"></div>
 </div>
 </div>
-<!-- Settings Page -->
+<div id="revenuesPage" class="page">
+<div class="page-header">
+<h2>💰 الإيرادات</h2>
+<button class="btn-back" onclick="backToDashboard()">رجوع للرئيسية</button>
+</div>
+<div class="form-container">
+<h3 style="margin-bottom: 20px;">فلترة الإيرادات</h3>
+<div class="form-row">
+<div class="form-group">
+<label>نوع التقرير</label>
+<select id="revenueType" onchange="toggleRevenueDateFilters()">
+<option value="all">كل الإيرادات</option>
+<option value="today">إيرادات اليوم</option>
+<option value="monthly">إيرادات الشهر</option>
+<option value="custom">تاريخ مخصص (من - إلى)</option>
+</select>
+</div>
+<div class="form-group" id="revenueDateRange" style="display: none;">
+<label>من تاريخ</label>
+<input type="date" id="revenueDateFrom">
+</div>
+<div class="form-group" id="revenueDateRange2" style="display: none;">
+<label>إلى تاريخ</label>
+<input type="date" id="revenueDateTo">
+</div>
+</div>
+<button class="btn-submit" onclick="applyRevenueFilter()">🔍 تطبيق الفلتر</button>
+</div>
+<div class="stats-grid">
+<div class="stat-card sales">
+<div class="stat-label">💵 إجمالي المبيعات</div>
+<div class="stat-value" id="revenueTotalSales">0 ج.م</div>
+</div>
+<div class="stat-card" style="border-top: 4px solid #3498db;">
+<div class="stat-label">💵 كاش</div>
+<div class="stat-value" id="revenueCash">0 ج.م</div>
+</div>
+<div class="stat-card" style="border-top: 4px solid #9b59b6;">
+<div class="stat-label">💳 فيزا</div>
+<div class="stat-value" id="revenueCard">0 ج.م</div>
+</div>
+<div class="stat-card" style="border-top: 4px solid #2ecc71;">
+<div class="stat-label">📱 محفظة</div>
+<div class="stat-value" id="revenueWallet">0 ج.م</div>
+</div>
+</div>
+<div class="list-container">
+<h3 style="margin-bottom: 20px;">تفاصيل الإيرادات</h3>
+<div id="revenuesList"></div>
+</div>
+</div>
 <div id="settingsPage" class="page">
 <div class="page-header">
 <h2>🎨 الإعدادات</h2>
@@ -757,7 +784,6 @@ body { font-family: 'Cairo', sans-serif; background: linear-gradient(135deg, #66
 <button class="btn-submit" onclick="removeLogo()" style="background: #e74c3c;">🗑️ حذف اللوجو</button>
 </div>
 </div>
-<!-- Table Orders Page -->
 <div id="tableOrdersPage" class="page">
 <div class="page-header">
 <h2>🪑 أوردرات الطاولات المعلقة</h2>
@@ -768,46 +794,59 @@ body { font-family: 'Cairo', sans-serif; background: linear-gradient(135deg, #66
 <div id="tableOrdersList"></div>
 </div>
 </div>
-<!-- Shift Close Page -->
 <div id="shiftClosePage" class="page">
 <div class="page-header">
 <h2>💰 تقفيلة الدرج</h2>
 <button class="btn-back" onclick="backToDashboard()">رجوع للرئيسية</button>
 </div>
 <div class="form-container">
-<h3 style="margin-bottom: 20px;">📊 ملخص الشيفت</h3>
+<h3 style="margin-bottom: 20px; border-bottom: 2px solid #667eea; padding-bottom: 10px;">📊 1. ملخص الأرباح والخسائر (للمدير)</h3>
 <div class="stats-grid">
 <div class="stat-card sales">
-<div class="stat-label">💵 كاش من المبيعات</div>
-<div class="stat-value" id="shiftCash">0 ج.م</div>
-</div>
-<div class="stat-card" style="border-top: 4px solid #3498db;">
-<div class="stat-label">💳 فيزا</div>
-<div class="stat-value" id="shiftCard">0 ج.م</div>
-</div>
-<div class="stat-card" style="border-top: 4px solid #9b59b6;">
-<div class="stat-label">📱 محفظة</div>
-<div class="stat-value" id="shiftWallet">0 ج.م</div>
-</div>
-<div class="stat-card" style="border-top: 4px solid #2ecc71;">
-<div class="stat-label">💵 توريدات نقدية</div>
-<div class="stat-value" id="shiftDeposits">0 ج.م</div>
+<div class="stat-label">💵 المبيعات</div>
+<div class="stat-value" id="shiftSales">0 ج.م</div>
 </div>
 <div class="stat-card" style="border-top: 4px solid #e74c3c;">
-<div class="stat-label">💸 مصروفات</div>
+<div class="stat-label">📦 تكلفة المبيعات</div>
+<div class="stat-value" id="shiftTotalCost" style="color: #e74c3c;">0 ج.م</div>
+</div>
+<div class="stat-card" style="border-top: 4px solid #e67e22;">
+<div class="stat-label">💸 المصروفات</div>
 <div class="stat-value" id="shiftExpenses">0 ج.م</div>
 </div>
 <div class="stat-card profit">
 <div class="stat-label">📊 صافي الربح</div>
 <div class="stat-value" id="shiftProfit">0 ج.م</div>
 </div>
-<div class="stat-card" style="border-top: 4px solid #f39c12;">
+<div class="stat-card" style="border-top: 4px solid #1abc9c;">
 <div class="stat-label">📈 نسبة الربح</div>
 <div class="stat-value" id="shiftProfitPercent">0%</div>
 </div>
 </div>
-<div style="background: #f8f9fa; padding: 20px; border-radius: 10px; margin: 20px 0;">
+</div>
+<div class="form-container" style="border-top: 5px solid #f39c12;">
+<h3 style="margin-bottom: 20px;">📦 2. حساب الدرج (سيولة الكاش)</h3>
+<div class="stats-grid">
+<div class="stat-card" style="border-top: 4px solid #3498db;">
+<div class="stat-label">💵 كاش</div>
+<div class="stat-value" id="shiftCash">0 ج.م</div>
+</div>
+<div class="stat-card" style="border-top: 4px solid #9b59b6;">
+<div class="stat-label">💳 فيزا</div>
+<div class="stat-value" id="shiftCard">0 ج.م</div>
+</div>
+<div class="stat-card" style="border-top: 4px solid #2ecc71;">
+<div class="stat-label">📱 محفظة</div>
+<div class="stat-value" id="shiftWallet">0 ج.م</div>
+</div>
+<div class="stat-card" style="border-top: 4px solid #f1c40f;">
+<div class="stat-label">💵 توريدات نقدية</div>
+<div class="stat-value" id="shiftDeposits">0 ج.م</div>
+</div>
+</div>
+<div style="background: #f8f9fa; padding: 20px; border-radius: 10px; margin: 20px 0; border-right: 5px solid #667eea;">
 <div style="display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #ddd;"><span>المبلغ الابتدائي:</span><span id="shiftOpeningCashDisplay">0 ج.م</span></div>
+<div style="display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #ddd;"><span>المبلغ المتوقع في الدرج:</span><span id="shiftExpected">0 ج.م</span></div>
 <div style="display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #ddd;"><span>عدد الأوردرات:</span><span id="shiftOrderCount">0</span></div>
 <div style="display: flex; justify-content: space-between; padding: 10px 0; font-weight: bold; border-top: 2px solid #667eea; margin-top: 10px; padding-top: 15px;"><span>الصيغة: ابتدائي + مبيعات كاش + توريدات - مصروفات</span></div>
 </div>
@@ -828,7 +867,6 @@ body { font-family: 'Cairo', sans-serif; background: linear-gradient(135deg, #66
 </div>
 </div>
 </div>
-<!-- Shift Start Page -->
 <div id="shiftStartPage" class="page">
 <div class="page-header">
 <h2>🔄 بدء شيفت جديد</h2>
@@ -857,7 +895,6 @@ body { font-family: 'Cairo', sans-serif; background: linear-gradient(135deg, #66
 <button class="btn-submit" onclick="startNewShift()">✅ بدء الشيفت</button>
 </div>
 </div>
-<!-- Payment Modal -->
 <div id="paymentModal" class="modal">
 <div class="modal-content">
 <div class="modal-header"><h2>💳 الدفع</h2></div>
@@ -892,7 +929,6 @@ body { font-family: 'Cairo', sans-serif; background: linear-gradient(135deg, #66
 </div>
 </div>
 </div>
-<!-- Table Select Modal -->
 <div id="tableSelectModal" class="modal">
 <div class="modal-content">
 <div class="modal-header"><h2>🪑 اختيار الطاولة</h2></div>
@@ -900,7 +936,6 @@ body { font-family: 'Cairo', sans-serif; background: linear-gradient(135deg, #66
 <div class="modal-footer"><button class="btn-modal btn-cancel" onclick="closeModal('tableSelectModal')">إلغاء</button></div>
 </div>
 </div>
-<!-- Table Bill Modal -->
 <div id="tableBillModal" class="modal">
 <div class="modal-content">
 <div class="modal-header"><h2>📋 حساب الطاولة</h2></div>
@@ -933,8 +968,7 @@ body { font-family: 'Cairo', sans-serif; background: linear-gradient(135deg, #66
 </div>
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-app.js";
-import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, deleteDoc, query, where, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-firestore.js";
-
+import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, deleteDoc, query, where } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-firestore.js";
 const firebaseConfig = {
 apiKey: "AIzaSyCucVCBRWZHQmvOf7XEG03MQuHFUvMfZes",
 authDomain: "dr-shrimp-pos.firebaseapp.com",
@@ -943,59 +977,23 @@ storageBucket: "dr-shrimp-pos.firebasestorage.app",
 messagingSenderId: "165111064355",
 appId: "1:165111064355:web:452d718520d50bff6d8e96"
 };
-
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
-
 let currentUser = null;
 let restaurantSettings = { name: "Dr Shrimp", logo: "" };
 let categories = [], tables = [], inventory = [], menuItems = [], users = [], orders = [], shiftClosures = [], tableOrders = [], expenses = [], cashDeposits = [], expenseCategories = [], purchases = [], returns = [];
 let orderCount = 1;
-let cart = [], currentTotal = 0, orderType = 'dinein', selectedTable = null, paymentMethod = 'cash', activeShift = null, tablePaymentMethod = 'cash', currentDiscount = 0;
+let cart = [], currentTotal = 0, orderType = 'dinein', selectedTable = null, paymentMethod = 'cash', activeShift = null, tablePaymentMethod = 'cash';
 let tempIngredients = [];
 
-async function initApp() {
-await loadAllData();
-updateUI();
-}
-
+async function initApp() { await loadAllData(); updateUI(); }
 async function loadAllData() {
-await Promise.all([
-loadSettings(), loadCategories(), loadTables(), loadInventory(),
-loadMenu(), loadUsers(), loadOrders(), loadShiftClosures(),
-loadTableOrders(), loadExpenses(), loadDeposits(), loadExpenseCategories(),
-loadPurchases(), loadReturns()
-]);
-await loadOrderCount();
-checkActiveShift();
+await Promise.all([loadSettings(), loadCategories(), loadTables(), loadInventory(), loadMenu(), loadUsers(), loadOrders(), loadShiftClosures(), loadTableOrders(), loadExpenses(), loadDeposits(), loadExpenseCategories(), loadPurchases(), loadReturns()]);
+await loadOrderCount(); checkActiveShift();
 }
-
-async function loadSettings() {
-const s = await getDocs(collection(db, 'settings'));
-if (!s.empty) {
-const data = s.docs[0].data();
-restaurantSettings = { id: s.docs[0].id, name: data.name || 'Dr Shrimp', logo: data.logo || '' };
-}
-}
-
-async function loadOrderCount() {
-const s = await getDocs(collection(db, 'system'));
-if (!s.empty) {
-orderCount = (s.docs[0].data().orderCount || 0) + 1;
-} else {
-await addDoc(collection(db, 'system'), { orderCount: 1 });
-orderCount = 1;
-}
-document.getElementById('orderNumber').textContent = '#' + String(orderCount).padStart(3, '0');
-}
-
-async function saveOrderCount() {
-const s = await getDocs(collection(db, 'system'));
-if (!s.empty) {
-await updateDoc(doc(db, 'system', s.docs[0].id), { orderCount: orderCount });
-}
-}
-
+async function loadSettings() { const s = await getDocs(collection(db, 'settings')); if (!s.empty) { const data = s.docs[0].data(); restaurantSettings = { id: s.docs[0].id, name: data.name || 'Dr Shrimp', logo: data.logo || '', phone: data.phone || '', address: data.address || '', message: data.message || '' }; } }
+async function loadOrderCount() { const s = await getDocs(collection(db, 'system')); if (!s.empty) { orderCount = (s.docs[0].data().orderCount || 0) + 1; } else { await addDoc(collection(db, 'system'), { orderCount: 1 }); orderCount = 1; } document.getElementById('orderNumber').textContent = '#' + String(orderCount).padStart(3, '0'); }
+async function saveOrderCount() { const s = await getDocs(collection(db, 'system')); if (!s.empty) { await updateDoc(doc(db, 'system', s.docs[0].id), { orderCount: orderCount }); } }
 async function loadCategories() { const s = await getDocs(collection(db, 'categories')); categories = s.docs.map(d => ({ id: d.id, ...d.data() })); }
 async function loadTables() { const s = await getDocs(collection(db, 'tables')); tables = s.docs.map(d => ({ id: d.id, ...d.data() })); }
 async function loadInventory() { const s = await getDocs(collection(db, 'inventory')); inventory = s.docs.map(d => ({ id: d.id, ...d.data() })); }
@@ -1009,34 +1007,44 @@ async function loadDeposits() { const s = await getDocs(collection(db, 'cashDepo
 async function loadExpenseCategories() { const s = await getDocs(collection(db, 'expenseCategories')); expenseCategories = s.docs.map(d => ({ id: d.id, ...d.data() })); }
 async function loadPurchases() { const s = await getDocs(collection(db, 'purchases')); purchases = s.docs.map(d => ({ id: d.id, ...d.data() })); }
 async function loadReturns() { const s = await getDocs(collection(db, 'returns')); returns = s.docs.map(d => ({ id: d.id, ...d.data() })); }
+function checkActiveShift() { const today = new Date().toLocaleDateString('ar-EG'); const active = shiftClosures.find(s => s.status === 'active' && s.date.split(' ')[0] === today); activeShift = active || null; const badge = document.getElementById('shiftStatus'); const btn = document.getElementById('startShiftBtn'); if (activeShift) { badge.textContent = `🟢 شيفت نشط - #${activeShift.shiftNumber}`; badge.classList.remove('inactive'); btn.style.display = 'none'; } else { badge.textContent = '🔴 لا يوجد شيفت نشط'; badge.classList.add('inactive'); btn.style.display = 'block'; } }
+function updateUI() { document.getElementById('restaurantNameDisplay').textContent = restaurantSettings.name; if (restaurantSettings.logo) { document.getElementById('loginLogo').src = restaurantSettings.logo; document.getElementById('loginLogo').style.display = 'block'; document.getElementById('headerLogo').src = restaurantSettings.logo; document.getElementById('headerLogo').style.display = 'block'; } }
 
-function checkActiveShift() {
-const today = new Date().toLocaleDateString('ar-EG');
-const active = shiftClosures.find(s => s.status === 'active' && s.date.split(' ')[0] === today);
-activeShift = active || null;
-const badge = document.getElementById('shiftStatus');
-const btn = document.getElementById('startShiftBtn');
-if (activeShift) {
-badge.textContent = `🟢 شيفت نشط - #${activeShift.shiftNumber}`;
-badge.classList.remove('inactive');
-btn.style.display = 'none';
-} else {
-badge.textContent = '🔴 لا يوجد شيفت نشط';
-badge.classList.add('inactive');
-btn.style.display = 'block';
+// ==================== حساب تكلفة الأوردر ====================
+function calculateOrderCost(items) {
+let totalCost = 0;
+for (const orderItem of items) {
+const menuItem = menuItems.find(m => m.id === orderItem.id);
+const itemCost = menuItem?.cost || orderItem.cost || 0;
+totalCost += itemCost * (orderItem.qty || 1);
 }
+return totalCost;
 }
 
-function updateUI() {
-document.getElementById('restaurantNameDisplay').textContent = restaurantSettings.name;
-if (restaurantSettings.logo) {
-document.getElementById('loginLogo').src = restaurantSettings.logo;
-document.getElementById('loginLogo').style.display = 'block';
-document.getElementById('headerLogo').src = restaurantSettings.logo;
-document.getElementById('headerLogo').style.display = 'block';
+// ==================== خصم المخزون ====================
+async function deductInventoryFromOrderItems(orderItems) {
+const deducted = [];
+for (const orderItem of orderItems) {
+const menuItem = menuItems.find(m => m.id === orderItem.id);
+if (!menuItem) continue;
+const ingList = orderItem.ingredients || menuItem.ingredients;
+if (!ingList || ingList.length === 0) continue;
+for (const ing of ingList) {
+if (!ing.stockId || !ing.qty) continue;
+const invItem = inventory.find(iv => iv.id === ing.stockId);
+if (!invItem) continue;
+const deductAmount = parseFloat(ing.qty) * (orderItem.qty || 1);
+const newStock = (invItem.stock || 0) - deductAmount;
+await updateDoc(doc(db, 'inventory', invItem.id), { stock: Math.max(0, newStock) });
+invItem.stock = Math.max(0, newStock);
+deducted.push(`${invItem.name}: -${deductAmount} ${invItem.unit} (الباقي: ${Math.max(0, newStock)})`);
 }
+}
+await loadInventory();
+return deducted;
 }
 
+// ==================== LOGIN / LOGOUT ====================
 window.login = async function() {
 const username = document.getElementById('usernameInput').value.trim();
 const password = document.getElementById('passwordInput').value;
@@ -1052,341 +1060,138 @@ document.getElementById('loginScreen').style.display = 'none';
 document.getElementById('mainApp').style.display = 'block';
 document.getElementById('welcomeUser').textContent = `مرحباً، ${user.name || user.username}`;
 const isManager = user.role === 'manager';
-['menuExpenses', 'menuDeposits', 'menuExpenseCategories', 'menuReturns', 'menuEditOrders', 'menuShiftHistory', 'menuInventory', 'menuInventoryAdjust', 'menuUsers', 'menuCategories', 'menuAdmin', 'menuReports', 'menuSettings', 'menuRevenues'].forEach(id => {
-document.getElementById(id).style.display = isManager ? 'block' : 'none';
-});
+['menuExpenses', 'menuDeposits', 'menuExpenseCategories', 'menuReturns', 'menuEditOrders', 'menuShiftHistory', 'menuInventory', 'menuInventoryAdjust', 'menuUsers', 'menuCategories', 'menuAdmin', 'menuReports', 'menuSettings', 'menuRevenues'].forEach(id => { document.getElementById(id).style.display = isManager ? 'block' : 'none'; });
 errorMsg.style.display = 'none';
-} else {
-errorMsg.textContent = 'كلمة المرور غير صحيحة';
-errorMsg.style.display = 'block';
-}
-} else {
-errorMsg.textContent = 'المستخدم غير موجود';
-errorMsg.style.display = 'block';
-}
-} catch (err) {
-errorMsg.textContent = 'خطأ: ' + err.message;
-errorMsg.style.display = 'block';
-}
+} else { errorMsg.textContent = 'كلمة المرور غير صحيحة'; errorMsg.style.display = 'block'; }
+} else { errorMsg.textContent = 'المستخدم غير موجود'; errorMsg.style.display = 'block'; }
+} catch (err) { errorMsg.textContent = 'خطأ: ' + err.message; errorMsg.style.display = 'block'; }
 };
-
 window.logout = function() { location.reload(); };
-window.backToDashboard = function() {
-document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
-document.getElementById('dashboardPage').style.display = 'block';
-};
+window.backToDashboard = function() { document.querySelectorAll('.page').forEach(p => p.style.display = 'none'); document.getElementById('dashboardPage').style.display = 'block'; };
 
-window.openShiftStart = function() {
-if (activeShift) {
-alert('⚠️ يوجد شيفت نشط بالفعل! يجب إقفال الشيفت الحالي قبل بدء شيفت جديد.');
-return;
-}
-document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
-document.getElementById('shiftStartPage').style.display = 'block';
-};
-
+// ==================== SHIFT ====================
+window.openShiftStart = function() { if (activeShift) { alert('⚠️ يوجد شيفت نشط بالفعل!'); return; } document.querySelectorAll('.page').forEach(p => p.style.display = 'none'); document.getElementById('shiftStartPage').style.display = 'block'; };
 window.startNewShift = async function() {
 const openingCash = parseFloat(document.getElementById('shiftOpeningCash').value) || 0;
 const notes = document.getElementById('shiftNotes').value.trim();
-if (openingCash < 0) {
-alert('❌ المبلغ الابتدائي لا يمكن أن يكون سالب!');
-return;
-}
-if (!confirm(`✅ تأكيد بدء شيفت جديد\nالمبلغ الابتدائي: ${openingCash.toFixed(2)} ج.م\nالملاحظات: ${notes || 'لا يوجد'}\nهل أنت متأكد؟`)) {
-return;
-}
+if (openingCash < 0) { alert('❌ المبلغ الابتدائي لا يمكن أن يكون سالب!'); return; }
+if (!confirm(`✅ تأكيد بدء شيفت جديد:\nالمبلغ: ${openingCash.toFixed(2)} ج.م`)) return;
 const shiftNumber = shiftClosures.length + 1;
-const newShift = {
-shiftNumber: shiftNumber,
-date: new Date().toLocaleString('ar-EG'),
-openingCash: openingCash,
-notes: notes,
-status: 'active',
-cashier: currentUser.username,
-orders: [],
-totalSales: 0,
-cashSales: 0,
-cardSales: 0,
-walletSales: 0
-};
+const newShift = { shiftNumber, date: new Date().toLocaleString('ar-EG'), openingCash, notes, status: 'active', cashier: currentUser.username, totalSales: 0, cashSales: 0, cardSales: 0, walletSales: 0, totalCost: 0 };
 try {
-orderCount = 1;
-await saveOrderCount();
-document.getElementById('orderNumber').textContent = '#001';
+orderCount = 1; await saveOrderCount(); document.getElementById('orderNumber').textContent = '#001';
 await addDoc(collection(db, 'shiftClosures'), newShift);
-activeShift = newShift;
-await loadShiftClosures();
-checkActiveShift();
-backToDashboard();
-document.getElementById('shiftOpeningCash').value = '';
-document.getElementById('shiftNotes').value = '';
-alert(`✅ تم بدء الشيفت #${shiftNumber} بنجاح!\nالمبلغ الابتدائي: ${openingCash.toFixed(2)} ج.م`);
-} catch (err) {
-alert('❌ خطأ في بدء الشيفت: ' + err.message);
-}
+activeShift = newShift; await loadShiftClosures(); checkActiveShift(); backToDashboard();
+document.getElementById('shiftOpeningCash').value = ''; document.getElementById('shiftNotes').value = '';
+alert(`✅ تم بدء الشيفت #${shiftNumber}`);
+} catch (err) { alert('❌ خطأ: ' + err.message); }
 };
 
-window.openOrderScreen = function() {
-if (!activeShift) { alert('⚠️ يجب بدء شيفت جديد أولاً!'); return; }
-document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
-document.getElementById('orderPage').style.display = 'block';
-renderCategories();
-renderMenu();
-};
+// ==================== NAVIGATION ====================
+window.openOrderScreen = function() { if (!activeShift) { alert('⚠️ يجب بدء شيفت جديد أولاً!'); return; } document.querySelectorAll('.page').forEach(p => p.style.display = 'none'); document.getElementById('orderPage').style.display = 'block'; renderCategories(); renderMenu(); };
+window.openTables = function() { document.querySelectorAll('.page').forEach(p => p.style.display = 'none'); document.getElementById('tablesPage').style.display = 'block'; renderTablesList(); };
+window.openExpenses = function() { document.querySelectorAll('.page').forEach(p => p.style.display = 'none'); document.getElementById('expensesPage').style.display = 'block'; renderExpenseCategories(); renderShiftExpenses(); };
+window.openDeposits = function() { document.querySelectorAll('.page').forEach(p => p.style.display = 'none'); document.getElementById('depositsPage').style.display = 'block'; renderShiftDeposits(); };
+window.openExpenseCategories = function() { document.querySelectorAll('.page').forEach(p => p.style.display = 'none'); document.getElementById('expenseCategoriesPage').style.display = 'block'; renderExpenseCategoriesList(); };
+window.openReturns = function() { document.querySelectorAll('.page').forEach(p => p.style.display = 'none'); document.getElementById('returnsPage').style.display = 'block'; renderReturnsList(); };
+window.openEditOrders = function() { document.querySelectorAll('.page').forEach(p => p.style.display = 'none'); document.getElementById('editOrdersPage').style.display = 'block'; };
+window.openShiftHistory = function() { document.querySelectorAll('.page').forEach(p => p.style.display = 'none'); document.getElementById('shiftHistoryPage').style.display = 'block'; renderShiftHistory(); };
+window.openPurchases = function() { document.querySelectorAll('.page').forEach(p => p.style.display = 'none'); document.getElementById('purchasesPage').style.display = 'block'; updatePurchaseItemSelect(); renderPurchasesList(); };
+window.openInventory = function() { document.querySelectorAll('.page').forEach(p => p.style.display = 'none'); document.getElementById('inventoryPage').style.display = 'block'; renderInventoryList(); };
+window.openInventoryAdjust = function() { document.querySelectorAll('.page').forEach(p => p.style.display = 'none'); document.getElementById('inventoryAdjustPage').style.display = 'block'; updateAdjustmentItemSelect(); };
+window.openUsers = function() { document.querySelectorAll('.page').forEach(p => p.style.display = 'none'); document.getElementById('usersPage').style.display = 'block'; renderUsersList(); };
+window.openCategories = function() { document.querySelectorAll('.page').forEach(p => p.style.display = 'none'); document.getElementById('categoriesPage').style.display = 'block'; renderCategoriesList(); };
+window.openAdmin = function() { document.querySelectorAll('.page').forEach(p => p.style.display = 'none'); document.getElementById('adminPage').style.display = 'block'; updateCategorySelect(); renderAdminMenuList(); };
+window.openReports = function() { document.querySelectorAll('.page').forEach(p => p.style.display = 'none'); document.getElementById('reportsPage').style.display = 'block'; toggleDateFilters(); applyReportFilter(); };
+window.openSettings = function() { document.querySelectorAll('.page').forEach(p => p.style.display = 'none'); document.getElementById('settingsPage').style.display = 'block'; loadSettingsForm(); };
+window.openTableOrders = function() { document.querySelectorAll('.page').forEach(p => p.style.display = 'none'); document.getElementById('tableOrdersPage').style.display = 'block'; renderTableOrdersList(); };
+window.openShiftClose = function() { if (!activeShift) { alert('لا يوجد شيفت نشط!'); return; } document.querySelectorAll('.page').forEach(p => p.style.display = 'none'); document.getElementById('shiftClosePage').style.display = 'block'; calculateShiftSummary(); };
+window.openRevenues = function() { document.querySelectorAll('.page').forEach(p => p.style.display = 'none'); document.getElementById('revenuesPage').style.display = 'block'; toggleRevenueDateFilters(); applyRevenueFilter(); };
 
-window.openTables = function() {
-document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
-document.getElementById('tablesPage').style.display = 'block';
-renderTablesList();
-};
-
-window.openExpenses = function() {
-document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
-document.getElementById('expensesPage').style.display = 'block';
-renderExpenseCategories();
-renderShiftExpenses();
-};
-
-window.openDeposits = function() {
-document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
-document.getElementById('depositsPage').style.display = 'block';
-renderShiftDeposits();
-};
-
-window.openExpenseCategories = function() {
-document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
-document.getElementById('expenseCategoriesPage').style.display = 'block';
-renderExpenseCategoriesList();
-};
-
-window.openReturns = function() {
-document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
-document.getElementById('returnsPage').style.display = 'block';
-renderReturnsList();
-};
-
-window.openEditOrders = function() {
-document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
-document.getElementById('editOrdersPage').style.display = 'block';
-};
-
-window.openShiftHistory = function() {
-document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
-document.getElementById('shiftHistoryPage').style.display = 'block';
-renderShiftHistory();
-};
-
-window.openPurchases = function() {
-document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
-document.getElementById('purchasesPage').style.display = 'block';
-updatePurchaseItemSelect();
-renderPurchasesList();
-};
-
-window.openInventory = function() {
-document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
-document.getElementById('inventoryPage').style.display = 'block';
-renderInventoryList();
-};
-
-window.openInventoryAdjust = function() {
-document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
-document.getElementById('inventoryAdjustPage').style.display = 'block';
-updateAdjustmentItemSelect();
-};
-
-window.openUsers = function() {
-document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
-document.getElementById('usersPage').style.display = 'block';
-renderUsersList();
-};
-
-window.openCategories = function() {
-document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
-document.getElementById('categoriesPage').style.display = 'block';
-renderCategoriesList();
-};
-
-window.openAdmin = function() {
-document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
-document.getElementById('adminPage').style.display = 'block';
-updateCategorySelect();
-renderAdminMenuList();
-};
-
-window.openReports = function() {
-document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
-document.getElementById('reportsPage').style.display = 'block';
-toggleDateFilters();
-applyReportFilter();
-};
-
-window.openSettings = function() {
-document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
-document.getElementById('settingsPage').style.display = 'block';
-loadSettingsForm();
-};
-
-window.openTableOrders = function() {
-document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
-document.getElementById('tableOrdersPage').style.display = 'block';
-renderTableOrdersList();
-};
-
-window.openShiftClose = function() {
-if (!activeShift) { alert('لا يوجد شيفت نشط!'); return; }
-document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
-document.getElementById('shiftClosePage').style.display = 'block';
-calculateShiftSummary();
-};
-
-window.openRevenues = function() {
-document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
-document.getElementById('revenuesPage').style.display = 'block';
-toggleRevenueDateFilters();
-applyRevenueFilter();
-};
-
-function toggleRevenueDateFilters() {
-const type = document.getElementById('revenueType').value;
-document.getElementById('revenueDateRange').style.display = type === 'custom' ? 'block' : 'none';
-document.getElementById('revenueDateRange2').style.display = type === 'custom' ? 'block' : 'none';
-}
-
+// ==================== REVENUES ====================
+function toggleRevenueDateFilters() { const type = document.getElementById('revenueType').value; document.getElementById('revenueDateRange').style.display = type === 'custom' ? 'block' : 'none'; document.getElementById('revenueDateRange2').style.display = type === 'custom' ? 'block' : 'none'; }
 window.applyRevenueFilter = function() {
 const type = document.getElementById('revenueType').value;
-let filteredOrders = [...orders];
-if (type === 'today') {
-const today = new Date().toLocaleDateString('ar-EG');
-filteredOrders = orders.filter(o => o.date.split(' ')[0] === today);
-} else if (type === 'custom') {
-const from = document.getElementById('revenueDateFrom').value;
-const to = document.getElementById('revenueDateTo').value;
-if (from && to) {
-filteredOrders = orders.filter(o => {
-const orderDate = o.date.split(' ')[0];
-return orderDate >= from && orderDate <= to;
-});
-}
-}
-const totalSales = filteredOrders.reduce((sum, o) => sum + (parseFloat(o.total) || 0), 0);
-const cash = filteredOrders.filter(o => o.paymentMethod === 'cash').reduce((sum, o) => sum + (parseFloat(o.total) || 0), 0);
-const card = filteredOrders.filter(o => o.paymentMethod === 'card').reduce((sum, o) => sum + (parseFloat(o.total) || 0), 0);
-const wallet = filteredOrders.filter(o => o.paymentMethod === 'wallet').reduce((sum, o) => sum + (parseFloat(o.total) || 0), 0);
+let filtered = [...orders];
+if (type === 'today') { const today = new Date().toLocaleDateString('ar-EG'); filtered = orders.filter(o => o.date && o.date.split(' ')[0] === today); }
+else if (type === 'monthly') { const cm = new Date().getMonth(), cy = new Date().getFullYear(); filtered = orders.filter(o => { if (!o.date) return false; const d = new Date(o.date); return d.getMonth() === cm && d.getFullYear() === cy; }); }
+else if (type === 'custom') { const from = document.getElementById('revenueDateFrom').value, to = document.getElementById('revenueDateTo').value; if (from && to) filtered = orders.filter(o => { if (!o.date) return false; return o.date.split(' ')[0] >= from && o.date.split(' ')[0] <= to; }); }
+const totalSales = filtered.reduce((sum, o) => sum + (parseFloat(o.total) || 0), 0);
+const cash = filtered.filter(o => o.paymentMethod === 'cash').reduce((sum, o) => sum + (parseFloat(o.total) || 0), 0);
+const card = filtered.filter(o => o.paymentMethod === 'card').reduce((sum, o) => sum + (parseFloat(o.total) || 0), 0);
+const wallet = filtered.filter(o => o.paymentMethod === 'wallet').reduce((sum, o) => sum + (parseFloat(o.total) || 0), 0);
 document.getElementById('revenueTotalSales').textContent = totalSales.toFixed(2) + ' ج.م';
 document.getElementById('revenueCash').textContent = cash.toFixed(2) + ' ج.م';
 document.getElementById('revenueCard').textContent = card.toFixed(2) + ' ج.م';
 document.getElementById('revenueWallet').textContent = wallet.toFixed(2) + ' ج.م';
 const container = document.getElementById('revenuesList');
 container.innerHTML = '';
-filteredOrders.forEach(o => {
+if (filtered.length === 0) { container.innerHTML = '<p style="text-align: center; color: #777; padding: 20px;">لا توجد إيرادات</p>'; return; }
+filtered.slice().reverse().forEach(o => {
 const div = document.createElement('div');
 div.className = 'list-item';
-div.innerHTML = `<div class="list-item-info"><div class="list-item-title">أوردر #${o.orderNumber}</div><div class="list-item-subtitle">${o.date} | ${o.paymentMethod}</div></div><div class="list-item-title">${o.total.toFixed(2)} ج.م</div>`;
+div.innerHTML = `<div class="list-item-info"><div class="list-item-title">أوردر #${o.orderNumber}</div><div class="list-item-subtitle">${o.date} | ${o.paymentMethod} | الكاشير: ${o.cashier}</div></div><div class="list-item-title">${(o.total || 0).toFixed(2)} ج.م</div>`;
 container.appendChild(div);
 });
 };
 
+// ==================== MENU & CART ====================
 function renderCategories() {
-const container = document.getElementById('categoryTabs');
-container.innerHTML = '';
-const allBtn = document.createElement('button');
-allBtn.className = 'category-tab active';
-allBtn.textContent = 'الكل';
-allBtn.onclick = () => {
-document.querySelectorAll('.category-tab').forEach(t => t.classList.remove('active'));
-allBtn.classList.add('active');
-renderMenu('all');
-};
+const container = document.getElementById('categoryTabs'); container.innerHTML = '';
+const allBtn = document.createElement('button'); allBtn.className = 'category-tab active'; allBtn.textContent = 'الكل';
+allBtn.onclick = () => { document.querySelectorAll('.category-tab').forEach(t => t.classList.remove('active')); allBtn.classList.add('active'); renderMenu('all'); };
 container.appendChild(allBtn);
 categories.forEach(cat => {
-const btn = document.createElement('button');
-btn.className = 'category-tab';
-btn.textContent = cat.name;
-btn.onclick = () => {
-document.querySelectorAll('.category-tab').forEach(t => t.classList.remove('active'));
-btn.classList.add('active');
-renderMenu(cat.id);
-};
+const btn = document.createElement('button'); btn.className = 'category-tab'; btn.textContent = cat.name;
+btn.onclick = () => { document.querySelectorAll('.category-tab').forEach(t => t.classList.remove('active')); btn.classList.add('active'); renderMenu(cat.id); };
 container.appendChild(btn);
 });
 }
-
 function renderMenu(categoryId = 'all') {
-const container = document.getElementById('menuItems');
-container.innerHTML = '';
+const container = document.getElementById('menuItems'); container.innerHTML = '';
 const items = categoryId === 'all' ? menuItems : menuItems.filter(i => i.categoryId === categoryId);
 items.forEach(item => {
-const card = document.createElement('div');
-card.className = 'item-card';
+const card = document.createElement('div'); card.className = 'item-card';
 card.innerHTML = `<div class="item-name">${item.name}</div><div class="item-price">${item.price} ج.م</div>`;
-card.onclick = () => addToCart(item);
-container.appendChild(card);
+card.onclick = () => addToCart(item); container.appendChild(card);
 });
 }
-
-function addToCart(item) {
-const existing = cart.find(i => i.id === item.id);
-if (existing) { existing.qty++; }
-else { cart.push({ ...item, qty: 1 }); }
-renderCart();
-}
-
+function addToCart(item) { const existing = cart.find(i => i.id === item.id); if (existing) { existing.qty++; } else { cart.push({ ...item, qty: 1 }); } renderCart(); }
 function renderCart() {
-const container = document.getElementById('cartItems');
-container.innerHTML = '';
+const container = document.getElementById('cartItems'); container.innerHTML = '';
 currentTotal = 0;
-if (cart.length === 0) {
-container.innerHTML = '<p style="text-align: center; color: #777; padding: 40px;">لا توجد أصناف</p>';
-} else {
+if (cart.length === 0) { container.innerHTML = '<p style="text-align: center; color: #777; padding: 40px;">لا توجد أصناف</p>'; }
+else {
 cart.forEach((item, index) => {
-const total = item.price * item.qty;
-currentTotal += total;
-const div = document.createElement('div');
-div.className = 'bill-item';
+const total = item.price * item.qty; currentTotal += total;
+const div = document.createElement('div'); div.className = 'bill-item';
 div.innerHTML = `<div class="bill-item-header"><span class="bill-item-name">${item.name}</span><span class="bill-item-total">${total} ج.م</span></div><div style="display: flex; justify-content: space-between; align-items: center;"><div class="qty-controls"><button class="qty-btn qty-minus" onclick="changeQty(${index}, -1)">-</button><span class="qty-value">${item.qty}</span><button class="qty-btn qty-plus" onclick="changeQty(${index}, 1)">+</button></div><span class="delete-item" onclick="removeFromCart(${index})">🗑️</span></div>`;
 container.appendChild(div);
 });
 }
-const finalTotal = currentTotal - currentDiscount;
-document.getElementById('totalAmount').textContent = finalTotal.toFixed(2) + ' ج.م';
+document.getElementById('totalAmount').textContent = currentTotal + ' ج.م';
 }
-
-window.changeQty = function(index, change) {
-cart[index].qty += change;
-if (cart[index].qty <= 0) { cart.splice(index, 1); }
-renderCart();
-};
-
-window.removeFromCart = function(index) {
-cart.splice(index, 1);
-renderCart();
-};
-
-window.clearCart = function() { cart = []; currentDiscount = 0; renderCart(); document.getElementById('discountInput').value = ''; document.getElementById('discountResult').textContent = '0 ج.م'; };
-
+window.changeQty = function(index, change) { cart[index].qty += change; if (cart[index].qty <= 0) cart.splice(index, 1); renderCart(); };
+window.removeFromCart = function(index) { cart.splice(index, 1); renderCart(); };
+window.clearCart = function() { cart = []; renderCart(); };
 window.setOrderType = function(type) {
 orderType = type;
 document.getElementById('btnDinein').style.background = type === 'dinein' ? '#667eea' : '#f0f2f5';
 document.getElementById('btnDinein').style.color = type === 'dinein' ? 'white' : '#333';
 document.getElementById('btnTakeaway').style.background = type === 'takeaway' ? '#667eea' : '#f0f2f5';
 document.getElementById('btnTakeaway').style.color = type === 'takeaway' ? 'white' : '#333';
-if (type === 'dinein' && !selectedTable) { openTableSelect(); }
+if (type === 'dinein' && !selectedTable) openTableSelect();
 };
-
 window.openTableSelect = function() {
-const grid = document.getElementById('tableSelectGrid');
-grid.innerHTML = '';
+const grid = document.getElementById('tableSelectGrid'); grid.innerHTML = '';
 tables.forEach(table => {
-const card = document.createElement('div');
-card.className = 'table-card ' + (table.status === 'free' ? 'free' : 'occupied');
+const card = document.createElement('div'); card.className = 'table-card ' + (table.status === 'free' ? 'free' : 'occupied');
 card.innerHTML = `<div class="table-number">طاولة ${table.number}</div><div class="table-status">${table.status === 'free' ? '✅ متاحة' : '❌ مشغولة'}</div>`;
-if (table.status === 'free') { card.onclick = () => selectTable(table); }
+if (table.status === 'free') card.onclick = () => selectTable(table);
 grid.appendChild(card);
 });
 document.getElementById('tableSelectModal').style.display = 'flex';
 };
-
 window.selectTable = function(table) {
 selectedTable = table;
 document.getElementById('selectedTableName').textContent = `طاولة ${table.number}`;
@@ -1394,1003 +1199,118 @@ document.getElementById('selectedTableInfo').style.display = 'block';
 closeModal('tableSelectModal');
 };
 
+// ==================== PAYMENT ====================
 window.openPayment = function() {
 if (cart.length === 0) { alert('الفاتورة فارغة!'); return; }
-const finalTotal = currentTotal - currentDiscount;
-document.getElementById('modalTotal').textContent = finalTotal.toFixed(2) + ' ج.م';
+document.getElementById('modalTotal').textContent = currentTotal + ' ج.م';
 document.getElementById('paidAmount').value = '';
 document.getElementById('changeDisplay').style.display = 'none';
 document.getElementById('paymentModal').style.display = 'flex';
 setPaymentMethod('cash');
 };
-
 window.setPaymentMethod = function(method) {
 paymentMethod = method;
 ['cash', 'card', 'wallet'].forEach(m => {
 const el = document.getElementById('pay' + m.charAt(0).toUpperCase() + m.slice(1));
-if (m === method) {
-el.style.background = '#d4edda';
-el.style.borderColor = '#27ae60';
-} else {
-el.style.background = '#f8f9fa';
-el.style.borderColor = '#e0e0e0';
-}
+if (m === method) { el.style.background = '#d4edda'; el.style.borderColor = '#27ae60'; }
+else { el.style.background = '#f8f9fa'; el.style.borderColor = '#e0e0e0'; }
 });
 };
-
 window.calculateChange = function() {
 const paid = parseFloat(document.getElementById('paidAmount').value) || 0;
-const finalTotal = currentTotal - currentDiscount;
-const change = paid - finalTotal;
+const change = paid - currentTotal;
 const display = document.getElementById('changeDisplay');
-if (paid > 0) {
-display.style.display = 'block';
-document.getElementById('changeAmount').textContent = change.toFixed(2) + ' ج.م';
-} else {
-display.style.display = 'none';
-}
+if (paid > 0) { display.style.display = 'block'; document.getElementById('changeAmount').textContent = change.toFixed(2) + ' ج.م'; }
+else display.style.display = 'none';
 };
-
-window.calculateDiscount = function() {
-const discountPercent = parseFloat(document.getElementById('discountInput').value) || 0;
-if (discountPercent > 0 && discountPercent <= 100) {
-const discountAmount = currentTotal * (discountPercent / 100);
-currentDiscount = discountAmount;
-document.getElementById('discountResult').textContent = discountAmount.toFixed(2) + ' ج.م';
-renderCart();
-} else {
-currentDiscount = 0;
-document.getElementById('discountResult').textContent = '0 ج.م';
-renderCart();
-}
-};
-
-window.applyDiscount = function() {
-calculateDiscount();
-};
-
 window.confirmPayment = async function() {
 const paid = parseFloat(document.getElementById('paidAmount').value) || 0;
-const finalTotal = currentTotal - currentDiscount;
-if (paymentMethod === 'cash' && paid < finalTotal) { alert('المبلغ غير كافي!'); return; }
-const order = {
-orderNumber: orderCount,
-date: new Date().toLocaleString('ar-EG'),
-type: orderType,
-items: [...cart],
-total: finalTotal,
-subtotal: currentTotal,
-discount: currentDiscount,
-paymentMethod: paymentMethod,
-cashier: currentUser.username,
-tableId: selectedTable?.id || null,
-tableName: selectedTable?.number || null,
+if (paymentMethod === 'cash' && paid < currentTotal) { alert('المبلغ غير كافي!'); return; }
+const totalCost = calculateOrderCost(cart);
+const orderProfit = currentTotal - totalCost;
+const orderData = {
+orderNumber: orderCount, date: new Date().toLocaleString('ar-EG'), type: orderType,
+items: [...cart], total: currentTotal, totalCost: totalCost, profit: orderProfit,
+paymentMethod, cashier: currentUser.username,
+tableId: selectedTable?.id || null, tableName: selectedTable?.number || null,
 shiftNumber: activeShift?.shiftNumber || null
 };
-await addDoc(collection(db, 'orders'), order);
-orderCount++;
-await saveOrderCount();
+await addDoc(collection(db, 'orders'), orderData);
+const deducted = await deductInventoryFromOrderItems(cart);
+orderCount++; await saveOrderCount();
 if (activeShift) {
-activeShift.totalSales = (activeShift.totalSales || 0) + finalTotal;
-if (paymentMethod === 'cash') activeShift.cashSales = (activeShift.cashSales || 0) + finalTotal;
-else if (paymentMethod === 'card') activeShift.cardSales = (activeShift.cardSales || 0) + finalTotal;
-else if (paymentMethod === 'wallet') activeShift.walletSales = (activeShift.walletSales || 0) + finalTotal;
-await updateDoc(doc(db, 'shiftClosures', activeShift.id), { totalSales: activeShift.totalSales, cashSales: activeShift.cashSales, cardSales: activeShift.cardSales, walletSales: activeShift.walletSales });
+activeShift.totalSales = (activeShift.totalSales || 0) + currentTotal;
+activeShift.totalCost = (activeShift.totalCost || 0) + totalCost;
+if (paymentMethod === 'cash') activeShift.cashSales = (activeShift.cashSales || 0) + currentTotal;
+else if (paymentMethod === 'card') activeShift.cardSales = (activeShift.cardSales || 0) + currentTotal;
+else activeShift.walletSales = (activeShift.walletSales || 0) + currentTotal;
+await updateDoc(doc(db, 'shiftClosures', activeShift.id), { totalSales: activeShift.totalSales, totalCost: activeShift.totalCost, cashSales: activeShift.cashSales, cardSales: activeShift.cardSales, walletSales: activeShift.walletSales });
 }
-if (selectedTable && orderType === 'dinein') {
-await updateDoc(doc(db, 'tables', selectedTable.id), { status: 'occupied' });
-}
-printReceipt(order);
-alert('✅ تم الدفع بنجاح!');
+if (selectedTable && orderType === 'dinein') await updateDoc(doc(db, 'tables', selectedTable.id), { status: 'occupied' });
+printReceipt(orderData);
+let msg = '✅ تم الدفع بنجاح!\n💰 الربح من الأوردر: ' + orderProfit.toFixed(2) + ' ج.م';
+if (deducted && deducted.length > 0) msg += '\n📦 المخزون المخصوم:\n' + deducted.join('\n');
+alert(msg);
 closeModal('paymentModal');
-cart = [];
-currentDiscount = 0;
-selectedTable = null;
+cart = []; selectedTable = null;
 document.getElementById('selectedTableInfo').style.display = 'none';
-document.getElementById('discountInput').value = '';
-document.getElementById('discountResult').textContent = '0 ج.م';
-renderCart();
-await loadTables();
-await loadOrders();
+renderCart(); await loadTables(); await loadOrders();
 };
-
 function printReceipt(order) {
 const logoHtml = restaurantSettings.logo ? `<img src="${restaurantSettings.logo}" style="max-width:150px; margin:0 auto 15px auto; display:block;">` : '';
-const receiptContent = `<div style="text-align: center; font-family: monospace; padding: 20px; max-width: 400px; margin: 0 auto;">${logoHtml}<h2 style="margin: 10px 0;">${restaurantSettings.name}</h2><p>أوردر #${order.orderNumber}</p>${order.tableName ? `<p>الطاولة: ${order.tableName}</p>` : ''}<p>${order.date}</p><p>الكاشير: ${order.cashier}</p><p>النوع: ${order.type}</p><div style="border-top: 2px dashed #000; margin: 15px 0;"></div>`;
 let itemsHtml = '';
-let total = 0;
-order.items.forEach(item => {
-const itemTotal = item.price * item.qty;
-total += itemTotal;
-itemsHtml += `<div style="display:flex; justify-content:space-between; margin:8px 0;"><span>${item.name} x${item.qty}${item.note ? ' (' + item.note + ')' : ''}</span><span>${itemTotal.toFixed(2)} ج.م</span></div>`;
-});
-const discountHtml = order.discount > 0 ? `<div style="display:flex; justify-content:space-between; margin:8px 0; color:#e74c3c;"><span>الخصم:</span><span>-${order.discount.toFixed(2)} ج.م</span></div>` : '';
-const receiptEnd = `${itemsHtml}<div style="border-top: 2px dashed #000; margin: 15px 0;"></div>${discountHtml}<div style="display:flex; justify-content:space-between; font-weight:bold; font-size:18px; margin:10px 0;"><span>الإجمالي:</span><span>${order.total.toFixed(2)} ج.م</span></div><div style="display:flex; justify-content:space-between;"><span>طريقة الدفع:</span><span>${{ cash: 'كاش', card: 'فيزا', wallet: 'محفظة' }[order.paymentMethod] || 'كاش'}</span></div><div style="border-top: 2px dashed #000; margin: 15px 0;"></div><p style="margin-top:20px;">${restaurantSettings.message || 'شكراً لزيارتكم!'}</p></div>`;
-const fullReceipt = receiptContent + receiptEnd;
-const printWindow = window.open('', '', 'width=400,height=700');
-printWindow.document.write('<html dir="rtl"><head><title>إيصال #' + order.orderNumber + '</title><style>body{font-family:monospace; padding:20px; text-align:center;}h2{margin:10px 0;}.divider{border-top:2px dashed #000; margin:15px 0;}img{max-width:150px;}</style></head><body>' + fullReceipt + '</body></html>');
-printWindow.document.close();
-printWindow.print();
+order.items.forEach(item => { itemsHtml += `<div style="display:flex; justify-content:space-between; margin:8px 0;"><span>${item.name} x${item.qty}</span><span>${(item.price * item.qty).toFixed(2)} ج.م</span></div>`; });
+const content = `<div style="text-align: center; font-family: monospace; padding: 20px; max-width: 400px; margin: 0 auto;">${logoHtml}<h2>${restaurantSettings.name}</h2><p>أوردر #${order.orderNumber}</p>${order.tableName ? `<p>الطاولة: ${order.tableName}</p>` : ''}<p>${order.date}</p><p>الكاشير: ${order.cashier}</p><p>النوع: ${order.type}</p><div style="border-top: 2px dashed #000; margin: 15px 0;"></div>${itemsHtml}<div style="border-top: 2px dashed #000; margin: 15px 0;"></div><div style="display:flex; justify-content:space-between; font-weight:bold; font-size:18px;"><span>الإجمالي:</span><span>${order.total.toFixed(2)} ج.م</span></div><div style="display:flex; justify-content:space-between;"><span>الدفع:</span><span>${{ cash: 'كاش', card: 'فيزا', wallet: 'محفظة' }[order.paymentMethod]}</span></div><div style="border-top: 2px dashed #000; margin: 15px 0;"></div><p style="margin-top:20px;">${restaurantSettings.message || 'شكراً لزيارتكم!'}</p></div>`;
+const pw = window.open('', '', 'width=400,height=700');
+pw.document.write('<html dir="rtl"><head><title>إيصال #' + order.orderNumber + '</title></head><body>' + content + '</body></html>');
+pw.document.close(); pw.print();
 }
 
+// ==================== TABLE ORDERS ====================
 window.suspendToTable = async function() {
 if (cart.length === 0) { alert('الفاتورة فارغة!'); return; }
 if (!selectedTable) { alert('يجب اختيار طاولة أولاً!'); openTableSelect(); return; }
+const totalCost = calculateOrderCost(cart);
 const existing = tableOrders.find(to => to.tableId === selectedTable.id && to.status === 'active');
-const orderData = { items: [...cart], total: currentTotal, date: new Date().toLocaleString('ar-EG') };
+const orderData = { items: [...cart], total: currentTotal, totalCost: totalCost, date: new Date().toLocaleString('ar-EG') };
 if (existing) {
 existing.orders.push(orderData);
 existing.totalAmount = (existing.totalAmount || 0) + currentTotal;
-await updateDoc(doc(db, 'tableOrders', existing.id), { orders: existing.orders, totalAmount: existing.totalAmount });
+existing.totalCost = (existing.totalCost || 0) + totalCost;
+await updateDoc(doc(db, 'tableOrders', existing.id), { orders: existing.orders, totalAmount: existing.totalAmount, totalCost: existing.totalCost });
 } else {
-await addDoc(collection(db, 'tableOrders'), { tableId: selectedTable.id, tableName: selectedTable.number, orders: [orderData], totalAmount: currentTotal, status: 'active', date: new Date().toLocaleString('ar-EG') });
+await addDoc(collection(db, 'tableOrders'), { tableId: selectedTable.id, tableName: selectedTable.number, orders: [orderData], totalAmount: currentTotal, totalCost: totalCost, status: 'active', date: new Date().toLocaleString('ar-EG') });
 }
 await updateDoc(doc(db, 'tables', selectedTable.id), { status: 'occupied' });
 alert('✅ تم تعليق الأوردر على الطاولة!');
-cart = [];
-renderCart();
-await loadTables();
-await loadTableOrders();
+cart = []; renderCart(); await loadTables(); await loadTableOrders();
 };
-
-function renderExpenseCategories() {
-const select = document.getElementById('expenseCategory');
-select.innerHTML = '<option value="">اختر نوع المصروف</option>';
-expenseCategories.forEach(cat => {
-const option = document.createElement('option');
-option.value = cat.id;
-option.textContent = cat.name;
-select.appendChild(option);
-});
-}
-
-function renderShiftExpenses() {
-const container = document.getElementById('shiftExpensesList');
-container.innerHTML = '';
-const shiftExpenses = expenses.filter(e => e.shiftNumber === activeShift?.shiftNumber);
-if (shiftExpenses.length === 0) {
-container.innerHTML = '<p style="text-align: center; color: #777; padding: 20px;">لا توجد مصروفات</p>';
-return;
-}
-shiftExpenses.forEach(exp => {
-const cat = expenseCategories.find(c => c.id === exp.categoryId);
-const div = document.createElement('div');
-div.style.cssText = 'background: #f8f9fa; padding: 15px; border-radius: 10px; margin-bottom: 10px;';
-div.innerHTML = `<div style="display: flex; justify-content: space-between;"><strong>${cat?.name || 'غير محدد'}</strong><span style="color: #e74c3c; font-weight: bold;">-${exp.amount.toFixed(2)} ج.م</span></div><div style="font-size: 12px; color: #777; margin-top: 5px;">${exp.date} - ${exp.addedBy}${exp.notes ? '<br>📝 ' + exp.notes : ''}</div>`;
-container.appendChild(div);
-});
-}
-
-window.addExpense = async function() {
-const categoryId = document.getElementById('expenseCategory').value;
-const amount = parseFloat(document.getElementById('expenseAmount').value);
-const notes = document.getElementById('expenseNotes').value.trim();
-if (!categoryId) { alert('اختر نوع المصروف'); return; }
-if (!amount || amount <= 0) { alert('أدخل مبلغ صحيح'); return; }
-const shiftExpenses = expenses.filter(e => e.shiftNumber === activeShift?.shiftNumber);
-const currentExpensesTotal = shiftExpenses.reduce((sum, e) => sum + (parseFloat(e.amount) || 0), 0);
-const shiftDeposits = cashDeposits.filter(d => d.shiftNumber === activeShift?.shiftNumber);
-const currentDepositsTotal = shiftDeposits.reduce((sum, d) => sum + (parseFloat(d.amount) || 0), 0);
-const shiftCashSales = orders.filter(o => o.shiftNumber === activeShift?.shiftNumber && o.paymentMethod === 'cash').reduce((sum, o) => sum + (parseFloat(o.total) || 0), 0);
-const availableCash = (activeShift?.openingCash || 0) + shiftCashSales + currentDepositsTotal - currentExpensesTotal;
-if (amount > availableCash) {
-alert(`❌ الرصيد لا يكفي!\nالمتاح في الدرج: ${availableCash.toFixed(2)} ج.م\nالمصروف المطلوب: ${amount.toFixed(2)} ج.م`);
-return;
-}
-const cat = expenseCategories.find(c => c.id === categoryId);
-const expense = { shiftNumber: activeShift.shiftNumber, categoryId, categoryName: cat?.name || 'غير محدد', amount, notes, date: new Date().toLocaleString('ar-EG'), addedBy: currentUser.username };
-await addDoc(collection(db, 'expenses'), expense);
-document.getElementById('expenseCategory').value = '';
-document.getElementById('expenseAmount').value = '';
-document.getElementById('expenseNotes').value = '';
-await loadExpenses();
-renderShiftExpenses();
-alert('✅ تم إضافة المصروف!');
-};
-
-function renderShiftDeposits() {
-const container = document.getElementById('shiftDepositsList');
-container.innerHTML = '';
-const shiftDeposits = cashDeposits.filter(d => d.shiftNumber === activeShift?.shiftNumber);
-if (shiftDeposits.length === 0) {
-container.innerHTML = '<p style="text-align: center; color: #777; padding: 20px;">لا توجد توريدات</p>';
-return;
-}
-shiftDeposits.forEach(dep => {
-const div = document.createElement('div');
-div.style.cssText = 'background: #f8f9fa; padding: 15px; border-radius: 10px; margin-bottom: 10px;';
-div.innerHTML = `<div style="display: flex; justify-content: space-between;"><strong>+${dep.amount.toFixed(2)} ج.م</strong></div><div style="font-size: 12px; color: #777; margin-top: 5px;">${dep.date} - ${dep.addedBy}${dep.notes ? '<br>📝 ' + dep.notes : ''}</div>`;
-container.appendChild(div);
-});
-}
-
-window.addDeposit = async function() {
-const amount = parseFloat(document.getElementById('depositAmount').value);
-const notes = document.getElementById('depositNotes').value.trim();
-if (!amount || amount <= 0) { alert('أدخل مبلغ صحيح'); return; }
-const deposit = { shiftNumber: activeShift.shiftNumber, amount, notes, date: new Date().toLocaleString('ar-EG'), addedBy: currentUser.username };
-await addDoc(collection(db, 'cashDeposits'), deposit);
-document.getElementById('depositAmount').value = '';
-document.getElementById('depositNotes').value = '';
-await loadDeposits();
-renderShiftDeposits();
-alert('✅ تم إضافة التوريد!');
-};
-
-function renderExpenseCategoriesList() {
-const container = document.getElementById('expenseCategoriesList');
-container.innerHTML = '';
-if (expenseCategories.length === 0) {
-container.innerHTML = '<p style="text-align: center; color: #777; padding: 20px;">لا توجد أنواع مصروفات</p>';
-return;
-}
-expenseCategories.forEach(cat => {
-const div = document.createElement('div');
-div.className = 'list-item';
-div.innerHTML = `<div class="list-item-info"><div class="list-item-title">${cat.name}</div></div><div class="list-item-actions"><button class="btn-small btn-delete" onclick="deleteExpenseCategory('${cat.id}')">حذف</button></div>`;
-container.appendChild(div);
-});
-}
-
-window.addExpenseCategory = async function() {
-const name = document.getElementById('newExpenseCategoryName').value.trim();
-if (!name) { alert('أدخل اسم النوع'); return; }
-await addDoc(collection(db, 'expenseCategories'), { name });
-document.getElementById('newExpenseCategoryName').value = '';
-await loadExpenseCategories();
-renderExpenseCategoriesList();
-alert('✅ تم إضافة نوع المصروف!');
-};
-
-window.deleteExpenseCategory = async function(id) {
-if (!confirm('متأكد من الحذف؟')) return;
-await deleteDoc(doc(db, 'expenseCategories', id));
-await loadExpenseCategories();
-renderExpenseCategoriesList();
-alert('✅ تم الحذف!');
-};
-
-function renderReturnsList() {
-const container = document.getElementById('returnsList');
-container.innerHTML = '';
-if (returns.length === 0) {
-container.innerHTML = '<p style="text-align: center; color: #777; padding: 20px;">لا يوجد مرتجعات</p>';
-return;
-}
-returns.slice().reverse().forEach(r => {
-const div = document.createElement('div');
-div.className = 'list-item';
-div.innerHTML = `<div class="list-item-info"><div class="list-item-title">أوردر #${r.orderNumber} - ${r.itemName}</div><div class="list-item-subtitle">${r.date} | الكمية: ${r.quantity} | المبلغ المسترد: ${r.refundAmount.toFixed(2)} ج.م</div></div>`;
-container.appendChild(div);
-});
-}
-
-window.searchOrderForReturn = async function() {
-const orderNum = document.getElementById('returnOrderNumber').value;
-const order = orders.find(o => o.orderNumber == orderNum);
-if (!order) { alert('الأوردر غير موجود!'); return; }
-document.getElementById('returnOrderDetails').style.display = 'block';
-document.getElementById('returnOrderNum').textContent = order.orderNumber;
-document.getElementById('returnOrderDate').textContent = order.date;
-document.getElementById('returnOrderTotal').textContent = order.total;
-const itemsDiv = document.getElementById('returnItemsList');
-itemsDiv.innerHTML = '';
-order.items.forEach((item, index) => {
-const div = document.createElement('div');
-div.className = 'list-item';
-div.innerHTML = `<div class="list-item-info"><div class="list-item-title">${item.name}</div><div class="list-item-subtitle">الكمية: ${item.qty} | السعر: ${item.price} ج.م</div></div><div class="list-item-actions"><button class="btn-small btn-view" onclick="selectReturnItem(${index})">اختيار</button></div>`;
-itemsDiv.appendChild(div);
-});
-window.selectedReturnOrder = order;
-};
-
-window.selectReturnItem = function(index) {
-window.selectedReturnItemIndex = index;
-alert('تم اختيار الصنف. أدخل الكمية والسبب واضغط إتمام المرتجع');
-};
-
-window.processReturn = async function() {
-if (!window.selectedReturnOrder || window.selectedReturnItemIndex === undefined) { alert('اختر صنف أولاً!'); return; }
-const order = window.selectedReturnOrder;
-const itemIndex = window.selectedReturnItemIndex;
-const quantity = parseInt(document.getElementById('returnQuantity').value);
-const reason = document.getElementById('returnReason').value.trim();
-if (!quantity || quantity <= 0) { alert('أدخل كمية صحيحة'); return; }
-if (!reason) { alert('أدخل سبب المرتجع'); return; }
-const item = order.items[itemIndex];
-if (quantity > item.qty) { alert('الكمية أكبر من المطلوب!'); return; }
-const refundAmount = item.price * quantity;
-const returnRecord = { orderNumber: order.orderNumber, itemName: item.name, quantity: quantity, refundAmount: refundAmount, reason: reason, date: new Date().toLocaleString('ar-EG'), processedBy: currentUser.username };
-await addDoc(collection(db, 'returns'), returnRecord);
-await loadReturns();
-renderReturnsList();
-document.getElementById('returnOrderNumber').value = '';
-document.getElementById('returnOrderDetails').style.display = 'none';
-document.getElementById('returnQuantity').value = '1';
-document.getElementById('returnReason').value = '';
-window.selectedReturnOrder = null;
-window.selectedReturnItemIndex = undefined;
-alert(`✅ تم المرتجع بنجاح!\nالمبلغ المسترد: ${refundAmount.toFixed(2)} ج.م`);
-};
-
-window.searchOrderForEdit = async function() {
-const orderNum = document.getElementById('editOrderSearch').value;
-const order = orders.find(o => o.orderNumber == orderNum);
-if (!order) { alert('الأوردر غير موجود!'); return; }
-document.getElementById('editOrderDetails').style.display = 'block';
-document.getElementById('editOrderNum').textContent = order.orderNumber;
-document.getElementById('editOrderDate').textContent = order.date;
-document.getElementById('editOrderCashier').textContent = order.cashier;
-const itemsDiv = document.getElementById('editItemsList');
-itemsDiv.innerHTML = '';
-order.items.forEach((item, index) => {
-const div = document.createElement('div');
-div.className = 'bill-item';
-div.innerHTML = `<div class="bill-item-header"><span class="bill-item-name">${item.name}</span><span class="bill-item-total">${item.price * item.qty} ج.م</span></div><div style="display: flex; justify-content: space-between; align-items: center;"><div class="qty-controls"><button class="qty-btn qty-minus" onclick="editOrderQty(${index}, -1)">-</button><span class="qty-value">${item.qty}</span><button class="qty-btn qty-plus" onclick="editOrderQty(${index}, 1)">+</button></div><span class="delete-item" onclick="removeEditOrderItem(${index})">🗑️</span></div>`;
-itemsDiv.appendChild(div);
-});
-window.editingOrder = order;
-};
-
-window.editOrderQty = function(index, change) {
-if (!window.editingOrder) return;
-window.editingOrder.items[index].qty += change;
-if (window.editingOrder.items[index].qty <= 0) { window.editingOrder.items.splice(index, 1); }
-searchOrderForEdit();
-};
-
-window.removeEditOrderItem = function(index) {
-if (!window.editingOrder) return;
-window.editingOrder.items.splice(index, 1);
-searchOrderForEdit();
-};
-
-window.saveOrderEdit = async function() {
-if (!window.editingOrder) { alert('لا يوجد أوردر للتعديل!'); return; }
-const order = window.editingOrder;
-let newTotal = 0, newCost = 0;
-order.items.forEach(item => { newTotal += item.price * item.qty; newCost += (item.cost || 0) * item.qty; });
-order.total = newTotal;
-order.totalCost = newCost;
-order.profit = newTotal - newCost;
-order.editedAt = new Date().toLocaleString('ar-EG');
-order.editedBy = currentUser.username;
-await updateDoc(doc(db, 'orders', order.id), { items: order.items, total: newTotal, totalCost: newCost, profit: order.profit, editedAt: order.editedAt, editedBy: order.editedBy });
-await loadOrders();
-document.getElementById('editOrderSearch').value = '';
-document.getElementById('editOrderDetails').style.display = 'none';
-window.editingOrder = null;
-alert('✅ تم تعديل الأوردر بنجاح!');
-};
-
-function renderShiftHistory() {
-const container = document.getElementById('shiftHistoryList');
-container.innerHTML = '';
-let filteredShifts = [...shiftClosures].filter(s => s.status === 'closed');
-const from = document.getElementById('shiftHistoryFrom').value;
-const to = document.getElementById('shiftHistoryTo').value;
-if (from && to) {
-filteredShifts = filteredShifts.filter(s => {
-const shiftDate = s.date.split(' ')[0];
-return shiftDate >= from && shiftDate <= to;
-});
-}
-if (filteredShifts.length === 0) {
-container.innerHTML = '<p style="text-align: center; color: #777; padding: 20px;">لا يوجد تقفيلات</p>';
-return;
-}
-filteredShifts.slice().reverse().forEach(s => {
-const diffStatus = s.difference < 0 ? '❌ عجز' : s.difference > 0 ? '✅ أوفر' : '✅ متطابق';
-const diffColor = s.difference < 0 ? '#e74c3c' : s.difference > 0 ? '#27ae60' : '#2980b9';
-const div = document.createElement('div');
-div.className = 'shift-item';
-div.innerHTML = `<div><b>شيفت #${s.shiftNumber}</b><br>التاريخ: ${s.date}<br>الكاشير: ${s.cashier || ''}<br>الأوردرات: ${s.orders?.length || 0}</div><div style="display:flex; align-items:center; gap:10px;"><div style="text-align:right;"><div>المبيعات: ${(s.totalSales || 0).toFixed(2)} ج.م</div><div style="color:${diffColor}; font-weight:bold;">${diffStatus}: ${Math.abs(s.difference || 0).toFixed(2)} ج.م</div></div><div class="menu-actions">${currentUser?.role === 'manager' ? `<button class="btn-small btn-edit" onclick="editShiftClosure('${s.id}')">تعديل</button><button class="btn-small btn-delete" onclick="deleteShiftClosure('${s.id}')">حذف</button>` : ''}</div></div>`;
-container.appendChild(div);
-});
-}
-
-window.filterShiftHistory = function() { renderShiftHistory(); };
-
-window.editShiftClosure = async function(id) {
-if (currentUser?.role !== 'manager') { alert('غير مسموح!'); return; }
-const s = shiftClosures.find(x => x.id === id);
-if (!s) return;
-const newClosingCash = prompt('المبلغ الفعلي الجديد:', s.closingCash);
-const newDifference = prompt('العجز/الأوفر الجديد:', s.difference);
-if (newClosingCash !== null && newDifference !== null) {
-await updateDoc(doc(db, 'shiftClosures', id), { closingCash: parseFloat(newClosingCash), difference: parseFloat(newDifference) });
-await loadShiftClosures();
-renderShiftHistory();
-alert('✅ تم التعديل!');
-}
-};
-
-window.deleteShiftClosure = async function(id) {
-if (currentUser?.role !== 'manager') { alert('غير مسموح!'); return; }
-if (!confirm('⚠️ هل أنت متأكد من حذف سجل التقفيلة؟')) return;
-await deleteDoc(doc(db, 'shiftClosures', id));
-await loadShiftClosures();
-renderShiftHistory();
-alert('✅ تم الحذف!');
-};
-
-function updatePurchaseItemSelect() {
-const select = document.getElementById('purchaseItem');
-select.innerHTML = '<option value="">اختر من المخزون</option>';
-inventory.forEach(i => {
-const option = document.createElement('option');
-option.value = i.id;
-option.textContent = `${i.name} (${i.stock} ${i.unit})`;
-option.dataset.unit = i.unit;
-select.appendChild(option);
-});
-}
-
-document.getElementById('purchaseItem')?.addEventListener('change', function() {
-const o = this.options[this.selectedIndex];
-document.getElementById('purchaseUnit').value = o.dataset.unit || '';
-calculatePurchaseCost();
-});
-
-document.getElementById('purchaseQuantity')?.addEventListener('input', calculatePurchaseCost);
-document.getElementById('purchaseCost')?.addEventListener('input', calculatePurchaseCost);
-
-function calculatePurchaseCost() {
-const i = document.getElementById('purchaseItem').value;
-const q = parseFloat(document.getElementById('purchaseQuantity').value) || 0;
-const c = parseFloat(document.getElementById('purchaseCost').value) || 0;
-const b = document.getElementById('purchaseCalcBox');
-if (!i || !q || !c) { b.style.display = 'none'; return; }
-const item = inventory.find(x => x.id === i);
-if (!item) return;
-const p = c / q;
-document.getElementById('calcUnitPrice').textContent = p.toFixed(3) + ' ج.م/' + item.unit;
-document.getElementById('calcCurrentStock').textContent = item.stock + ' ' + item.unit;
-document.getElementById('calcNewStock').textContent = (item.stock + q) + ' ' + item.unit;
-b.style.display = 'block';
-}
-
-window.addPurchase = async function() {
-const i = document.getElementById('purchaseItem').value;
-const q = parseFloat(document.getElementById('purchaseQuantity').value);
-const u = document.getElementById('purchaseUnit').value;
-const c = parseFloat(document.getElementById('purchaseCost').value) || 0;
-if (!i || !q || !u) { alert('أكمل البيانات'); return; }
-const item = inventory.find(x => x.id === i);
-if (!item) { alert('الصنف غير موجود'); return; }
-const n = item.stock + q;
-const p = c > 0 ? c / q : (item.unitPrice || 0);
-await updateDoc(doc(db, 'inventory', i), { stock: n, unitPrice: p });
-await addDoc(collection(db, 'purchases'), { itemId: i, itemName: item.name, quantity: q, unit: u, cost: c, date: new Date().toLocaleString('ar-EG') });
-document.getElementById('purchaseItem').value = '';
-document.getElementById('purchaseQuantity').value = '';
-document.getElementById('purchaseCost').value = '';
-await loadInventory();
-await loadPurchases();
-updatePurchaseItemSelect();
-renderPurchasesList();
-alert('✅ تمت الإضافة!');
-};
-
-function renderPurchasesList() {
-const container = document.getElementById('purchasesList');
-container.innerHTML = '';
-if (purchases.length === 0) {
-container.innerHTML = '<p style="text-align: center; color: #777; padding: 20px;">لا يوجد</p>';
-return;
-}
-purchases.slice().reverse().forEach(p => {
-const div = document.createElement('div');
-div.className = 'purchase-item';
-div.innerHTML = `<div class="list-item-info"><div class="list-item-title">${p.itemName}</div><div class="list-item-subtitle">الكمية: +${p.quantity} ${p.unit} | ${p.date}</div></div><div class="list-item-actions"><button class="btn-small btn-edit" onclick="editPurchase('${p.id}')">تعديل</button><button class="btn-small btn-delete" onclick="deletePurchase('${p.id}')">حذف</button></div>`;
-container.appendChild(div);
-});
-}
-
-window.editPurchase = async function(id) {
-const p = purchases.find(x => x.id === id);
-if (!p) return;
-const newQty = prompt('الكمية الجديدة:', p.quantity);
-const newCost = prompt('التكلفة الجديدة:', p.cost);
-if (newQty !== null && newCost !== null) {
-const item = inventory.find(x => x.id === p.itemId);
-if (item) {
-const stockDiff = parseFloat(newQty) - p.quantity;
-const newStock = item.stock + stockDiff;
-await updateDoc(doc(db, 'purchases', id), { quantity: parseFloat(newQty), cost: parseFloat(newCost) });
-await updateDoc(doc(db, 'inventory', p.itemId), { stock: newStock });
-await loadInventory();
-await loadPurchases();
-renderPurchasesList();
-alert('✅ تم التعديل!');
-}
-}
-};
-
-window.deletePurchase = async function(id) {
-if (!confirm('متأكد؟')) return;
-const p = purchases.find(x => x.id === id);
-if (p) {
-const item = inventory.find(x => x.id === p.itemId);
-if (item) {
-await updateDoc(doc(db, 'inventory', p.itemId), { stock: item.stock - p.quantity });
-await deleteDoc(doc(db, 'purchases', id));
-await loadInventory();
-await loadPurchases();
-renderPurchasesList();
-alert('✅ تم الحذف!');
-}
-}
-};
-
-function renderInventoryList() {
-const container = document.getElementById('inventoryList');
-container.innerHTML = '';
-inventory.forEach(i => {
-const low = i.stock <= i.minStock;
-const div = document.createElement('div');
-div.className = 'inventory-item' + (low ? ' low-stock' : '');
-div.innerHTML = `<div><b>${i.name}</b><br>المتاح: ${i.stock} ${i.unit}</div><span class="stock-badge ${low ? 'stock-low' : 'stock-ok'}">${low ? '⚠️ منخفض' : '✅ كافٍ'}</span><div class="menu-actions"><button class="btn-small btn-edit" onclick="updateStock('${i.id}')">تحديث</button><button class="btn-small btn-delete" onclick="deleteInventoryItem('${i.id}')">حذف</button></div>${i.unitPrice ? `<div style="font-size:12px; color:#2980b9;">سعر الوحدة: ${i.unitPrice.toFixed(3)} ج.م</div>` : ''}`;
-container.appendChild(div);
-});
-}
-
-window.addInventoryItem = async function() {
-const n = document.getElementById('newIngredientName').value;
-const s = document.getElementById('newIngredientStock').value;
-const u = document.getElementById('newIngredientUnit').value;
-const m = document.getElementById('newIngredientMin').value;
-if (!n || !s || !u || !m) { alert('أكمل البيانات'); return; }
-await addDoc(collection(db, 'inventory'), { name: n, stock: parseInt(s), unit: u, minStock: parseInt(m), unitPrice: 0 });
-document.getElementById('newIngredientName').value = '';
-document.getElementById('newIngredientStock').value = '';
-document.getElementById('newIngredientUnit').value = '';
-document.getElementById('newIngredientMin').value = '';
-await loadInventory();
-renderInventoryList();
-alert('✅ تم!');
-};
-
-window.updateStock = async function(i) {
-const it = inventory.find(x => x.id === i);
-const ns = prompt('الكمية الجديدة لـ ' + it.name + ':', it.stock);
-if (ns !== null && ns !== '') {
-await updateDoc(doc(db, 'inventory', i), { stock: parseInt(ns) });
-await loadInventory();
-renderInventoryList();
-alert('✅ تم!');
-}
-};
-
-window.deleteInventoryItem = async function(i) {
-if (confirm('متأكد؟')) {
-await deleteDoc(doc(db, 'inventory', i));
-await loadInventory();
-renderInventoryList();
-alert('✅ تم!');
-}
-};
-
-function updateAdjustmentItemSelect() {
-const select = document.getElementById('adjustmentItem');
-select.innerHTML = '<option value="">اختر الصنف</option>';
-inventory.forEach(i => {
-const option = document.createElement('option');
-option.value = i.id;
-option.textContent = `${i.name} (المتاح: ${i.stock} ${i.unit})`;
-option.dataset.stock = i.stock;
-select.appendChild(option);
-});
-}
-
-document.getElementById('adjustmentItem')?.addEventListener('change', function() {
-const o = this.options[this.selectedIndex];
-const currentStock = parseInt(o.dataset.stock) || 0;
-document.getElementById('currentStockDisplay').textContent = currentStock;
-calculateNewStock();
-});
-
-document.getElementById('adjustmentQuantity')?.addEventListener('input', calculateNewStock);
-
-function calculateNewStock() {
-const o = document.getElementById('adjustmentItem').options[document.getElementById('adjustmentItem').selectedIndex];
-const currentStock = parseInt(o.dataset.stock) || 0;
-const adjustment = parseFloat(document.getElementById('adjustmentQuantity').value) || 0;
-const newStock = currentStock + adjustment;
-document.getElementById('newStockDisplay').textContent = newStock;
-}
-
-window.adjustInventory = async function() {
-const itemId = document.getElementById('adjustmentItem').value;
-const quantity = parseFloat(document.getElementById('adjustmentQuantity').value);
-const reason = document.getElementById('adjustmentReason').value.trim();
-if (!itemId || isNaN(quantity) || !reason) { alert('أكمل البيانات'); return; }
-const item = inventory.find(x => x.id === itemId);
-if (!item) { alert('الصنف غير موجود'); return; }
-const newStock = item.stock + quantity;
-await updateDoc(doc(db, 'inventory', itemId), { stock: newStock });
-await addDoc(collection(db, 'adjustments'), { itemId, itemName: item.name, previousStock: item.stock, adjustment: quantity, newStock, reason, date: new Date().toLocaleString('ar-EG'), user: currentUser.username });
-document.getElementById('adjustmentItem').value = '';
-document.getElementById('adjustmentQuantity').value = '';
-document.getElementById('adjustmentReason').value = '';
-document.getElementById('currentStockDisplay').textContent = '0';
-document.getElementById('newStockDisplay').textContent = '0';
-await loadInventory();
-renderInventoryList();
-updateAdjustmentItemSelect();
-alert('✅ تم تعديل المخزون!');
-};
-
-function renderUsersList() {
-const container = document.getElementById('usersList');
-container.innerHTML = '';
-users.forEach(u => {
-const div = document.createElement('div');
-div.className = 'user-item';
-div.innerHTML = `<div><b>${u.name || u.username}</b> (@${u.username})<br><span class="role-badge ${u.role === 'manager' ? 'role-manager' : 'role-cashier'}">${u.role === 'manager' ? 'مدير' : 'كاشير'}</span></div><div class="menu-actions">${u.username !== 'manager' ? `<button class="btn-small btn-edit" onclick="editUser('${u.id}')">تعديل</button><button class="btn-small btn-delete" onclick="deleteUser('${u.id}')">حذف</button>` : '<span style="color:#777; font-size:12px;">لا يمكن الحذف</span>'}</div>`;
-container.appendChild(div);
-});
-}
-
-window.saveUser = async function() {
-const u = document.getElementById('newUsername').value.trim();
-const p = document.getElementById('newPassword').value;
-const r = document.getElementById('newUserRole').value;
-const ei = document.getElementById('editUserIndex').value;
-if (!u || !p) { alert('أكمل البيانات'); return; }
-const d = { username: u, password: p, role: r, name: u };
-if (ei === '') { await addDoc(collection(db, 'users'), d); }
-else { await updateDoc(doc(db, 'users', ei), d); }
-document.getElementById('newUsername').value = '';
-document.getElementById('newPassword').value = '';
-document.getElementById('newUserRole').value = 'cashier';
-document.getElementById('editUserIndex').value = '';
-document.getElementById('saveUserBtnText').textContent = '✅ إضافة مستخدم جديد';
-document.getElementById('cancelUserBtn').style.display = 'none';
-await loadUsers();
-renderUsersList();
-alert('✅ تم!');
-};
-
-window.editUser = function(i) {
-const u = users.find(x => x.id === i);
-if (u) {
-document.getElementById('newUsername').value = u.username;
-document.getElementById('newPassword').value = u.password;
-document.getElementById('newUserRole').value = u.role;
-document.getElementById('editUserIndex').value = i;
-document.getElementById('saveUserBtnText').textContent = '💾 حفظ التعديلات';
-document.getElementById('cancelUserBtn').style.display = 'block';
-}
-};
-
-window.deleteUser = async function(i) {
-const u = users.find(x => x.id === i);
-if (u?.username === 'manager') { alert('لا يمكن!'); return; }
-if (confirm('متأكد؟')) {
-await deleteDoc(doc(db, 'users', i));
-await loadUsers();
-renderUsersList();
-alert('✅ تم!');
-}
-};
-
-window.cancelUserEdit = function() {
-document.getElementById('newUsername').value = '';
-document.getElementById('newPassword').value = '';
-document.getElementById('newUserRole').value = 'cashier';
-document.getElementById('editUserIndex').value = '';
-document.getElementById('saveUserBtnText').textContent = '✅ إضافة مستخدم جديد';
-document.getElementById('cancelUserBtn').style.display = 'none';
-};
-
-function renderCategoriesList() {
-const container = document.getElementById('categoriesList');
-container.innerHTML = '';
-categories.forEach(c => {
-const div = document.createElement('div');
-div.className = 'category-item';
-div.innerHTML = `<span>${c.name}</span><button class="btn-small btn-delete" onclick="deleteCategory('${c.id}')">حذف</button>`;
-container.appendChild(div);
-});
-}
-
-window.addCategory = async function() {
-const n = document.getElementById('newCategoryName').value;
-if (!n) { alert('أدخل الاسم'); return; }
-await addDoc(collection(db, 'categories'), { name: n });
-document.getElementById('newCategoryName').value = '';
-await loadCategories();
-renderCategoriesList();
-alert('✅ تم!');
-};
-
-window.deleteCategory = async function(i) {
-if (confirm('متأكد؟')) {
-await deleteDoc(doc(db, 'categories', i));
-await loadCategories();
-renderCategoriesList();
-alert('✅ تم!');
-}
-};
-
-function updateCategorySelect() {
-const select = document.getElementById('newItemCategory');
-select.innerHTML = '<option value="">اختر</option>';
-categories.forEach(c => {
-const option = document.createElement('option');
-option.value = c.id;
-option.textContent = c.name;
-select.appendChild(option);
-});
-}
-
-function calculateIngredientsCost() {
-let t = 0;
-tempIngredients.forEach(i => {
-if (i.stockId) {
-const s = inventory.find(x => x.id === i.stockId);
-if (s?.unitPrice) t += parseFloat(i.qty || 0) * s.unitPrice;
-}
-});
-return t;
-}
-
-function renderIngredientsFields() {
-const container = document.getElementById('ingredientsList');
-container.innerHTML = '';
-tempIngredients.forEach((i, x) => {
-const div = document.createElement('div');
-div.className = 'ingredient-item';
-div.innerHTML = `<select onchange="updateIngredientField(${x}, 'stockId', this.value); calculateItemCost()" style="padding:8px;"><option value="">اختر من المخزون</option>${inventory.map(inv => `<option value="${inv.id}" ${String(i.stockId) === String(inv.id) ? 'selected' : ''}>${inv.name} (${(inv.unitPrice || 0).toFixed(3)} ج.م/${inv.unit})</option>`).join('')}</select><input type="number" placeholder="الكمية" value="${i.qty || ''}" onchange="updateIngredientField(${x}, 'qty', this.value); calculateItemCost()"><button class="btn-remove-ingredient" onclick="removeIngredientField(${x}); calculateItemCost()">X</button>`;
-container.appendChild(div);
-});
-calculateItemCost();
-}
-
-function calculateItemCost() {
-const c = calculateIngredientsCost();
-document.getElementById('calcIngredientsCost').textContent = c.toFixed(2) + ' ج.م';
-document.getElementById('newItemCost').value = c.toFixed(2);
-document.getElementById('calcSellingPrice').textContent = c.toFixed(2) + ' ج.م';
-}
-
-function renderAdminMenuList() {
-const container = document.getElementById('adminMenuList');
-container.innerHTML = '';
-menuItems.forEach(i => {
-const div = document.createElement('div');
-div.className = 'menu-list-item';
-div.innerHTML = `<span>${i.name}</span><div class="menu-actions"><button class="btn-small btn-edit" onclick="editItem('${i.id}')">تعديل</button><button class="btn-small btn-delete" onclick="deleteItem('${i.id}')">حذف</button></div>`;
-container.appendChild(div);
-});
-}
-
-window.saveItem = async function() {
-const n = document.getElementById('newItemName').value;
-const p = document.getElementById('newItemPrice').value;
-const c = document.getElementById('newItemCategory').value;
-const ei = document.getElementById('editIndex').value;
-if (!n || !p || !c) { alert('أكمل البيانات'); return; }
-const tc = calculateIngredientsCost();
-const d = { name: n, price: parseFloat(p), cost: tc, categoryId: c, ingredients: [...tempIngredients] };
-if (ei === '') { await addDoc(collection(db, 'menu'), d); }
-else { await updateDoc(doc(db, 'menu', ei), d); }
-document.getElementById('newItemName').value = '';
-document.getElementById('newItemPrice').value = '';
-document.getElementById('newItemCategory').value = '';
-document.getElementById('editIndex').value = '';
-tempIngredients = [];
-renderIngredientsFields();
-document.getElementById('saveBtnText').textContent = '✅ إضافة صنف جديد';
-document.getElementById('cancelBtn').style.display = 'none';
-await loadMenu();
-renderAdminMenuList();
-alert('✅ تم!');
-};
-
-window.editItem = function(i) {
-const item = menuItems.find(x => x.id === i);
-if (item) {
-document.getElementById('newItemName').value = item.name;
-document.getElementById('newItemPrice').value = item.price;
-document.getElementById('newItemCategory').value = item.categoryId;
-document.getElementById('editIndex').value = i;
-tempIngredients = item.ingredients ? JSON.parse(JSON.stringify(item.ingredients)) : [];
-renderIngredientsFields();
-calculateItemCost();
-document.getElementById('saveBtnText').textContent = '💾 حفظ التعديلات';
-document.getElementById('cancelBtn').style.display = 'block';
-}
-};
-
-window.deleteItem = async function(i) {
-if (confirm('متأكد؟')) {
-await deleteDoc(doc(db, 'menu', i));
-await loadMenu();
-renderAdminMenuList();
-alert('✅ تم!');
-}
-};
-
-window.cancelEdit = function() {
-document.getElementById('newItemName').value = '';
-document.getElementById('newItemPrice').value = '';
-document.getElementById('newItemCategory').value = '';
-document.getElementById('editIndex').value = '';
-tempIngredients = [];
-renderIngredientsFields();
-document.getElementById('saveBtnText').textContent = '✅ إضافة صنف جديد';
-document.getElementById('cancelBtn').style.display = 'none';
-};
-
-window.addIngredientField = function() {
-tempIngredients.push({ stockId: null, qty: 1 });
-renderIngredientsFields();
-};
-
-window.removeIngredientField = function(i) {
-tempIngredients.splice(i, 1);
-renderIngredientsFields();
-};
-
-window.updateIngredientField = function(i, f, v) {
-tempIngredients[i][f] = v;
-if (f === 'qty' || f === 'stockId') calculateItemCost();
-};
-
-function toggleDateFilters() {
-const type = document.getElementById('reportType').value;
-document.getElementById('dateRangeInputs').style.display = type === 'custom' ? 'block' : 'none';
-document.getElementById('dateRangeInputs2').style.display = type === 'custom' ? 'block' : 'none';
-}
-
-window.applyReportFilter = function() { renderReports(); };
-
-function renderReports() {
-let ts = 0, tc = 0, tp = 0, te = 0;
-const container = document.getElementById('ordersList');
-container.innerHTML = '';
-let filteredOrders = [...orders];
-const type = document.getElementById('reportType').value;
-if (type === 'today') {
-const today = new Date().toLocaleDateString('ar-EG');
-filteredOrders = orders.filter(o => { if (!o.date) return false; return o.date.split(' ')[0] === today; });
-} else if (type === 'monthly') {
-const currentMonth = new Date().getMonth();
-const currentYear = new Date().getFullYear();
-filteredOrders = orders.filter(o => { if (!o.date) return false; const d = new Date(o.date); return d.getMonth() === currentMonth && d.getFullYear() === currentYear; });
-} else if (type === 'custom') {
-const from = document.getElementById('dateFrom').value;
-const to = document.getElementById('dateTo').value;
-if (from && to) {
-filteredOrders = orders.filter(o => { if (!o.date) return false; const orderDate = o.date.split(' ')[0]; return orderDate >= from && orderDate <= to; });
-}
-}
-filteredOrders.forEach(o => {
-ts += parseFloat(o.total) || 0;
-tc += parseFloat(o.totalCost) || 0;
-tp += parseFloat(o.profit) || 0;
-const div = document.createElement('div');
-div.className = 'order-item';
-div.innerHTML = `<div style="flex:1;"><b>#${o.orderNumber}</b> - ${o.date || ''}<br>مبيعات: ${(parseFloat(o.total) || 0)} ج.م | ربح: ${(parseFloat(o.profit) || 0).toFixed(2)} ج.م</div><div class="menu-actions"><button class="btn-small btn-view" onclick="viewOrderDetails('${o.id}')">عرض</button></div>`;
-container.appendChild(div);
-});
-if (filteredOrders.length === 0) { container.innerHTML = '<p style="text-align: center; color: #777; padding: 20px;">لا توجد طلبات</p>'; }
-const today = new Date().toLocaleDateString('ar-EG');
-const shiftExpenses = expenses.filter(e => e.date.split(' ')[0] === today);
-te = shiftExpenses.reduce((sum, e) => sum + (parseFloat(e.amount) || 0), 0);
-document.getElementById('totalSales').textContent = ts.toFixed(2) + ' ج.م';
-document.getElementById('totalExpenses').textContent = te.toFixed(2) + ' ج.م';
-document.getElementById('netProfit').textContent = (ts - te).toFixed(2) + ' ج.م';
-}
-
-window.viewOrderDetails = function(orderId) {
-const order = orders.find(o => o.id === orderId);
-if (!order) return;
-const total = order.total || 0;
-const totalCost = order.totalCost || 0;
-const profit = order.profit || 0;
-alert(`تفاصيل الأوردر #${order.orderNumber}\nالتاريخ: ${order.date}\nالنوع: ${order.type}\nالطاولة: ${order.tableName || '-'}\nطريقة الدفع: ${order.paymentMethod}\nالكاشير: ${order.cashier}\nالإجمالي: ${total.toFixed(2)} ج.م\nالتكلفة: ${totalCost.toFixed(2)} ج.م\nالربح: ${profit.toFixed(2)} ج.م`);
-};
-
-function loadSettingsForm() {
-document.getElementById('restaurantName').value = restaurantSettings.name || '';
-document.getElementById('restaurantPhone').value = restaurantSettings.phone || '';
-document.getElementById('restaurantAddress').value = restaurantSettings.address || '';
-document.getElementById('receiptMessage').value = restaurantSettings.message || '';
-const lp = document.getElementById('logoPreview');
-if (restaurantSettings.logo) {
-lp.innerHTML = `<img src="${restaurantSettings.logo}" style="max-width: 100%; max-height: 150px; display: block; margin: 0 auto;">`;
-} else {
-lp.innerHTML = '<p>لا يوجد لوجو</p>';
-}
-}
-
-window.saveSettings = async function() {
-restaurantSettings.name = document.getElementById('restaurantName').value;
-restaurantSettings.phone = document.getElementById('restaurantPhone').value;
-restaurantSettings.address = document.getElementById('restaurantAddress').value;
-restaurantSettings.message = document.getElementById('receiptMessage').value;
-if (restaurantSettings.id) { await updateDoc(doc(db, 'settings', restaurantSettings.id), restaurantSettings); }
-else { const newId = await addDoc(collection(db, 'settings'), restaurantSettings); restaurantSettings.id = newId; }
-document.getElementById('restaurantNameDisplay').textContent = restaurantSettings.name;
-alert('✅ تم!');
-};
-
-window.handleLogoUpload = function() {
-const fi = document.getElementById('logoInput');
-const f = fi.files[0];
-if (f) {
-if (f.size > 2 * 1024 * 1024) { alert('كبير! أقل من 2MB'); return; }
-if (!f.type.startsWith('image/')) { alert('صورة فقط'); return; }
-const r = new FileReader();
-r.onload = async function(e) {
-const b = e.target.result;
-try {
-restaurantSettings.logo = b;
-if (restaurantSettings.id) { await updateDoc(doc(db, 'settings', restaurantSettings.id), { logo: b }); }
-else { const ni = await addDoc(collection(db, 'settings'), { ...restaurantSettings, logo: b }); restaurantSettings.id = ni; }
-document.getElementById('logoPreview').innerHTML = `<img src="${b}" style="max-width: 100%; max-height: 150px; display: block; margin: 0 auto;">`;
-document.getElementById('loginLogo').src = b;
-document.getElementById('loginLogo').style.display = 'block';
-document.getElementById('headerLogo').src = b;
-document.getElementById('headerLogo').style.display = 'block';
-alert('✅ تم! الحجم: ' + (f.size / 1024).toFixed(2) + ' KB');
-} catch (err) { alert('خطأ: ' + err.message); }
-};
-r.readAsDataURL(f);
-}
-};
-
-window.removeLogo = async function() {
-try {
-restaurantSettings.logo = '';
-if (restaurantSettings.id) { await updateDoc(doc(db, 'settings', restaurantSettings.id), { logo: '' }); }
-document.getElementById('logoInput').value = '';
-document.getElementById('logoPreview').innerHTML = '<p>لا يوجد لوجو</p>';
-document.getElementById('loginLogo').src = '';
-document.getElementById('loginLogo').style.display = 'none';
-document.getElementById('headerLogo').src = '';
-document.getElementById('headerLogo').style.display = 'none';
-alert('✅ تم!');
-} catch (err) { alert('خطأ'); }
-};
-
 function renderTableOrdersList() {
-const container = document.getElementById('tableOrdersList');
-container.innerHTML = '';
-const occupiedTables = tableOrders.filter(to => to.status === 'active');
-if (occupiedTables.length === 0) { container.innerHTML = '<p style="text-align: center; color: #777; padding: 20px;">لا يوجد أوردرات معلقة</p>'; return; }
-occupiedTables.forEach(to => {
+const container = document.getElementById('tableOrdersList'); container.innerHTML = '';
+const occupied = tableOrders.filter(to => to.status === 'active');
+if (occupied.length === 0) { container.innerHTML = '<p style="text-align: center; color: #777; padding: 20px;">لا يوجد أوردرات معلقة</p>'; return; }
+occupied.forEach(to => {
 const table = tables.find(t => t.id === to.tableId);
-const div = document.createElement('div');
-div.className = 'table-order-item';
+const div = document.createElement('div'); div.className = 'table-order-item';
 div.innerHTML = `<div class="list-item-info"><div class="list-item-title">طاولة ${table ? table.number : '?'}</div><div class="list-item-subtitle">عدد الأوردرات: ${to.orders?.length || 0} | الإجمالي: ${to.totalAmount?.toFixed(2) || 0} ج.م</div></div><div class="list-item-actions"><button class="btn-small btn-view" onclick="viewTableOrder('${to.id}')">👁️ عرض</button><button class="btn-small btn-pay" onclick="payTableOrder('${to.id}')">💳 دفع</button></div>`;
 container.appendChild(div);
 });
 }
-
 window.viewTableOrder = function(tableOrderId) {
 const to = tableOrders.find(x => x.id === tableOrderId);
 if (!to) return;
 const table = tables.find(t => t.id === to.tableId);
-const modal = document.getElementById('tableBillModal');
 document.getElementById('tableBillInfo').innerHTML = `<p style="margin-bottom: 15px;"><strong>طاولة:</strong> ${table ? table.number : '?'}</p><p style="margin-bottom: 15px;"><strong>عدد الأوردرات:</strong> ${to.orders?.length || 0}</p>`;
-const itemsDiv = document.getElementById('billItemsContainer');
-itemsDiv.innerHTML = '';
+const itemsDiv = document.getElementById('billItemsContainer'); itemsDiv.innerHTML = '';
 let total = 0;
 if (to.orders && to.orders.length > 0) {
 to.orders.forEach((order, idx) => {
-const orderDiv = document.createElement('div');
-orderDiv.style.cssText = 'margin-bottom: 15px; padding: 10px; background: #f8f9fa; border-radius: 8px;';
+const orderDiv = document.createElement('div'); orderDiv.style.cssText = 'margin-bottom: 15px; padding: 10px; background: #f8f9fa; border-radius: 8px;';
 orderDiv.innerHTML = `<p style="font-weight: bold; margin-bottom: 5px;">أوردر #${idx + 1}</p>`;
 if (order.items && order.items.length > 0) {
 order.items.forEach(item => {
-const itemTotal = item.price * item.qty;
-total += itemTotal;
-const itemDiv = document.createElement('div');
-itemDiv.style.cssText = 'display: flex; justify-content: space-between; padding: 5px 0;';
+const itemTotal = item.price * item.qty; total += itemTotal;
+const itemDiv = document.createElement('div'); itemDiv.style.cssText = 'display: flex; justify-content: space-between; padding: 5px 0;';
 itemDiv.innerHTML = `<span>${item.name} x${item.qty}</span><span>${itemTotal.toFixed(2)} ج.م</span>`;
 orderDiv.appendChild(itemDiv);
 });
@@ -2399,13 +1319,10 @@ itemsDiv.appendChild(orderDiv);
 });
 }
 document.getElementById('billTotalAmount').textContent = total.toFixed(2);
-window.currentTableOrderId = tableOrderId;
-window.currentTableTotal = total;
-modal.style.display = 'flex';
+window.currentTableOrderId = tableOrderId; window.currentTableTotal = total;
+document.getElementById('tableBillModal').style.display = 'flex';
 };
-
 window.payTableOrder = function(tableOrderId) { viewTableOrder(tableOrderId); };
-
 window.setTablePaymentMethod = function(m) {
 tablePaymentMethod = m;
 ['cash', 'card', 'wallet'].forEach(method => {
@@ -2414,361 +1331,341 @@ if (method === m) { el.style.background = '#d4edda'; el.style.borderColor = '#27
 else { el.style.background = '#f8f9fa'; el.style.borderColor = '#e0e0e0'; }
 });
 };
-
 window.closeModal = function(modalId) { document.getElementById(modalId).style.display = 'none'; };
-
 window.confirmTablePayment = async function() {
 if (!window.currentTableOrderId) { alert('خطأ: لا يوجد أوردر محدد'); return; }
 const to = tableOrders.find(x => x.id === window.currentTableOrderId);
 if (!to) { alert('خطأ: الأوردر غير موجود'); return; }
 const table = tables.find(t => t.id === to.tableId);
+let totalCost = 0, totalProfit = 0;
 for (const orderData of (to.orders || [])) {
-const order = { orderNumber: orderCount, date: new Date().toLocaleString('ar-EG'), type: 'dinein', items: orderData.items || [], total: orderData.total || 0, totalCost: orderData.totalCost || 0, profit: (orderData.total || 0) - (orderData.totalCost || 0), paymentMethod: tablePaymentMethod, cashier: currentUser.username, status: 'completed', shiftNumber: activeShift?.shiftNumber || null, tableId: to.tableId, tableName: table ? table.number : null, fromTableOrder: true };
+const cost = orderData.totalCost || calculateOrderCost(orderData.items || []);
+totalCost += cost;
+const profit = (orderData.total || 0) - cost;
+totalProfit += profit;
+await deductInventoryFromOrderItems(orderData.items || []);
+const order = {
+orderNumber: orderCount, date: new Date().toLocaleString('ar-EG'), type: 'dinein',
+items: orderData.items || [], total: orderData.total || 0, totalCost: cost, profit: profit,
+paymentMethod: tablePaymentMethod, cashier: currentUser.username,
+shiftNumber: activeShift?.shiftNumber || null,
+tableId: to.tableId, tableName: table ? table.number : null
+};
 await addDoc(collection(db, 'orders'), order);
 orderCount++;
 }
 await saveOrderCount();
 if (activeShift) {
-const totalAmount = window.currentTableTotal || 0;
-activeShift.totalSales = (activeShift.totalSales || 0) + totalAmount;
-if (tablePaymentMethod === 'cash') activeShift.cashSales = (activeShift.cashSales || 0) + totalAmount;
-else if (tablePaymentMethod === 'card') activeShift.cardSales = (activeShift.cardSales || 0) + totalAmount;
-else if (tablePaymentMethod === 'wallet') activeShift.walletSales = (activeShift.walletSales || 0) + totalAmount;
-await updateDoc(doc(db, 'shiftClosures', activeShift.id), { totalSales: activeShift.totalSales, cashSales: activeShift.cashSales, cardSales: activeShift.cardSales, walletSales: activeShift.walletSales });
+const ta = window.currentTableTotal || 0;
+activeShift.totalSales = (activeShift.totalSales || 0) + ta;
+activeShift.totalCost = (activeShift.totalCost || 0) + totalCost;
+if (tablePaymentMethod === 'cash') activeShift.cashSales = (activeShift.cashSales || 0) + ta;
+else if (tablePaymentMethod === 'card') activeShift.cardSales = (activeShift.cardSales || 0) + ta;
+else activeShift.walletSales = (activeShift.walletSales || 0) + ta;
+await updateDoc(doc(db, 'shiftClosures', activeShift.id), { totalSales: activeShift.totalSales, totalCost: activeShift.totalCost, cashSales: activeShift.cashSales, cardSales: activeShift.cardSales, walletSales: activeShift.walletSales });
 }
-if (to.tableId) { await updateDoc(doc(db, 'tables', to.tableId), { status: 'free', orderId: null }); }
+if (to.tableId) await updateDoc(doc(db, 'tables', to.tableId), { status: 'free' });
 await deleteDoc(doc(db, 'tableOrders', window.currentTableOrderId));
-await loadTables();
-await loadTableOrders();
-await loadOrders();
-renderTablesList();
+await loadTables(); await loadTableOrders(); await loadOrders(); renderTablesList();
 closeModal('tableBillModal');
-alert('✅ تم الدفع وتحرير الطاولة بنجاح!');
+alert(`✅ تم الدفع!\n💰 الربح: ${totalProfit.toFixed(2)} ج.م`);
 };
 
-function renderTablesList() {
-const container = document.getElementById('tablesList');
-container.innerHTML = '';
-if (tables.length === 0) { container.innerHTML = '<p style="text-align: center; color: #777; padding: 40px; grid-column: 1/-1;">لا توجد طاولات</p>'; return; }
-tables.forEach(table => {
-const card = document.createElement('div');
-card.className = 'table-card ' + (table.status === 'free' ? 'free' : 'occupied');
-const tableOrder = tableOrders.find(to => to.tableId === table.id && to.status === 'active');
-const orderInfo = tableOrder ? `<div class="table-info">📋 ${tableOrder.orders?.length || 0} أوردر<br>💰 ${tableOrder.totalAmount?.toFixed(2) || 0} ج.م</div>` : '';
-const releaseBtn = table.status === 'occupied' ? `<button class="btn-table btn-release-table" onclick="manualReleaseTable('${table.id}')">🔓 تحرير طاولة</button>` : '';
-card.innerHTML = `<div class="table-number">طاولة ${table.number}</div><div class="table-status">${table.status === 'free' ? '✅ متاحة' : '❌ مشغولة'}</div>${orderInfo}<div class="table-actions"><button class="btn-table btn-edit-table" onclick="editTable('${table.id}')">✏️</button><button class="btn-table btn-delete-table" onclick="deleteTable('${table.id}')">🗑️</button></div>${releaseBtn}`;
-container.appendChild(card);
+// ==================== EXPENSES ====================
+function renderExpenseCategories() { const select = document.getElementById('expenseCategory'); select.innerHTML = '<option value="">اختر نوع المصروف</option>'; expenseCategories.forEach(cat => { const o = document.createElement('option'); o.value = cat.id; o.textContent = cat.name; select.appendChild(o); }); }
+function renderShiftExpenses() {
+const container = document.getElementById('shiftExpensesList'); container.innerHTML = '';
+const shiftExp = expenses.filter(e => e.shiftNumber === activeShift?.shiftNumber);
+if (shiftExp.length === 0) { container.innerHTML = '<p style="text-align: center; color: #777; padding: 20px;">لا توجد مصروفات</p>'; return; }
+shiftExp.forEach(exp => {
+const cat = expenseCategories.find(c => c.id === exp.categoryId);
+const div = document.createElement('div'); div.style.cssText = 'background: #f8f9fa; padding: 15px; border-radius: 10px; margin-bottom: 10px;';
+div.innerHTML = `<div style="display: flex; justify-content: space-between;"><strong>${cat?.name || 'غير محدد'}</strong><span style="color: #e74c3c; font-weight: bold;">-${exp.amount.toFixed(2)} ج.م</span></div><div style="font-size: 12px; color: #777; margin-top: 5px;">${exp.date} - ${exp.addedBy}${exp.notes ? '<br>📝 ' + exp.notes : ''}</div>`;
+container.appendChild(div);
 });
 }
-
-window.manualReleaseTable = async function(tableId) {
-const table = tables.find(t => t.id === tableId);
-if (!table) return;
-if (!confirm(`⚠️ هل أنت متأكد من تحرير طاولة ${table.number}؟\nسيتم حذف أي أوردرات معلقة!`)) { return; }
-const tableOrder = tableOrders.find(to => to.tableId === tableId && to.status === 'active');
-if (tableOrder) { await deleteDoc(doc(db, 'tableOrders', tableOrder.id)); await loadTableOrders(); }
-await updateDoc(doc(db, 'tables', tableId), { status: 'free' });
-await loadTables();
-renderTablesList();
-alert(`✅ تم تحرير طاولة ${table.number} بنجاح!`);
+window.addExpense = async function() {
+const categoryId = document.getElementById('expenseCategory').value;
+const amount = parseFloat(document.getElementById('expenseAmount').value);
+const notes = document.getElementById('expenseNotes').value.trim();
+if (!categoryId) { alert('اختر نوع المصروف'); return; }
+if (!amount || amount <= 0) { alert('أدخل مبلغ صحيح'); return; }
+const shiftExp = expenses.filter(e => e.shiftNumber === activeShift?.shiftNumber);
+const currentExpTotal = shiftExp.reduce((sum, e) => sum + (parseFloat(e.amount) || 0), 0);
+const shiftDep = cashDeposits.filter(d => d.shiftNumber === activeShift?.shiftNumber);
+const currentDepTotal = shiftDep.reduce((sum, d) => sum + (parseFloat(d.amount) || 0), 0);
+const shiftCashSales = orders.filter(o => o.shiftNumber === activeShift?.shiftNumber && o.paymentMethod === 'cash').reduce((sum, o) => sum + (parseFloat(o.total) || 0), 0);
+const available = (activeShift?.openingCash || 0) + shiftCashSales + currentDepTotal - currentExpTotal;
+if (amount > available) { alert(`❌ الرصيد لا يكفي!\nالمتاح: ${available.toFixed(2)} ج.م`); return; }
+const cat = expenseCategories.find(c => c.id === categoryId);
+await addDoc(collection(db, 'expenses'), { shiftNumber: activeShift.shiftNumber, categoryId, categoryName: cat?.name || 'غير محدد', amount, notes, date: new Date().toLocaleString('ar-EG'), addedBy: currentUser.username });
+document.getElementById('expenseCategory').value = ''; document.getElementById('expenseAmount').value = ''; document.getElementById('expenseNotes').value = '';
+await loadExpenses(); renderShiftExpenses(); alert('✅ تم إضافة المصروف!');
 };
-
-window.editTable = async function(i) {
-const t = tables.find(x => x.id === i);
-if (!t) return;
-const n = prompt("الرقم:", t.number);
-const c = prompt("الكراسي:", t.capacity);
-if (n && c) {
-await updateDoc(doc(db, 'tables', i), { number: parseInt(n), capacity: parseInt(c) });
-await loadTables();
-renderTablesList();
-alert('✅ تم!');
+function renderShiftDeposits() {
+const container = document.getElementById('shiftDepositsList'); container.innerHTML = '';
+const shiftDep = cashDeposits.filter(d => d.shiftNumber === activeShift?.shiftNumber);
+if (shiftDep.length === 0) { container.innerHTML = '<p style="text-align: center; color: #777; padding: 20px;">لا توجد توريدات</p>'; return; }
+shiftDep.forEach(dep => {
+const div = document.createElement('div'); div.style.cssText = 'background: #f8f9fa; padding: 15px; border-radius: 10px; margin-bottom: 10px;';
+div.innerHTML = `<div style="display: flex; justify-content: space-between;"><strong>+${dep.amount.toFixed(2)} ج.م</strong></div><div style="font-size: 12px; color: #777; margin-top: 5px;">${dep.date} - ${dep.addedBy}${dep.notes ? '<br>📝 ' + dep.notes : ''}</div>`;
+container.appendChild(div);
+});
 }
+window.addDeposit = async function() {
+const amount = parseFloat(document.getElementById('depositAmount').value);
+const notes = document.getElementById('depositNotes').value.trim();
+if (!amount || amount <= 0) { alert('أدخل مبلغ صحيح'); return; }
+await addDoc(collection(db, 'cashDeposits'), { shiftNumber: activeShift.shiftNumber, amount, notes, date: new Date().toLocaleString('ar-EG'), addedBy: currentUser.username });
+document.getElementById('depositAmount').value = ''; document.getElementById('depositNotes').value = '';
+await loadDeposits(); renderShiftDeposits(); alert('✅ تم إضافة التوريد!');
 };
+function renderExpenseCategoriesList() { const container = document.getElementById('expenseCategoriesList'); container.innerHTML = ''; if (expenseCategories.length === 0) { container.innerHTML = '<p style="text-align: center; color: #777; padding: 20px;">لا توجد أنواع</p>'; return; } expenseCategories.forEach(cat => { const div = document.createElement('div'); div.className = 'list-item'; div.innerHTML = `<div class="list-item-info"><div class="list-item-title">${cat.name}</div></div><div class="list-item-actions"><button class="btn-small btn-delete" onclick="deleteExpenseCategory('${cat.id}')">حذف</button></div>`; container.appendChild(div); }); }
+window.addExpenseCategory = async function() { const name = document.getElementById('newExpenseCategoryName').value.trim(); if (!name) { alert('أدخل اسم النوع'); return; } await addDoc(collection(db, 'expenseCategories'), { name }); document.getElementById('newExpenseCategoryName').value = ''; await loadExpenseCategories(); renderExpenseCategoriesList(); alert('✅ تم إضافة نوع المصروف!'); };
+window.deleteExpenseCategory = async function(id) { if (!confirm('متأكد؟')) return; await deleteDoc(doc(db, 'expenseCategories', id)); await loadExpenseCategories(); renderExpenseCategoriesList(); alert('✅ تم الحذف!'); };
 
-window.deleteTable = async function(i) {
-const t = tables.find(x => x.id === i);
-if (!t) return;
-if (t.status === 'occupied') { alert('الطاولة مشغولة! لا يمكن حذفها'); return; }
-if (confirm("متأكد؟")) {
-await deleteDoc(doc(db, 'tables', i));
-await loadTables();
-renderTablesList();
-alert('✅ تم!');
+// ==================== RETURNS ====================
+function renderReturnsList() { const container = document.getElementById('returnsList'); container.innerHTML = ''; if (returns.length === 0) { container.innerHTML = '<p style="text-align: center; color: #777; padding: 20px;">لا يوجد مرتجعات</p>'; return; } returns.slice().reverse().forEach(r => { const div = document.createElement('div'); div.className = 'list-item'; div.innerHTML = `<div class="list-item-info"><div class="list-item-title">أوردر #${r.orderNumber} - ${r.itemName}</div><div class="list-item-subtitle">${r.date} | الكمية: ${r.quantity} | المسترد: ${r.refundAmount.toFixed(2)} ج.م</div></div>`; container.appendChild(div); }); }
+window.searchOrderForReturn = function() { const orderNum = document.getElementById('returnOrderNumber').value; const order = orders.find(o => o.orderNumber == orderNum); if (!order) { alert('الأوردر غير موجود!'); return; } document.getElementById('returnOrderDetails').style.display = 'block'; document.getElementById('returnOrderNum').textContent = order.orderNumber; document.getElementById('returnOrderDate').textContent = order.date; document.getElementById('returnOrderTotal').textContent = order.total; const itemsDiv = document.getElementById('returnItemsList'); itemsDiv.innerHTML = ''; order.items.forEach((item, index) => { const div = document.createElement('div'); div.className = 'list-item'; div.innerHTML = `<div class="list-item-info"><div class="list-item-title">${item.name}</div><div class="list-item-subtitle">الكمية: ${item.qty} | السعر: ${item.price} ج.م</div></div><div class="list-item-actions"><button class="btn-small btn-view" onclick="selectReturnItem(${index})">اختيار</button></div>`; itemsDiv.appendChild(div); }); window.selectedReturnOrder = order; };
+window.selectReturnItem = function(index) { window.selectedReturnItemIndex = index; alert('تم اختيار الصنف. أدخل الكمية والسبب'); };
+window.processReturn = async function() { if (!window.selectedReturnOrder || window.selectedReturnItemIndex === undefined) { alert('اختر صنف أولاً!'); return; } const order = window.selectedReturnOrder; const item = order.items[window.selectedReturnItemIndex]; const quantity = parseInt(document.getElementById('returnQuantity').value); const reason = document.getElementById('returnReason').value.trim(); if (!quantity || quantity <= 0 || !reason) { alert('أكمل البيانات'); return; } if (quantity > item.qty) { alert('الكمية أكبر من المطلوب!'); return; } const refundAmount = item.price * quantity; await addDoc(collection(db, 'returns'), { orderNumber: order.orderNumber, itemName: item.name, quantity, refundAmount, reason, date: new Date().toLocaleString('ar-EG'), processedBy: currentUser.username }); await loadReturns(); renderReturnsList(); document.getElementById('returnOrderNumber').value = ''; document.getElementById('returnOrderDetails').style.display = 'none'; document.getElementById('returnQuantity').value = '1'; document.getElementById('returnReason').value = ''; window.selectedReturnOrder = null; window.selectedReturnItemIndex = undefined; alert(`✅ تم المرتجع!\nالمبلغ المسترد: ${refundAmount.toFixed(2)} ج.م`); };
+
+// ==================== EDIT ORDERS ====================
+window.searchOrderForEdit = function() { const orderNum = document.getElementById('editOrderSearch').value; const order = orders.find(o => o.orderNumber == orderNum); if (!order) { alert('الأوردر غير موجود!'); return; } document.getElementById('editOrderDetails').style.display = 'block'; document.getElementById('editOrderNum').textContent = order.orderNumber; document.getElementById('editOrderDate').textContent = order.date; document.getElementById('editOrderCashier').textContent = order.cashier; const itemsDiv = document.getElementById('editItemsList'); itemsDiv.innerHTML = ''; order.items.forEach((item, index) => { const div = document.createElement('div'); div.className = 'bill-item'; div.innerHTML = `<div class="bill-item-header"><span class="bill-item-name">${item.name}</span><span class="bill-item-total">${item.price * item.qty} ج.م</span></div><div style="display: flex; justify-content: space-between; align-items: center;"><div class="qty-controls"><button class="qty-btn qty-minus" onclick="editOrderQty(${index}, -1)">-</button><span class="qty-value">${item.qty}</span><button class="qty-btn qty-plus" onclick="editOrderQty(${index}, 1)">+</button></div><span class="delete-item" onclick="removeEditOrderItem(${index})">🗑️</span></div>`; itemsDiv.appendChild(div); }); window.editingOrder = order; };
+window.editOrderQty = function(index, change) { if (!window.editingOrder) return; window.editingOrder.items[index].qty += change; if (window.editingOrder.items[index].qty <= 0) window.editingOrder.items.splice(index, 1); searchOrderForEdit(); };
+window.removeEditOrderItem = function(index) { if (!window.editingOrder) return; window.editingOrder.items.splice(index, 1); searchOrderForEdit(); };
+window.saveOrderEdit = async function() { if (!window.editingOrder) { alert('لا يوجد أوردر!'); return; } const order = window.editingOrder; const totalCost = calculateOrderCost(order.items); let newTotal = 0; order.items.forEach(item => { newTotal += item.price * item.qty; }); const profit = newTotal - totalCost; await updateDoc(doc(db, 'orders', order.id), { items: order.items, total: newTotal, totalCost, profit, editedAt: new Date().toLocaleString('ar-EG'), editedBy: currentUser.username }); await loadOrders(); document.getElementById('editOrderSearch').value = ''; document.getElementById('editOrderDetails').style.display = 'none'; window.editingOrder = null; alert('✅ تم تعديل الأوردر!'); };
+
+// ==================== SHIFT HISTORY ====================
+function renderShiftHistory() {
+const container = document.getElementById('shiftHistoryList'); container.innerHTML = '';
+let filtered = [...shiftClosures].filter(s => s.status === 'closed');
+const from = document.getElementById('shiftHistoryFrom').value; const to = document.getElementById('shiftHistoryTo').value;
+if (from && to) filtered = filtered.filter(s => { const d = s.date.split(' ')[0]; return d >= from && d <= to; });
+if (filtered.length === 0) { container.innerHTML = '<p style="text-align: center; color: #777; padding: 20px;">لا يوجد تقفيلات</p>'; return; }
+filtered.slice().reverse().forEach(s => {
+const profit = (s.totalSales || 0) - (s.totalCost || 0) - (s.totalExpenses || 0);
+const ds = s.difference < 0 ? '❌ عجز' : s.difference > 0 ? '✅ أوفر' : '✅ متطابق';
+const dc = s.difference < 0 ? '#e74c3c' : s.difference > 0 ? '#27ae60' : '#2980b9';
+const div = document.createElement('div'); div.style.cssText = 'background: #f8f9fa; padding: 15px; border-radius: 10px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;';
+div.innerHTML = `<div><b>شيفت #${s.shiftNumber}</b><br>${s.date}<br>الكاشير: ${s.cashier || ''}<br>المبيعات: ${(s.totalSales || 0).toFixed(2)} ج.م<br>التكلفة: ${(s.totalCost || 0).toFixed(2)} ج.م<br>المصروفات: ${(s.totalExpenses || 0).toFixed(2)} ج.م<br><strong style="color:#27ae60;">الربح: ${profit.toFixed(2)} ج.م</strong></div><div style="text-align:left;"><div style="color:${dc}; font-weight:bold;">${ds}: ${Math.abs(s.difference || 0).toFixed(2)} ج.م</div></div>`;
+container.appendChild(div);
+});
 }
-};
+window.filterShiftHistory = function() { renderShiftHistory(); };
 
-window.addTable = async function() {
-const n = document.getElementById('newTableNumber').value;
-const c = document.getElementById('newTableCapacity').value;
-if (!n || !c) { alert("أكمل البيانات!"); return; }
-if (tables.find(t => t.number == n)) { alert("موجود!"); return; }
-await addDoc(collection(db, 'tables'), { number: parseInt(n), capacity: parseInt(c), status: 'free' });
-document.getElementById('newTableNumber').value = '';
-document.getElementById('newTableCapacity').value = '';
-await loadTables();
-renderTablesList();
-alert('✅ تمت الإضافة!');
+// ==================== PURCHASES ====================
+function updatePurchaseItemSelect() { const select = document.getElementById('purchaseItem'); select.innerHTML = '<option value="">اختر من المخزون</option>'; inventory.forEach(i => { const option = document.createElement('option'); option.value = i.id; option.textContent = `${i.name} (${i.stock} ${i.unit})`; option.dataset.unit = i.unit; select.appendChild(option); }); }
+document.getElementById('purchaseItem')?.addEventListener('change', function() { const o = this.options[this.selectedIndex]; document.getElementById('purchaseUnit').value = o.dataset.unit || ''; calculatePurchaseCost(); });
+document.getElementById('purchaseQuantity')?.addEventListener('input', calculatePurchaseCost);
+document.getElementById('purchaseCost')?.addEventListener('input', calculatePurchaseCost);
+function calculatePurchaseCost() { const i = document.getElementById('purchaseItem').value; const q = parseFloat(document.getElementById('purchaseQuantity').value) || 0; const c = parseFloat(document.getElementById('purchaseCost').value) || 0; const b = document.getElementById('purchaseCalcBox'); if (!i || !q || !c) { b.style.display = 'none'; return; } const item = inventory.find(x => x.id === i); if (!item) return; const p = c / q; document.getElementById('calcUnitPrice').textContent = p.toFixed(3) + ' ج.م/' + item.unit; document.getElementById('calcCurrentStock').textContent = item.stock + ' ' + item.unit; document.getElementById('calcNewStock').textContent = (item.stock + q) + ' ' + item.unit; b.style.display = 'block'; }
+window.addPurchase = async function() {
+const i = document.getElementById('purchaseItem').value; const q = parseFloat(document.getElementById('purchaseQuantity').value); const u = document.getElementById('purchaseUnit').value || 'وحدة'; const c = parseFloat(document.getElementById('purchaseCost').value) || 0; const supplier = document.getElementById('purchaseSupplier').value.trim();
+if (!i || !q) { alert('أكمل البيانات (الصنف والكمية)'); return; }
+const item = inventory.find(x => x.id === i); if (!item) { alert('الصنف غير موجود'); return; }
+const newStock = (item.stock || 0) + q; const newUnitPrice = c > 0 ? c / q : (item.unitPrice || 0);
+await updateDoc(doc(db, 'inventory', i), { stock: newStock, unitPrice: newUnitPrice });
+await addDoc(collection(db, 'purchases'), { itemId: i, itemName: item.name, quantity: q, unit: u, cost: c, supplier, date: new Date().toLocaleString('ar-EG'), unitPrice: newUnitPrice });
+document.getElementById('purchaseItem').value = ''; document.getElementById('purchaseQuantity').value = ''; document.getElementById('purchaseCost').value = ''; document.getElementById('purchaseSupplier').value = ''; document.getElementById('purchaseCalcBox').style.display = 'none';
+await loadInventory(); await loadPurchases(); updatePurchaseItemSelect(); renderPurchasesList();
+alert(`✅ تمت إضافة الطلبية!\nالصنف: ${item.name}\nالكمية: +${q} ${u}\nالمخزون الجديد: ${newStock} ${u}`);
 };
+function renderPurchasesList() { const container = document.getElementById('purchasesList'); container.innerHTML = ''; if (purchases.length === 0) { container.innerHTML = '<p style="text-align: center; color: #777; padding: 20px;">لا يوجد</p>'; return; } purchases.slice().reverse().forEach(p => { const div = document.createElement('div'); div.className = 'list-item'; div.innerHTML = `<div class="list-item-info"><div class="list-item-title">${p.itemName}</div><div class="list-item-subtitle">الكمية: +${p.quantity} ${p.unit} | التكلفة: ${p.cost ? p.cost.toFixed(2) + ' ج.م' : '-'} | ${p.date}${p.supplier ? ' | المورد: ' + p.supplier : ''}</div></div><div class="list-item-actions"><button class="btn-small btn-edit" onclick="editPurchase('${p.id}')">تعديل</button><button class="btn-small btn-delete" onclick="deletePurchase('${p.id}')">حذف</button></div>`; container.appendChild(div); }); }
+window.editPurchase = async function(id) { const p = purchases.find(x => x.id === id); if (!p) return; const nq = prompt('الكمية الجديدة:', p.quantity); const nc = prompt('التكلفة الجديدة:', p.cost || 0); if (nq !== null && nc !== null) { const item = inventory.find(x => x.id === p.itemId); if (item) { const diff = parseFloat(nq) - p.quantity; const ns = (item.stock || 0) + diff; const nup = parseFloat(nc) > 0 ? parseFloat(nc) / parseFloat(nq) : p.unitPrice; await updateDoc(doc(db, 'purchases', id), { quantity: parseFloat(nq), cost: parseFloat(nc), unitPrice: nup }); await updateDoc(doc(db, 'inventory', p.itemId), { stock: ns, unitPrice: nup }); await loadInventory(); await loadPurchases(); renderPurchasesList(); alert('✅ تم التعديل!'); } } };
+window.deletePurchase = async function(id) { if (!confirm('متأكد؟ سيتم خصم الكمية من المخزون.')) return; const p = purchases.find(x => x.id === id); if (p) { const item = inventory.find(x => x.id === p.itemId); if (item) { await updateDoc(doc(db, 'inventory', p.itemId), { stock: (item.stock || 0) - p.quantity }); await deleteDoc(doc(db, 'purchases', id)); await loadInventory(); await loadPurchases(); renderPurchasesList(); alert('✅ تم الحذف!'); } } };
 
-async function calculateShiftSummary() {
-try {
-if (!activeShift) {
-console.error('No active shift found');
-return;
-}
+// ==================== INVENTORY ====================
+function renderInventoryList() { const container = document.getElementById('inventoryList'); container.innerHTML = ''; inventory.forEach(i => { const low = i.stock <= i.minStock; const div = document.createElement('div'); div.style.cssText = `background: ${low ? '#fff3cd' : '#f8f9fa'}; padding: 15px; border-radius: 10px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;`; div.innerHTML = `<div><b>${i.name}</b><br>المتاح: ${i.stock} ${i.unit}${i.unitPrice ? ` | سعر الوحدة: ${i.unitPrice.toFixed(3)} ج.م` : ''}</div><div style="display:flex; gap:8px; align-items:center;"><span style="padding:4px 10px; border-radius:12px; font-size:12px; background:${low ? '#e74c3c' : '#27ae60'}; color:white;">${low ? '⚠️ منخفض' : '✅ كافٍ'}</span><button class="btn-small btn-edit" onclick="updateStock('${i.id}')">تحديث</button><button class="btn-small btn-delete" onclick="deleteInventoryItem('${i.id}')">حذف</button></div>`; container.appendChild(div); }); }
+window.addInventoryItem = async function() { const n = document.getElementById('newIngredientName').value.trim(); const s = parseInt(document.getElementById('newIngredientStock').value); const u = document.getElementById('newIngredientUnit').value.trim(); const m = parseInt(document.getElementById('newIngredientMin').value); if (!n || isNaN(s) || !u || isNaN(m)) { alert('أكمل جميع البيانات'); return; } await addDoc(collection(db, 'inventory'), { name: n, stock: s, unit: u, minStock: m, unitPrice: 0 }); document.getElementById('newIngredientName').value = ''; document.getElementById('newIngredientStock').value = ''; document.getElementById('newIngredientUnit').value = ''; document.getElementById('newIngredientMin').value = ''; await loadInventory(); renderInventoryList(); alert('✅ تم إضافة المكون!'); };
+window.updateStock = async function(i) { const it = inventory.find(x => x.id === i); const ns = prompt(`الكمية الجديدة لـ "${it.name}" (${it.unit}):`, it.stock); if (ns !== null && ns !== '') { await updateDoc(doc(db, 'inventory', i), { stock: parseInt(ns) }); await loadInventory(); renderInventoryList(); alert('✅ تم التحديث!'); } };
+window.deleteInventoryItem = async function(i) { if (confirm('متأكد؟')) { await deleteDoc(doc(db, 'inventory', i)); await loadInventory(); renderInventoryList(); alert('✅ تم!'); } };
+function updateAdjustmentItemSelect() { const select = document.getElementById('adjustmentItem'); select.innerHTML = '<option value="">اختر الصنف</option>'; inventory.forEach(i => { const o = document.createElement('option'); o.value = i.id; o.textContent = `${i.name} (المتاح: ${i.stock} ${i.unit})`; o.dataset.stock = i.stock; select.appendChild(o); }); }
+document.getElementById('adjustmentItem')?.addEventListener('change', function() { const o = this.options[this.selectedIndex]; document.getElementById('currentStockDisplay').textContent = parseInt(o.dataset.stock) || 0; calculateNewStock(); });
+document.getElementById('adjustmentQuantity')?.addEventListener('input', calculateNewStock);
+function calculateNewStock() { const o = document.getElementById('adjustmentItem').options[document.getElementById('adjustmentItem').selectedIndex]; const cs = parseInt(o?.dataset?.stock) || 0; const adj = parseFloat(document.getElementById('adjustmentQuantity').value) || 0; document.getElementById('newStockDisplay').textContent = cs + adj; }
+window.adjustInventory = async function() { const itemId = document.getElementById('adjustmentItem').value; const quantity = parseFloat(document.getElementById('adjustmentQuantity').value); const reason = document.getElementById('adjustmentReason').value.trim(); if (!itemId || isNaN(quantity) || !reason) { alert('أكمل البيانات'); return; } const item = inventory.find(x => x.id === itemId); if (!item) { alert('الصنف غير موجود'); return; } const ns = (item.stock || 0) + quantity; await updateDoc(doc(db, 'inventory', itemId), { stock: ns }); await addDoc(collection(db, 'adjustments'), { itemId, itemName: item.name, previousStock: item.stock, adjustment: quantity, newStock: ns, reason, date: new Date().toLocaleString('ar-EG'), user: currentUser.username }); document.getElementById('adjustmentItem').value = ''; document.getElementById('adjustmentQuantity').value = ''; document.getElementById('adjustmentReason').value = ''; document.getElementById('currentStockDisplay').textContent = '0'; document.getElementById('newStockDisplay').textContent = '0'; await loadInventory(); renderInventoryList(); updateAdjustmentItemSelect(); alert('✅ تم تعديل المخزون!'); };
+
+// ==================== USERS ====================
+function renderUsersList() { const container = document.getElementById('usersList'); container.innerHTML = ''; users.forEach(u => { const div = document.createElement('div'); div.style.cssText = 'background: #f8f9fa; padding: 15px; border-radius: 10px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center;'; div.innerHTML = `<div><b>${u.name || u.username}</b> (@${u.username})<br><span style="padding:4px 10px; border-radius:12px; font-size:12px; background:${u.role === 'manager' ? '#667eea' : '#11998e'}; color:white;">${u.role === 'manager' ? 'مدير' : 'كاشير'}</span></div><div style="display:flex; gap:8px;">${u.username !== 'manager' ? `<button class="btn-small btn-edit" onclick="editUser('${u.id}')">تعديل</button><button class="btn-small btn-delete" onclick="deleteUser('${u.id}')">حذف</button>` : '<span style="color:#777; font-size:12px;">لا يمكن الحذف</span>'}</div>`; container.appendChild(div); }); }
+window.saveUser = async function() { const u = document.getElementById('newUsername').value.trim(); const p = document.getElementById('newPassword').value; const r = document.getElementById('newUserRole').value; const ei = document.getElementById('editUserIndex').value; if (!u || !p) { alert('أكمل البيانات'); return; } const d = { username: u, password: p, role: r, name: u }; if (ei === '') { await addDoc(collection(db, 'users'), d); } else { await updateDoc(doc(db, 'users', ei), d); } document.getElementById('newUsername').value = ''; document.getElementById('newPassword').value = ''; document.getElementById('newUserRole').value = 'cashier'; document.getElementById('editUserIndex').value = ''; document.getElementById('saveUserBtnText').textContent = '✅ إضافة مستخدم جديد'; document.getElementById('cancelUserBtn').style.display = 'none'; await loadUsers(); renderUsersList(); alert('✅ تم!'); };
+window.editUser = function(i) { const u = users.find(x => x.id === i); if (u) { document.getElementById('newUsername').value = u.username; document.getElementById('newPassword').value = u.password; document.getElementById('newUserRole').value = u.role; document.getElementById('editUserIndex').value = i; document.getElementById('saveUserBtnText').textContent = '💾 حفظ التعديلات'; document.getElementById('cancelUserBtn').style.display = 'block'; } };
+window.deleteUser = async function(i) { const u = users.find(x => x.id === i); if (u?.username === 'manager') { alert('لا يمكن!'); return; } if (confirm('متأكد؟')) { await deleteDoc(doc(db, 'users', i)); await loadUsers(); renderUsersList(); alert('✅ تم!'); } };
+window.cancelUserEdit = function() { document.getElementById('newUsername').value = ''; document.getElementById('newPassword').value = ''; document.getElementById('newUserRole').value = 'cashier'; document.getElementById('editUserIndex').value = ''; document.getElementById('saveUserBtnText').textContent = '✅ إضافة مستخدم جديد'; document.getElementById('cancelUserBtn').style.display = 'none'; };
+
+// ==================== CATEGORIES ====================
+function renderCategoriesList() { const container = document.getElementById('categoriesList'); container.innerHTML = ''; categories.forEach(c => { const div = document.createElement('div'); div.style.cssText = 'background: #f8f9fa; padding: 15px; border-radius: 10px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center;'; div.innerHTML = `<span><b>${c.name}</b></span><button class="btn-small btn-delete" onclick="deleteCategory('${c.id}')">حذف</button>`; container.appendChild(div); }); }
+window.addCategory = async function() { const n = document.getElementById('newCategoryName').value.trim(); if (!n) { alert('أدخل الاسم'); return; } await addDoc(collection(db, 'categories'), { name: n }); document.getElementById('newCategoryName').value = ''; await loadCategories(); renderCategoriesList(); alert('✅ تم!'); };
+window.deleteCategory = async function(i) { if (confirm('متأكد؟')) { await deleteDoc(doc(db, 'categories', i)); await loadCategories(); renderCategoriesList(); alert('✅ تم!'); } };
+
+// ==================== ADMIN MENU ====================
+function updateCategorySelect() { const select = document.getElementById('newItemCategory'); select.innerHTML = '<option value="">اختر</option>'; categories.forEach(c => { const o = document.createElement('option'); o.value = c.id; o.textContent = c.name; select.appendChild(o); }); }
+function calculateIngredientsCost() { let t = 0; tempIngredients.forEach(i => { if (i.stockId) { const s = inventory.find(x => x.id === i.stockId); if (s && s.unitPrice) t += (parseFloat(i.qty) || 0) * s.unitPrice; } }); return t; }
+function renderIngredientsFields() { const container = document.getElementById('ingredientsList'); container.innerHTML = ''; tempIngredients.forEach((i, x) => { const div = document.createElement('div'); div.style.cssText = 'display: flex; gap: 10px; margin-bottom: 10px; align-items: center;'; div.innerHTML = `<select onchange="updateIngredientField(${x}, 'stockId', this.value); calculateItemCost()" style="flex:1; padding:8px; border:2px solid #e0e0e0; border-radius:8px;"><option value="">اختر من المخزون</option>${inventory.map(inv => `<option value="${inv.id}" ${String(i.stockId) === String(inv.id) ? 'selected' : ''}>${inv.name} (${(inv.unitPrice || 0).toFixed(3)} ج.م/${inv.unit})</option>`).join('')}</select><input type="number" placeholder="الكمية" value="${i.qty || ''}" onchange="updateIngredientField(${x}, 'qty', this.value); calculateItemCost()" style="width:100px; padding:8px; border:2px solid #e0e0e0; border-radius:8px;"><button onclick="removeIngredientField(${x}); calculateItemCost()" style="background:#e74c3c; color:white; border:none; padding:8px 12px; border-radius:8px; cursor:pointer; font-weight:bold;">X</button>`; container.appendChild(div); }); calculateItemCost(); }
+function calculateItemCost() { const c = calculateIngredientsCost(); document.getElementById('calcIngredientsCost').textContent = c.toFixed(2) + ' ج.م'; document.getElementById('newItemCost').value = c.toFixed(2); document.getElementById('calcSellingPrice').textContent = c.toFixed(2) + ' ج.م'; }
+function renderAdminMenuList() { const container = document.getElementById('adminMenuList'); container.innerHTML = ''; menuItems.forEach(i => { const div = document.createElement('div'); div.style.cssText = 'background: #f8f9fa; padding: 15px; border-radius: 10px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center;'; div.innerHTML = `<span><b>${i.name}</b> - ${i.price} ج.م<br><small style="color:#777;">التكلفة: ${(i.cost || 0).toFixed(2)} ج.م</small></span><div style="display:flex; gap:8px;"><button class="btn-small btn-edit" onclick="editItem('${i.id}')">تعديل</button><button class="btn-small btn-delete" onclick="deleteItem('${i.id}')">حذف</button></div>`; container.appendChild(div); }); }
+window.saveItem = async function() { const n = document.getElementById('newItemName').value.trim(); const p = document.getElementById('newItemPrice').value; const c = document.getElementById('newItemCategory').value; const ei = document.getElementById('editIndex').value; if (!n || !p || !c) { alert('أكمل البيانات'); return; } const tc = calculateIngredientsCost(); const d = { name: n, price: parseFloat(p), cost: tc, categoryId: c, ingredients: [...tempIngredients] }; if (ei === '') { await addDoc(collection(db, 'menu'), d); } else { await updateDoc(doc(db, 'menu', ei), d); } document.getElementById('newItemName').value = ''; document.getElementById('newItemPrice').value = ''; document.getElementById('newItemCategory').value = ''; document.getElementById('editIndex').value = ''; tempIngredients = []; renderIngredientsFields(); document.getElementById('saveBtnText').textContent = '✅ إضافة صنف جديد'; document.getElementById('cancelBtn').style.display = 'none'; await loadMenu(); renderAdminMenuList(); alert('✅ تم!'); };
+window.editItem = function(i) { const item = menuItems.find(x => x.id === i); if (item) { document.getElementById('newItemName').value = item.name; document.getElementById('newItemPrice').value = item.price; document.getElementById('newItemCategory').value = item.categoryId; document.getElementById('editIndex').value = i; tempIngredients = item.ingredients ? JSON.parse(JSON.stringify(item.ingredients)) : []; renderIngredientsFields(); calculateItemCost(); document.getElementById('saveBtnText').textContent = '💾 حفظ التعديلات'; document.getElementById('cancelBtn').style.display = 'block'; } };
+window.deleteItem = async function(i) { if (confirm('متأكد؟')) { await deleteDoc(doc(db, 'menu', i)); await loadMenu(); renderAdminMenuList(); alert('✅ تم!'); } };
+window.cancelEdit = function() { document.getElementById('newItemName').value = ''; document.getElementById('newItemPrice').value = ''; document.getElementById('newItemCategory').value = ''; document.getElementById('editIndex').value = ''; tempIngredients = []; renderIngredientsFields(); document.getElementById('saveBtnText').textContent = '✅ إضافة صنف جديد'; document.getElementById('cancelBtn').style.display = 'none'; };
+window.addIngredientField = function() { tempIngredients.push({ stockId: null, qty: 1 }); renderIngredientsFields(); };
+window.removeIngredientField = function(i) { tempIngredients.splice(i, 1); renderIngredientsFields(); };
+window.updateIngredientField = function(i, f, v) { tempIngredients[i][f] = v; if (f === 'qty' || f === 'stockId') calculateItemCost(); };
+
+// ==================== REPORTS (FIXED PROFIT) ====================
+function toggleDateFilters() { const type = document.getElementById('reportType').value; document.getElementById('dateRangeInputs').style.display = type === 'custom' ? 'block' : 'none'; document.getElementById('dateRangeInputs2').style.display = type === 'custom' ? 'block' : 'none'; }
+window.applyReportFilter = function() { renderReports(); };
+function renderReports() {
+let totalSales = 0, totalCost = 0, totalExpensesAmount = 0;
+const container = document.getElementById('ordersList'); container.innerHTML = '';
+let filtered = [...orders];
+const type = document.getElementById('reportType').value;
+if (type === 'today') { const today = new Date().toLocaleDateString('ar-EG'); filtered = orders.filter(o => o.date && o.date.split(' ')[0] === today); }
+else if (type === 'monthly') { const cm = new Date().getMonth(), cy = new Date().getFullYear(); filtered = orders.filter(o => { if (!o.date) return false; const d = new Date(o.date); return d.getMonth() === cm && d.getFullYear() === cy; }); }
+else if (type === 'custom') { const from = document.getElementById('dateFrom').value, to = document.getElementById('dateTo').value; if (from && to) filtered = orders.filter(o => { if (!o.date) return false; const od = o.date.split(' ')[0]; return od >= from && od <= to; }); }
+filtered.forEach(o => {
+const sale = parseFloat(o.total) || 0;
+const cost = parseFloat(o.totalCost) || 0;
+totalSales += sale;
+totalCost += cost;
+const div = document.createElement('div');
+div.style.cssText = 'background: #f8f9fa; padding: 15px; border-radius: 10px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;';
+const orderProfit = sale - cost;
+div.innerHTML = `<div><b>#${o.orderNumber}</b> - ${o.date || ''}<br>بيع: ${sale.toFixed(2)} | تكلفة: ${cost.toFixed(2)} | <strong style="color:#27ae60;">ربح: ${orderProfit.toFixed(2)} ج.م</strong></div><button class="btn-small btn-view" onclick="viewOrderDetails('${o.id}')">عرض</button>`;
+container.appendChild(div);
+});
+if (filtered.length === 0) { container.innerHTML = '<p style="text-align: center; color: #777; padding: 20px;">لا توجد طلبات</p>'; }
+if (type === 'today') {
 const today = new Date().toLocaleDateString('ar-EG');
-const shiftOrdersList = orders.filter(o => {
-if (!o.date) return false;
-return o.date.split(' ')[0] === today && o.shiftNumber === activeShift.shiftNumber;
-});
-const shiftCash = shiftOrdersList.filter(o => o.paymentMethod === 'cash').reduce((sum, o) => sum + (parseFloat(o.total) || 0), 0);
-const shiftCard = shiftOrdersList.filter(o => o.paymentMethod === 'card').reduce((sum, o) => sum + (parseFloat(o.total) || 0), 0);
-const shiftWallet = shiftOrdersList.filter(o => o.paymentMethod === 'wallet').reduce((sum, o) => sum + (parseFloat(o.total) || 0), 0);
-const shiftTotal = shiftOrdersList.reduce((sum, o) => sum + (parseFloat(o.total) || 0), 0);
-const shiftTotalCost = shiftOrdersList.reduce((sum, o) => sum + (parseFloat(o.totalCost) || 0), 0);
-const shiftExpensesList = expenses.filter(e => e.shiftNumber === activeShift.shiftNumber);
-const shiftExpensesTotal = shiftExpensesList.reduce((sum, e) => sum + (parseFloat(e.amount) || 0), 0);
-const shiftDepositsList = cashDeposits.filter(d => d.shiftNumber === activeShift.shiftNumber);
-const shiftDepositsTotal = shiftDepositsList.reduce((sum, d) => sum + (parseFloat(d.amount) || 0), 0);
-const shiftOpeningCash = parseFloat(activeShift.openingCash) || 0;
-const shiftExpected = shiftOpeningCash + shiftCash + shiftDepositsTotal - shiftExpensesTotal;
-const shiftProfit = shiftTotal - shiftTotalCost - shiftExpensesTotal;
-const shiftProfitPercent = shiftTotal > 0 ? ((shiftProfit / shiftTotal) * 100).toFixed(1) : '0';
-// تحديث الـ UI بأمان
-const elements = {
-'shiftCash': shiftCash.toFixed(2) + ' ج.م',
-'shiftCard': shiftCard.toFixed(2) + ' ج.م',
-'shiftWallet': shiftWallet.toFixed(2) + ' ج.م',
-'shiftDeposits': shiftDepositsTotal.toFixed(2) + ' ج.م',
-'shiftExpenses': shiftExpensesTotal.toFixed(2) + ' ج.م',
-'shiftProfit': shiftProfit.toFixed(2) + ' ج.م',
-'shiftProfitPercent': shiftProfitPercent + '%',
-'shiftOrderCount': shiftOrdersList.length,
-'shiftExpected': shiftExpected.toFixed(2) + ' ج.م',
-'shiftOpeningCashDisplay': shiftOpeningCash.toFixed(2) + ' ج.م'
-};
-for (const [id, value] of Object.entries(elements)) {
-const el = document.getElementById(id);
-if (el) {
-el.textContent = value;
+totalExpensesAmount = expenses.filter(e => e.date && e.date.split(' ')[0] === today).reduce((sum, e) => sum + (parseFloat(e.amount) || 0), 0);
+} else if (type === 'all') {
+totalExpensesAmount = expenses.reduce((sum, e) => sum + (parseFloat(e.amount) || 0), 0);
+} else if (type === 'monthly') {
+const cm = new Date().getMonth(), cy = new Date().getFullYear();
+totalExpensesAmount = expenses.filter(e => { if (!e.date) return false; const d = new Date(e.date); return d.getMonth() === cm && d.getFullYear() === cy; }).reduce((sum, e) => sum + (parseFloat(e.amount) || 0), 0);
+} else if (type === 'custom') {
+const from = document.getElementById('dateFrom').value, to = document.getElementById('dateTo').value;
+if (from && to) totalExpensesAmount = expenses.filter(e => { if (!e.date) return false; const ed = e.date.split(' ')[0]; return ed >= from && ed <= to; }).reduce((sum, e) => sum + (parseFloat(e.amount) || 0), 0);
 }
+const grossProfit = totalSales - totalCost;
+const netProfit = grossProfit - totalExpensesAmount;
+const profitPercent = totalSales > 0 ? ((netProfit / totalSales) * 100).toFixed(1) : '0';
+document.getElementById('totalSales').textContent = totalSales.toFixed(2) + ' ج.م';
+document.getElementById('totalCost').textContent = totalCost.toFixed(2) + ' ج.م';
+document.getElementById('totalExpenses').textContent = totalExpensesAmount.toFixed(2) + ' ج.م';
+document.getElementById('netProfit').textContent = netProfit.toFixed(2) + ' ج.م';
+document.getElementById('netProfit').style.color = netProfit >= 0 ? '#11998e' : '#e74c3c';
+document.getElementById('profitPercent').textContent = profitPercent + '%';
+document.getElementById('profitPercent').style.color = netProfit >= 0 ? '#11998e' : '#e74c3c';
 }
-// حفظ القيم للاستخدام لاحقاً
-window.shiftCashValue = shiftCash;
-window.shiftCardValue = shiftCard;
-window.shiftWalletValue = shiftWallet;
-window.shiftDepositsValue = shiftDepositsTotal;
-window.shiftExpensesValue = shiftExpensesTotal;
-window.shiftExpectedValue = shiftExpected;
-window.shiftProfitValue = shiftProfit;
-window.shiftProfitPercentValue = shiftProfitPercent;
-} catch (error) {
-console.error('Error in calculateShiftSummary:', error);
-alert('حدث خطأ في حساب ملخص الشيفت: ' + error.message);
-}
-}
-
-window.calculateShiftDifference = function() {
-const actualCashInput = document.getElementById('shiftActualCash');
-const diffBox = document.getElementById('shiftDifferenceBox');
-const printBtn = document.getElementById('printShiftBtn');
-if (!actualCashInput || !diffBox || !printBtn) {
-console.error('Required elements not found');
-return;
-}
-const shiftActual = parseFloat(actualCashInput.value) || 0;
-const diff = shiftActual - window.shiftExpectedValue;
-if (actualCashInput.value !== '') {
-diffBox.style.display = 'block';
-const diffValue = Math.abs(diff).toFixed(2);
-document.getElementById('shiftDifferenceValue').textContent = diffValue + ' ج.م';
-const diffLabel = document.getElementById('shiftDifferenceLabel');
-if (diff < 0) {
-diffLabel.textContent = 'العجز:';
-diffLabel.style.color = '#e74c3c';
-} else if (diff > 0) {
-diffLabel.textContent = 'الأوفر:';
-diffLabel.style.color = '#27ae60';
-} else {
-diffLabel.textContent = 'الفرق:';
-diffLabel.style.color = '#2980b9';
-}
-printBtn.disabled = false;
-} else {
-diffBox.style.display = 'none';
-printBtn.disabled = true;
-}
+window.viewOrderDetails = function(orderId) {
+const order = orders.find(o => o.id === orderId);
+if (!order) return;
+const sale = parseFloat(order.total) || 0;
+const cost = parseFloat(order.totalCost) || 0;
+const profit = sale - cost;
+alert(`تفاصيل الأوردر #${order.orderNumber}\nالتاريخ: ${order.date}\nالنوع: ${order.type}\nالطاولة: ${order.tableName || '-'}\nطريقة الدفع: ${order.paymentMethod}\nالكاشير: ${order.cashier}\n\n💵 المبيعات: ${sale.toFixed(2)} ج.م\n📦 التكلفة: ${cost.toFixed(2)} ج.م\n💰 الربح: ${profit.toFixed(2)} ج.م`);
 };
 
+// ==================== SETTINGS ====================
+function loadSettingsForm() { document.getElementById('restaurantName').value = restaurantSettings.name || ''; document.getElementById('restaurantPhone').value = restaurantSettings.phone || ''; document.getElementById('restaurantAddress').value = restaurantSettings.address || ''; document.getElementById('receiptMessage').value = restaurantSettings.message || ''; const lp = document.getElementById('logoPreview'); if (restaurantSettings.logo) { lp.innerHTML = `<img src="${restaurantSettings.logo}" style="max-width: 100%; max-height: 150px; display: block; margin: 0 auto;">`; } else { lp.innerHTML = '<p>لا يوجد لوجو</p>'; } }
+window.saveSettings = async function() { restaurantSettings.name = document.getElementById('restaurantName').value; restaurantSettings.phone = document.getElementById('restaurantPhone').value; restaurantSettings.address = document.getElementById('restaurantAddress').value; restaurantSettings.message = document.getElementById('receiptMessage').value; if (restaurantSettings.id) { await updateDoc(doc(db, 'settings', restaurantSettings.id), restaurantSettings); } else { const newId = await addDoc(collection(db, 'settings'), restaurantSettings); restaurantSettings.id = newId; } document.getElementById('restaurantNameDisplay').textContent = restaurantSettings.name; alert('✅ تم!'); };
+window.handleLogoUpload = function() { const fi = document.getElementById('logoInput'); const f = fi.files[0]; if (f) { if (f.size > 2 * 1024 * 1024) { alert('كبير! أقل من 2MB'); return; } if (!f.type.startsWith('image/')) { alert('صورة فقط'); return; } const r = new FileReader(); r.onload = async function(e) { const b = e.target.result; try { restaurantSettings.logo = b; if (restaurantSettings.id) { await updateDoc(doc(db, 'settings', restaurantSettings.id), { logo: b }); } else { const ni = await addDoc(collection(db, 'settings'), { ...restaurantSettings, logo: b }); restaurantSettings.id = ni; } document.getElementById('logoPreview').innerHTML = `<img src="${b}" style="max-width: 100%; max-height: 150px; display: block; margin: 0 auto;">`; document.getElementById('loginLogo').src = b; document.getElementById('loginLogo').style.display = 'block'; document.getElementById('headerLogo').src = b; document.getElementById('headerLogo').style.display = 'block'; alert('✅ تم!'); } catch (err) { alert('خطأ: ' + err.message); } }; r.readAsDataURL(f); } };
+window.removeLogo = async function() { try { restaurantSettings.logo = ''; if (restaurantSettings.id) { await updateDoc(doc(db, 'settings', restaurantSettings.id), { logo: '' }); } document.getElementById('logoInput').value = ''; document.getElementById('logoPreview').innerHTML = '<p>لا يوجد لوجو</p>'; document.getElementById('loginLogo').src = ''; document.getElementById('loginLogo').style.display = 'none'; document.getElementById('headerLogo').src = ''; document.getElementById('headerLogo').style.display = 'none'; alert('✅ تم!'); } catch (err) { alert('خطأ'); } };
+
+// ==================== TABLES ====================
+function renderTablesList() { const container = document.getElementById('tablesList'); container.innerHTML = ''; if (tables.length === 0) { container.innerHTML = '<p style="text-align: center; color: #777; padding: 40px; grid-column: 1/-1;">لا توجد طاولات</p>'; return; } tables.forEach(table => { const card = document.createElement('div'); card.className = 'table-card ' + (table.status === 'free' ? 'free' : 'occupied'); const tableOrder = tableOrders.find(to => to.tableId === table.id && to.status === 'active'); const orderInfo = tableOrder ? `<div class="table-info">📋 ${tableOrder.orders?.length || 0} أوردر<br>💰 ${tableOrder.totalAmount?.toFixed(2) || 0} ج.م</div>` : ''; const releaseBtn = table.status === 'occupied' ? `<button class="btn-table btn-release-table" onclick="manualReleaseTable('${table.id}')">🔓 تحرير طاولة</button>` : ''; card.innerHTML = `<div class="table-number">طاولة ${table.number}</div><div class="table-status">${table.status === 'free' ? '✅ متاحة' : '❌ مشغولة'}</div>${orderInfo}<div class="table-actions"><button class="btn-table btn-edit-table" onclick="editTable('${table.id}')">✏️</button><button class="btn-table btn-delete-table" onclick="deleteTable('${table.id}')">🗑️</button></div>${releaseBtn}`; container.appendChild(card); }); }
+window.manualReleaseTable = async function(tableId) { const table = tables.find(t => t.id === tableId); if (!table) return; if (!confirm(`تحرير طاولة ${table.number}؟\nسيتم حذف أي أوردرات معلقة!`)) return; const tableOrder = tableOrders.find(to => to.tableId === tableId && to.status === 'active'); if (tableOrder) { await deleteDoc(doc(db, 'tableOrders', tableOrder.id)); await loadTableOrders(); } await updateDoc(doc(db, 'tables', tableId), { status: 'free' }); await loadTables(); renderTablesList(); alert(`✅ تم تحرير طاولة ${table.number}`); };
+window.editTable = async function(i) { const t = tables.find(x => x.id === i); if (!t) return; const n = prompt("رقم الطاولة:", t.number); const c = prompt("عدد الكراسي:", t.capacity); if (n && c) { await updateDoc(doc(db, 'tables', i), { number: parseInt(n), capacity: parseInt(c) }); await loadTables(); renderTablesList(); alert('✅ تم!'); } };
+window.deleteTable = async function(i) { const t = tables.find(x => x.id === i); if (!t) return; if (t.status === 'occupied') { alert('الطاولة مشغولة!'); return; } if (confirm("متأكد؟")) { await deleteDoc(doc(db, 'tables', i)); await loadTables(); renderTablesList(); alert('✅ تم!'); } };
+window.addTable = async function() { const n = document.getElementById('newTableNumber').value; const c = document.getElementById('newTableCapacity').value; if (!n || !c) { alert("أكمل البيانات!"); return; } if (tables.find(t => t.number == n)) { alert("موجود!"); return; } await addDoc(collection(db, 'tables'), { number: parseInt(n), capacity: parseInt(c), status: 'free' }); document.getElementById('newTableNumber').value = ''; document.getElementById('newTableCapacity').value = ''; await loadTables(); renderTablesList(); alert('✅ تمت الإضافة!'); };
+
+// ==================== SHIFT CLOSE (SEPARATED SECTIONS) ====================
+async function calculateShiftSummary() {
+const today = new Date().toLocaleDateString('ar-EG');
+const shiftOrders = orders.filter(o => o.date && o.date.split(' ')[0] === today && o.shiftNumber === activeShift?.shiftNumber);
+const cash = shiftOrders.filter(o => o.paymentMethod === 'cash').reduce((sum, o) => sum + (parseFloat(o.total) || 0), 0);
+const card = shiftOrders.filter(o => o.paymentMethod === 'card').reduce((sum, o) => sum + (parseFloat(o.total) || 0), 0);
+const wallet = shiftOrders.filter(o => o.paymentMethod === 'wallet').reduce((sum, o) => sum + (parseFloat(o.total) || 0), 0);
+const totalSales = shiftOrders.reduce((sum, o) => sum + (parseFloat(o.total) || 0), 0);
+// ✅ حساب تكلفة المبيعات صح
+const totalCost = shiftOrders.reduce((sum, o) => sum + (parseFloat(o.totalCost) || 0), 0);
+const expTotal = expenses.filter(e => e.shiftNumber === activeShift?.shiftNumber).reduce((sum, e) => sum + (parseFloat(e.amount) || 0), 0);
+const depTotal = cashDeposits.filter(d => d.shiftNumber === activeShift?.shiftNumber).reduce((sum, d) => sum + (parseFloat(d.amount) || 0), 0);
+const opening = activeShift?.openingCash || 0;
+const expected = opening + cash + depTotal - expTotal;
+// ✅ الربح الصحيح = مبيعات - تكلفة مبيعات - مصروفات
+const profit = totalSales - totalCost - expTotal;
+const profitPct = totalSales > 0 ? ((profit / totalSales) * 100).toFixed(1) : '0';
+// Profit Section
+document.getElementById('shiftSales').textContent = totalSales.toFixed(2) + ' ج.م';
+document.getElementById('shiftTotalCost').textContent = totalCost.toFixed(2) + ' ج.م';
+document.getElementById('shiftExpenses').textContent = expTotal.toFixed(2) + ' ج.م';
+document.getElementById('shiftProfit').textContent = profit.toFixed(2) + ' ج.م';
+document.getElementById('shiftProfit').style.color = profit >= 0 ? '#11998e' : '#e74c3c';
+document.getElementById('shiftProfitPercent').textContent = profitPct + '%';
+document.getElementById('shiftProfitPercent').style.color = profit >= 0 ? '#11998e' : '#e74c3c';
+// Drawer Section
+document.getElementById('shiftCash').textContent = cash.toFixed(2) + ' ج.م';
+document.getElementById('shiftCard').textContent = card.toFixed(2) + ' ج.م';
+document.getElementById('shiftWallet').textContent = wallet.toFixed(2) + ' ج.م';
+document.getElementById('shiftDeposits').textContent = depTotal.toFixed(2) + ' ج.م';
+document.getElementById('shiftExpected').textContent = expected.toFixed(2) + ' ج.م';
+document.getElementById('shiftOpeningCashDisplay').textContent = opening.toFixed(2) + ' ج.م';
+document.getElementById('shiftOrderCount').textContent = shiftOrders.length;
+// Store values
+window.shiftSalesValue = totalSales;
+window.shiftCostValue = totalCost;
+window.shiftCashValue = cash;
+window.shiftCardValue = card;
+window.shiftWalletValue = wallet;
+window.shiftDepositsValue = depTotal;
+window.shiftExpensesValue = expTotal;
+window.shiftExpectedValue = expected;
+window.shiftProfitValue = profit;
+window.shiftProfitPercentValue = profitPct;
+}
+window.calculateShiftDifference = function() { const actual = parseFloat(document.getElementById('shiftActualCash').value) || 0; const diff = actual - window.shiftExpectedValue; const box = document.getElementById('shiftDifferenceBox'); if (document.getElementById('shiftActualCash').value !== '') { box.style.display = 'block'; document.getElementById('shiftDifferenceValue').textContent = Math.abs(diff).toFixed(2) + ' ج.م'; document.getElementById('shiftDifferenceLabel').textContent = diff < 0 ? '❌ عجز:' : diff > 0 ? '✅ أوفر:' : '✅ متطابق'; document.getElementById('printShiftBtn').disabled = false; } else { box.style.display = 'none'; document.getElementById('printShiftBtn').disabled = true; } };
 window.printShiftCloseReceipt = function() {
-const shiftActual = parseFloat(document.getElementById('shiftActualCash').value) || 0;
-const diff = shiftActual - window.shiftExpectedValue;
+const actual = parseFloat(document.getElementById('shiftActualCash').value) || 0;
+const diff = actual - window.shiftExpectedValue;
 const diffText = diff < 0 ? '❌ عجز' : diff > 0 ? '✅ أوفر' : '✅ متطابق';
 const diffColor = diff < 0 ? '#e74c3c' : diff > 0 ? '#27ae60' : '#2980b9';
 const logoHtml = restaurantSettings.logo ? `<img src="${restaurantSettings.logo}" style="max-width:150px; margin:0 auto 15px auto; display:block;">` : '';
-const receiptContent = `<div style="text-align: center; font-family: monospace; padding: 20px; max-width: 400px; margin: 0 auto;">${logoHtml}<h2 style="margin: 10px 0;">${restaurantSettings.name}</h2><p>تقفيلة شيفت #${activeShift?.shiftNumber}</p><p>التاريخ: ${new Date().toLocaleDateString('ar-EG')}</p><p>الكاشير: ${currentUser?.username || ''}</p><p>عدد الأوردرات: ${document.getElementById('shiftOrderCount').textContent}</p><div style="border-top: 2px dashed #000; margin: 15px 0;"></div><div style="display: flex; justify-content: space-between; margin: 8px 0;"><span>💵 كاش:</span><span>${window.shiftCashValue.toFixed(2)} ج.م</span></div><div style="display: flex; justify-content: space-between; margin: 8px 0;"><span>💳 فيزا:</span><span>${window.shiftCardValue.toFixed(2)} ج.م</span></div><div style="display: flex; justify-content: space-between; margin: 8px 0;"><span>📱 محفظة:</span><span>${window.shiftWalletValue.toFixed(2)} ج.م</span></div><div style="display: flex; justify-content: space-between; margin: 8px 0;"><span>💵 توريدات:</span><span>${window.shiftDepositsValue.toFixed(2)} ج.م</span></div><div style="display: flex; justify-content: space-between; margin: 8px 0; color: #e74c3c;"><span>💸 مصروفات:</span><span>-${window.shiftExpensesValue.toFixed(2)} ج.م</span></div><div style="display: flex; justify-content: space-between; margin: 8px 0; color: #27ae60;"><span>📈 صافي الربح:</span><span>${window.shiftProfitValue.toFixed(2)} ج.م (${window.shiftProfitPercentValue}%)</span></div><div style="display: flex; justify-content: space-between; margin: 8px 0; font-weight: bold;"><span>الابتدائي:</span><span>${(activeShift?.openingCash || 0).toFixed(2)} ج.م</span></div><div style="border-top: 2px dashed #000; margin: 15px 0; padding-top: 15px;"><div style="display: flex; justify-content: space-between; margin: 8px 0; font-weight: bold;"><span>المتوقع:</span><span>${window.shiftExpectedValue.toFixed(2)} ج.م</span></div><div style="display: flex; justify-content: space-between; margin: 8px 0;"><span>الفعلي:</span><span>${shiftActual.toFixed(2)} ج.م</span></div><div style="display: flex; justify-content: space-between; font-weight: bold; font-size: 18px; margin: 10px 0; color: ${diffColor};"><span>${diffText}:</span><span>${Math.abs(diff).toFixed(2)} ج.م</span></div></div><div style="border-top: 2px dashed #000; margin: 15px 0;"></div><p style="margin-top: 30px;">_________________</p><p>توقيع الكاشير</p></div>`;
-const printWindow = window.open('', '', 'width=400,height=800');
-printWindow.document.write('<html dir="rtl"><head><title>تقفيلة شيفت</title></head><body>' + receiptContent + '</body></html>');
-printWindow.document.close();
-printWindow.print();
+const content = `<div style="text-align: center; font-family: monospace; padding: 20px; max-width: 400px; margin: 0 auto;">${logoHtml}<h2>${restaurantSettings.name}</h2><p>تقفيلة شيفت #${activeShift?.shiftNumber}</p><p>${new Date().toLocaleDateString('ar-EG')}</p><p>الكاشير: ${currentUser?.username || ''}</p><p>الأوردرات: ${document.getElementById('shiftOrderCount').textContent}</p><div style="border-top: 2px dashed #000; margin: 15px 0;"></div><h3>حساب الأرباح</h3><div style="display:flex; justify-content:space-between;"><span>💵 المبيعات:</span><span>${window.shiftSalesValue.toFixed(2)} ج.م</span></div><div style="display:flex; justify-content:space-between; color:#e74c3c;"><span>📦 التكلفة:</span><span>-${window.shiftCostValue.toFixed(2)} ج.م</span></div><div style="display:flex; justify-content:space-between; color:#e74c3c;"><span>💸 المصروفات:</span><span>-${window.shiftExpensesValue.toFixed(2)} ج.م</span></div><div style="display:flex; justify-content:space-between; font-weight:bold; color:#27ae60;"><span>📊 الربح:</span><span>${window.shiftProfitValue.toFixed(2)} ج.م</span></div><div style="border-top: 2px dashed #000; margin: 15px 0;"></div><h3>حساب الدرج</h3><div style="display:flex; justify-content:space-between;"><span>💵 كاش:</span><span>${window.shiftCashValue.toFixed(2)} ج.م</span></div><div style="display:flex; justify-content:space-between;"><span>💳 فيزا:</span><span>${window.shiftCardValue.toFixed(2)} ج.م</span></div><div style="display:flex; justify-content:space-between;"><span>📱 محفظة:</span><span>${window.shiftWalletValue.toFixed(2)} ج.م</span></div><div style="display:flex; justify-content:space-between;"><span>💵 توريدات:</span><span>+${window.shiftDepositsValue.toFixed(2)} ج.م</span></div><div style="border-top: 2px dashed #000; margin: 15px 0; padding-top: 15px;"><div style="display:flex; justify-content:space-between; font-weight:bold;"><span>المتوقع في الدرج:</span><span>${window.shiftExpectedValue.toFixed(2)} ج.م</span></div><div style="display:flex; justify-content:space-between;"><span>الفعلي:</span><span>${actual.toFixed(2)} ج.م</span></div><div style="display:flex; justify-content:space-between; font-weight:bold; font-size:18px; margin:10px 0; color:${diffColor};"><span>${diffText}:</span><span>${Math.abs(diff).toFixed(2)} ج.م</span></div></div><p style="margin-top:30px;">_________________<br>التوقيع</p></div>`;
+const pw = window.open('', '', 'width=400,height=800');
+pw.document.write('<html dir="rtl"><head><title>تقفيلة شيفت</title></head><body>' + content + '</body></html>');
+pw.document.close(); pw.print();
 };
-
 window.confirmShiftClose = async function() {
 try {
 if (!activeShift) { alert('⚠️ لا يوجد شيفت نشط!'); return; }
-const shiftActual = parseFloat(document.getElementById('shiftActualCash').value) || 0;
-const diff = shiftActual - window.shiftExpectedValue;
-await updateDoc(doc(db, 'shiftClosures', activeShift.id), { status: 'closed', closingCash: shiftActual, expectedCash: window.shiftExpectedValue, difference: diff, closedAt: new Date().toLocaleString('ar-EG'), closedBy: currentUser.username, totalSales: window.shiftCashValue + window.shiftCardValue + window.shiftWalletValue, cashSales: window.shiftCashValue, cardSales: window.shiftCardValue, walletSales: window.shiftWalletValue, totalDeposits: window.shiftDepositsValue, totalExpenses: window.shiftExpensesValue, openingCash: activeShift.openingCash });
-for (const table of tables) { if (table.status === 'occupied') { await updateDoc(doc(db, 'tables', table.id), { status: 'free', orderId: null }); } }
-printShiftCloseReceipt();
-activeShift = null;
-await loadShiftClosures();
-checkActiveShift();
-backToDashboard();
-alert(`✅ تم إقفال الشيفت!\n${diff === 0 ? 'الرصيد متطابق' : diff < 0 ? 'في عجز: ' + Math.abs(diff).toFixed(2) + ' ج.م' : 'في أوفر: ' + diff.toFixed(2) + ' ج.م'}`);
-} catch (error) {
-console.error('Error in confirmShiftClose:', error);
-alert('❌ حدث خطأ أثناء إقفال الشيفت: ' + error.message);
-}
+const actual = parseFloat(document.getElementById('shiftActualCash').value) || 0;
+const shiftOrders = orders.filter(o => o.shiftNumber === activeShift.shiftNumber);
+const cashSales = shiftOrders.filter(o => o.paymentMethod === 'cash').reduce((sum, o) => sum + (parseFloat(o.total) || 0), 0);
+const cardSales = shiftOrders.filter(o => o.paymentMethod === 'card').reduce((sum, o) => sum + (parseFloat(o.total) || 0), 0);
+const walletSales = shiftOrders.filter(o => o.paymentMethod === 'wallet').reduce((sum, o) => sum + (parseFloat(o.total) || 0), 0);
+const totalSales = cashSales + cardSales + walletSales;
+const totalCost = shiftOrders.reduce((sum, o) => sum + (parseFloat(o.totalCost) || 0), 0);
+const expTotal = expenses.filter(e => e.shiftNumber === activeShift.shiftNumber).reduce((sum, e) => sum + (parseFloat(e.amount) || 0), 0);
+const depTotal = cashDeposits.filter(d => d.shiftNumber === activeShift.shiftNumber).reduce((sum, d) => sum + (parseFloat(d.amount) || 0), 0);
+const opening = parseFloat(activeShift.openingCash) || 0;
+const expected = opening + cashSales + depTotal - expTotal;
+const diff = actual - expected;
+await updateDoc(doc(db, 'shiftClosures', activeShift.id), { status: 'closed', closingCash: actual, expectedCash: expected, difference: diff, closedAt: new Date().toLocaleString('ar-EG'), closedBy: currentUser.username, totalSales, totalCost, cashSales, cardSales, walletSales, totalDeposits: depTotal, totalExpenses: expTotal, openingCash: opening });
+const occupied = tables.filter(t => t.status === 'occupied');
+for (const table of occupied) { try { await updateDoc(doc(db, 'tables', table.id), { status: 'free' }); } catch (e) {} }
+printShiftCloseReceipt(); activeShift = null; await loadShiftClosures(); checkActiveShift(); backToDashboard();
+let msg = '✅ تم إقفال الشيفت!\nالمبيعات: ' + totalSales.toFixed(2) + '\nالتكلفة: ' + totalCost.toFixed(2) + '\nالمصروفات: ' + expTotal.toFixed(2) + '\nالربح: ' + (totalSales - totalCost - expTotal).toFixed(2) + '\n\nالمتوقع في الدرج: ' + expected.toFixed(2) + '\nالفعلي في الدرج: ' + actual.toFixed(2);
+if (diff < 0) msg += '\n❌ عجز: ' + Math.abs(diff).toFixed(2);
+else if (diff > 0) msg += '\n✅ أوفر: ' + diff.toFixed(2);
+else msg += '\n✅ متطابق!';
+alert(msg);
+} catch (error) { alert('❌ خطأ: ' + error.message); }
 };
-
-window.onclick = function(event) { if (event.target.classList.contains('modal')) { event.target.style.display = 'none'; } };
-
-window.openExpenseHistory = function() {
-document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
-document.getElementById('expenseHistoryPage').style.display = 'block';
-const select = document.getElementById('expenseHistoryCategory');
-select.innerHTML = '<option value="all">الكل</option>';
-expenseCategories.forEach(cat => {
-const option = document.createElement('option');
-option.value = cat.id;
-option.textContent = cat.name;
-select.appendChild(option);
-});
-filterExpenseHistory();
-};
-
-window.filterExpenseHistory = function() {
-const from = document.getElementById('expenseHistoryFrom').value;
-const to = document.getElementById('expenseHistoryTo').value;
-const categoryId = document.getElementById('expenseHistoryCategory').value;
-let filteredExpenses = [...expenses];
-if (from && to) {
-const fromDate = new Date(from);
-const toDate = new Date(to);
-toDate.setHours(23, 59, 59, 999);
-filteredExpenses = filteredExpenses.filter(e => {
-if (!e.date) return false;
-const expenseDate = new Date(e.date);
-return expenseDate >= fromDate && expenseDate <= toDate;
-});
-}
-if (categoryId !== 'all') {
-filteredExpenses = filteredExpenses.filter(e => e.categoryId === categoryId);
-}
-const totalAmount = filteredExpenses.reduce((sum, e) => sum + (parseFloat(e.amount) || 0), 0);
-document.getElementById('totalExpensesAmount').textContent = totalAmount.toFixed(2) + ' ج.م';
-const listContainer = document.getElementById('expenseHistoryList');
-listContainer.innerHTML = '';
-if (filteredExpenses.length === 0) {
-listContainer.innerHTML = '<p style="text-align: center; color: #777; padding: 20px;">لا توجد مصاريف</p>';
-return;
-}
-filteredExpenses.slice().reverse().forEach(exp => {
-const cat = expenseCategories.find(c => c.id === exp.categoryId);
-const div = document.createElement('div');
-div.className = 'expense-record';
-div.innerHTML = `
-<div class="expense-record-header">
-<div>
-<div style="font-weight: 700; margin-bottom: 5px;">${cat?.name || 'غير محدد'}</div>
-<div class="expense-record-details">
-${exp.date} | ${exp.addedBy}
-${exp.notes ? `<br>📝 ${exp.notes}` : ''}
-${exp.shiftNumber ? `| شيفت #${exp.shiftNumber}` : ''}
-</div>
-</div>
-<div style="font-weight: 700; color: #e74c3c; font-size: 18px;">
--${exp.amount.toFixed(2)} ج.م
-</div>
-</div>
-`;
-listContainer.appendChild(div);
-});
-};
-
-window.exportExpensesToExcel = function() {
-const from = document.getElementById('expenseHistoryFrom').value;
-const to = document.getElementById('expenseHistoryTo').value;
-const categoryId = document.getElementById('expenseHistoryCategory').value;
-let filteredExpenses = [...expenses];
-if (from && to) {
-const fromDate = new Date(from);
-const toDate = new Date(to);
-toDate.setHours(23, 59, 59, 999);
-filteredExpenses = filteredExpenses.filter(e => {
-if (!e.date) return false;
-const expenseDate = new Date(e.date);
-return expenseDate >= fromDate && expenseDate <= toDate;
-});
-}
-if (categoryId !== 'all') {
-filteredExpenses = filteredExpenses.filter(e => e.categoryId === categoryId);
-}
-const ws = XLSX.utils.json_to_sheet(filteredExpenses.map(e => {
-const cat = expenseCategories.find(c => c.id === e.categoryId);
-return {
-'التاريخ': e.date,
-'النوع': cat?.name || 'غير محدد',
-'المبلغ': e.amount,
-'الملاحظات': e.notes || '',
-'الشيفت': `#${e.shiftNumber}`,
-'المستخدم': e.addedBy
-};
-}));
-const wb = XLSX.utils.book_new();
-XLSX.utils.book_append_sheet(wb, ws, "المصروفات");
-XLSX.writeFile(wb, `المصروفات_${new Date().toLocaleDateString('ar-EG')}.xlsx`);
-};
-
-window.exportReportsToExcel = function() {
-const from = document.getElementById('dateFrom').value;
-const to = document.getElementById('dateTo').value;
-const type = document.getElementById('reportType').value;
-let filteredOrders = [...orders];
-if (type === 'today') {
-const today = new Date().toLocaleDateString('ar-EG');
-filteredOrders = orders.filter(o => o.date.split(' ')[0] === today);
-} else if (type === 'monthly') {
-const currentMonth = new Date().getMonth();
-const currentYear = new Date().getFullYear();
-filteredOrders = orders.filter(o => { if (!o.date) return false; const d = new Date(o.date); return d.getMonth() === currentMonth && d.getFullYear() === currentYear; });
-} else if (type === 'custom') {
-if (from && to) {
-const fromDate = new Date(from);
-const toDate = new Date(to);
-toDate.setHours(23, 59, 59, 999);
-filteredOrders = orders.filter(o => { if (!o.date) return false; const orderDate = o.date.split(' ')[0]; return orderDate >= from && orderDate <= to; });
-}
-}
-const ws = XLSX.utils.json_to_sheet(filteredOrders.map(o => ({
-'رقم الأوردر': `#${o.orderNumber}`,
-'التاريخ': o.date,
-'النوع': o.type === 'dinein' ? 'صالة' : 'تيك اواي',
-'المبيعات': o.total,
-'التكلفة': o.totalCost,
-'الربح': o.profit,
-'طريقة الدفع': o.paymentMethod === 'cash' ? 'كاش' : o.paymentMethod === 'card' ? 'فيزا' : 'محفظة',
-'الكاشير': o.cashier,
-'الطاولة': o.tableName || '-'
-})));
-const wb = XLSX.utils.book_new();
-XLSX.utils.book_append_sheet(wb, ws, "التقارير");
-XLSX.writeFile(wb, `التقارير_${new Date().toLocaleDateString('ar-EG')}.xlsx`);
-};
-
+window.onclick = function(event) { if (event.target.classList.contains('modal')) event.target.style.display = 'none'; };
 initApp();
 </script>
 </body>
 </html>
+
