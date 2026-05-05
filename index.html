@@ -36,6 +36,7 @@ body { font-family: 'Cairo', sans-serif; background: linear-gradient(135deg, #66
 #mainApp { display: none; min-height: 100vh; }
 .top-bar { background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 20px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 100; }
 .brand { display: flex; align-items: center; gap: 15px; }
+.brand-logo { width: 50px; height: 50px; border-radius: 50%; object-fit: cover; border: 3px solid #667eea; }
 .brand-text h2 { color: #333; font-size: 22px; margin-bottom: 3px; }
 .brand-text p { color: #777; font-size: 13px; }
 .user-info { display: flex; align-items: center; gap: 15px; }
@@ -133,7 +134,10 @@ body { font-family: 'Cairo', sans-serif; background: linear-gradient(135deg, #66
 
 <div id="mainApp">
     <div class="top-bar">
-        <div class="brand"><div class="brand-text"><h2 id="restaurantNameDisplay">Dr Shrimp</h2><p id="welcomeUser">مرحباً</p></div></div>
+        <div class="brand">
+            <img id="headerLogo" class="brand-logo" src="" alt="Logo" style="display:none;">
+            <div class="brand-text"><h2 id="restaurantNameDisplay">Dr Shrimp</h2><p id="welcomeUser">مرحباً</p></div>
+        </div>
         <div class="user-info"><span id="shiftStatus" class="shift-badge inactive">🔴 لا يوجد شيفت نشط</span><button class="btn-logout" onclick="logout()">خروج</button></div>
     </div>
 
@@ -335,7 +339,15 @@ async function loadReturns() { const s=await getDocs(collection(db,'returns')); 
 async function loadOrderCount() { const s=await getDocs(collection(db,'system')); if(!s.empty) orderCount=(s.docs[0].data().orderCount||0)+1; else { await addDoc(collection(db,'system'),{orderCount:1}); orderCount=1; } document.getElementById('orderNumber').textContent='#'+String(orderCount).padStart(3,'0'); }
 async function saveOrderCount() { const s=await getDocs(collection(db,'system')); if(!s.empty) await updateDoc(doc(db,'system',s.docs[0].id),{orderCount}); }
 
-function updateUI() { document.getElementById('restaurantNameDisplay').textContent = restaurantSettings.name; }
+function updateUI() { 
+    document.getElementById('restaurantNameDisplay').textContent = restaurantSettings.name; 
+    if (restaurantSettings.logo) {
+        document.getElementById('headerLogo').src = restaurantSettings.logo;
+        document.getElementById('headerLogo').style.display = 'block';
+    } else {
+        document.getElementById('headerLogo').style.display = 'none';
+    }
+}
 
 window.login = async function() {
     const u=document.getElementById('usernameInput').value.trim(), p=document.getElementById('passwordInput').value, e=document.getElementById('errorMsg');
@@ -470,8 +482,14 @@ window.editItem=function(i){const item=menuItems.find(x=>x.id===i);if(item){docu
 window.deleteItem=async function(i){if(confirm('متأكد؟')){await deleteDoc(doc(db,'menu',i));showToast('✅ تم!','success');}};
 window.cancelEdit=function(){document.getElementById('newItemName').value='';document.getElementById('newItemPrice').value='';document.getElementById('newItemCategory').value='';document.getElementById('editIndex').value='';tempIngredients=[];renderIngredientsFields();document.getElementById('saveBtnText').textContent='✅ إضافة صنف جديد';document.getElementById('cancelBtn').style.display='none';};
 
-function toggleDateFilters(){const t=document.getElementById('reportType').value;document.getElementById('dateRangeInputs').style.display=t==='custom'?'block':'none';document.getElementById('dateRangeInputs2').style.display=t==='custom'?'block':'none';}
-window.applyReportFilter=function(){renderReports();};
+// --- FIXED: Date Filters are now defined on window ---
+window.toggleDateFilters = function() {
+    const t = document.getElementById('reportType').value;
+    document.getElementById('dateRangeInputs').style.display = t === 'custom' ? 'block' : 'none';
+    document.getElementById('dateRangeInputs2').style.display = t === 'custom' ? 'block' : 'none';
+};
+
+window.applyReportFilter = function() { renderReports(); };
 
 // ✅ FIXED REPORT FUNCTION WITH ROBUST DATE HANDLING
 function renderReports() {
@@ -488,7 +506,7 @@ function renderReports() {
     else if (t === 'monthly') {
         const cm = new Date().getMonth(), cy = new Date().getFullYear();
         f = orders.filter(o => {
-            const d = new Date(o.date.replace(/[٠-٩]/g, m => ['٠','١','٢','٣','٤','٥','٦','٧','٨','٩'].indexOf(m)));
+            const d = new Date(o.date.replace(/[٠-٩]/g, m => ['٠','١','٢','','٤','٥','٦','٧','٨','٩'].indexOf(m)));
             return !isNaN(d.getTime()) && d.getMonth() === cm && d.getFullYear() === cy;
         });
     } 
@@ -498,7 +516,6 @@ function renderReports() {
         if (fr && to) {
             f = orders.filter(o => {
                 const od = getSafeDateISO(o.date);
-                // Compare ISO strings directly
                 return od !== '' && od >= fr && od <= to;
             });
         }
@@ -530,8 +547,28 @@ function renderReports() {
 
 window.viewOrderDetails=function(id){const o=orders.find(x=>x.id===id);if(!o)return;const s=parseFloat(o.total)||0,co=parseFloat(o.totalCost)||0;alert(`تفاصيل الأوردر #${o.orderNumber}\nالتاريخ: ${o.date}\nالنوع: ${o.type}\nالطاولة: ${o.tableName||'-'}\nطريقة الدفع: ${o.paymentMethod}\nالكاشير: ${o.cashier}\n\n💵 المبيعات: ${s.toFixed(2)} ج.م\n📦 التكلفة: ${co.toFixed(2)} ج.م\n💰 الربح: ${(s-co).toFixed(2)} ج.م`);};
 
-function loadSettingsForm(){document.getElementById('restaurantName').value=restaurantSettings.name||'';document.getElementById('restaurantPhone').value=restaurantSettings.phone||'';document.getElementById('restaurantAddress').value=restaurantSettings.address||'';document.getElementById('receiptMessage').value=restaurantSettings.message||'';const lp=document.getElementById('logoPreview');if(restaurantSettings.logo){lp.innerHTML=`<img src="${restaurantSettings.logo}" style="max-width:100%;max-height:150px;display:block;margin:0 auto;">`;}else{lp.innerHTML='<p>لا يوجد لوجو</p>';}}
-window.saveSettings=async function(){restaurantSettings.name=document.getElementById('restaurantName').value;restaurantSettings.phone=document.getElementById('restaurantPhone').value;restaurantSettings.address=document.getElementById('restaurantAddress').value;restaurantSettings.message=document.getElementById('receiptMessage').value;if(restaurantSettings.id){await updateDoc(doc(db,'settings',restaurantSettings.id),restaurantSettings);}else{const ni=await addDoc(collection(db,'settings'),restaurantSettings);restaurantSettings.id=ni;}document.getElementById('restaurantNameDisplay').textContent=restaurantSettings.name;showToast('✅ تم!','success');};
+function loadSettingsForm(){
+    document.getElementById('restaurantName').value=restaurantSettings.name||'';
+    document.getElementById('restaurantPhone').value=restaurantSettings.phone||'';
+    document.getElementById('restaurantAddress').value=restaurantSettings.address||'';
+    document.getElementById('receiptMessage').value=restaurantSettings.message||'';
+    const lp=document.getElementById('logoPreview');
+    if(restaurantSettings.logo){
+        lp.innerHTML=`<img src="${restaurantSettings.logo}" style="max-width:100%;max-height:150px;display:block;margin:0 auto;">`;
+    } else {
+        lp.innerHTML='<p>لا يوجد لوجو</p>';
+    }
+}
+window.saveSettings=async function(){
+    restaurantSettings.name=document.getElementById('restaurantName').value;
+    restaurantSettings.phone=document.getElementById('restaurantPhone').value;
+    restaurantSettings.address=document.getElementById('restaurantAddress').value;
+    restaurantSettings.message=document.getElementById('receiptMessage').value;
+    if(restaurantSettings.id){await updateDoc(doc(db,'settings',restaurantSettings.id),restaurantSettings);}
+    else{const ni=await addDoc(collection(db,'settings'),restaurantSettings);restaurantSettings.id=ni;}
+    document.getElementById('restaurantNameDisplay').textContent=restaurantSettings.name;
+    showToast('✅ تم!','success');
+};
 window.handleLogoUpload=function(){const fi=document.getElementById('logoInput'),f=fi.files[0];if(f){if(f.size>2*1024*1024){showToast('كبير! أقل من 2MB','error');return;}if(!f.type.startsWith('image/')){showToast('صورة فقط','error');return;}const r=new FileReader();r.onload=async function(e){const b=e.target.result;try{restaurantSettings.logo=b;if(restaurantSettings.id){await updateDoc(doc(db,'settings',restaurantSettings.id),{logo:b});}else{const ni=await addDoc(collection(db,'settings'),{...restaurantSettings,logo:b});restaurantSettings.id=ni;}document.getElementById('logoPreview').innerHTML=`<img src="${b}" style="max-width:100%;max-height:150px;display:block;margin:0 auto;">`;showToast('✅ تم!','success');}catch(err){showToast('خطأ: '+err.message,'error');}};r.readAsDataURL(f);}};
 window.removeLogo=async function(){try{restaurantSettings.logo='';if(restaurantSettings.id){await updateDoc(doc(db,'settings',restaurantSettings.id),{logo:''});}document.getElementById('logoInput').value='';document.getElementById('logoPreview').innerHTML='<p>لا يوجد لوجو</p>';showToast('✅ تم!','success');}catch(err){showToast('خطأ','error');}};
 
@@ -547,9 +584,38 @@ window.confirmShiftClose=async function(){try{if(!activeShift){showToast('⚠️
 await setDoc(doc(db, "systemState", "currentShift"), { isOpen: false, shiftId: null });
 const oc=tables.filter(t=>t.status==='occupied');for(const t of oc){try{await updateDoc(doc(db,'tables',t.id),{status:'free'});}catch(e){}}printShiftCloseReceipt();activeShift=null;await loadShiftClosures();backToDashboard();let m='✅ تم إقفال الشيفت!\nالمبيعات: '+ts.toFixed(2)+'\nالتكلفة: '+tc.toFixed(2)+'\nالمصروفات: '+et.toFixed(2)+'\nالربح: '+(ts-tc-et).toFixed(2)+'\n\nالمتوقع في الدرج: '+ex.toFixed(2)+'\nالفعلي في الدرج: '+a.toFixed(2);if(d<0)m+='\n❌ عجز: '+Math.abs(d).toFixed(2);else if(d>0)m+='\n✅ أوفر: '+d.toFixed(2);else m+='\n✅ متطابق!';showToast(m,'success');}catch(error){showToast('❌ خطأ: '+error.message,'error');}finally{hideLoading();}};
 
+// --- FIXED: Revenue Date Filters is now defined on window ---
+window.toggleRevenueDateFilters = function() {
+    const type = document.getElementById('revenueType').value;
+    document.getElementById('revenueDateRange').style.display = type === 'custom' ? 'block' : 'none';
+    document.getElementById('revenueDateRange2').style.display = type === 'custom' ? 'block' : 'none';
+}
+window.applyRevenueFilter = function() {
+    const type = document.getElementById('revenueType').value;
+    let filtered = [...orders];
+    if (type === 'today') { const today = new Date().toLocaleDateString('ar-EG'); filtered = orders.filter(o => o.date && o.date.split(' ')[0] === today); }
+    else if (type === 'monthly') { const cm = new Date().getMonth(), cy = new Date().getFullYear(); filtered = orders.filter(o => { if (!o.date) return false; const d = new Date(o.date); return d.getMonth() === cm && d.getFullYear() === cy; }); }
+    else if (type === 'custom') { const from = document.getElementById('revenueDateFrom').value, to = document.getElementById('revenueDateTo').value; if (from && to) filtered = orders.filter(o => { if (!o.date) return false; return o.date.split(' ')[0] >= from && o.date.split(' ')[0] <= to; }); }
+    const totalSales = filtered.reduce((sum, o) => sum + (parseFloat(o.total) || 0), 0);
+    const cash = filtered.filter(o => o.paymentMethod === 'cash').reduce((sum, o) => sum + (parseFloat(o.total) || 0), 0);
+    const card = filtered.filter(o => o.paymentMethod === 'card').reduce((sum, o) => sum + (parseFloat(o.total) || 0), 0);
+    const wallet = filtered.filter(o => o.paymentMethod === 'wallet').reduce((sum, o) => sum + (parseFloat(o.total) || 0), 0);
+    document.getElementById('revenueTotalSales').textContent = totalSales.toFixed(2) + ' ج.م';
+    document.getElementById('revenueCash').textContent = cash.toFixed(2) + ' ج.م';
+    document.getElementById('revenueCard').textContent = card.toFixed(2) + ' ج.م';
+    document.getElementById('revenueWallet').textContent = wallet.toFixed(2) + ' ج.م';
+    const container = document.getElementById('revenuesList');
+    container.innerHTML = '';
+    if (filtered.length === 0) { container.innerHTML = '<p style="text-align: center; color: #777; padding: 20px;">لا توجد إيرادات</p>'; return; }
+    filtered.slice().reverse().forEach(o => {
+        const div = document.createElement('div'); div.className = 'list-item';
+        div.innerHTML = `<div class="list-item-info"><div class="list-item-title">أوردر #${o.orderNumber}</div><div class="list-item-subtitle">${o.date} | ${o.paymentMethod} | الكاشير: ${o.cashier}</div></div><div class="list-item-title">${(o.total || 0).toFixed(2)} ج.م</div>`;
+        container.appendChild(div);
+    });
+};
+
 window.onclick=function(event){if(event.target.classList.contains('modal'))event.target.style.display='none';};
 initApp();
 </script>
 </body>
 </html>
-
