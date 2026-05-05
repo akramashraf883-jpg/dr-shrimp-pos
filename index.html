@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -7,114 +8,109 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <link href="https://cdn.jsdelivr.net/fontsource/css/cairo/index.css" rel="stylesheet">
 <style>
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: 'Cairo', sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; overflow-x: hidden; color: #333; }
-.bg-animation { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; background: linear-gradient(-45deg, #667eea, #764ba2, #f093fb, #4facfe); background-size: 400% 400%; animation: gradientBG 15s ease infinite; }
-@keyframes gradientBG { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
-#loadingOverlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.95); z-index: 99999; display: flex; flex-direction: column; justify-content: center; align-items: center; transition: opacity 0.3s; }
-.spinner { width: 50px; height: 50px; border: 5px solid #f3f3f3; border-top: 5px solid #667eea; border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 15px; }
-@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-.loading-text { color: #667eea; font-weight: bold; font-size: 18px; }
-#toast-container { position: fixed; top: 20px; left: 20px; z-index: 10000; display: flex; flex-direction: column; gap: 10px; }
-.toast { background: white; padding: 15px 20px; border-radius: 10px; box-shadow: 0 5px 20px rgba(0,0,0,0.2); min-width: 300px; display: flex; align-items: center; gap: 10px; animation: slideInToast 0.3s ease forwards; border-right: 5px solid #667eea; }
-.toast.success { border-right-color: #27ae60; }
-.toast.error { border-right-color: #e74c3c; }
-.toast.info { border-right-color: #3498db; }
-@keyframes slideInToast { from { transform: translateX(-100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
-#loginScreen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(10px); display: none; justify-content: center; align-items: center; z-index: 10000; }
-.login-container { background: white; padding: 40px; border-radius: 20px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); width: 90%; max-width: 450px; animation: slideUp 0.5s ease; }
-@keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-.login-header { text-align: center; margin-bottom: 30px; }
-.login-header h1 { color: #667eea; font-size: 28px; margin-bottom: 5px; }
-.input-group { margin-bottom: 20px; }
-.input-group label { display: block; margin-bottom: 8px; color: #333; font-weight: 600; }
-.input-group input { width: 100%; padding: 14px; border: 2px solid #e0e0e0; border-radius: 10px; font-size: 15px; transition: all 0.3s; }
-.input-group input:focus { outline: none; border-color: #667eea; box-shadow: 0 0 0 3px rgba(102,126,234,0.1); }
-.btn-login { width: 100%; padding: 15px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 10px; font-size: 16px; font-weight: 700; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; }
-.btn-login:hover { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(102,126,234,0.4); }
-.error-message { background: #fee; color: #c33; padding: 12px; border-radius: 8px; margin-top: 15px; display: none; border-right: 4px solid #c33; }
-#mainApp { display: none; min-height: 100vh; }
-.top-bar { background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 20px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 100; }
-.brand { display: flex; align-items: center; gap: 15px; }
-.brand-logo { width: 50px; height: 50px; border-radius: 50%; object-fit: cover; border: 3px solid #667eea; }
-.brand-text h2 { color: #333; font-size: 22px; margin-bottom: 3px; }
-.brand-text p { color: #777; font-size: 13px; }
-.user-info { display: flex; align-items: center; gap: 15px; }
-.shift-badge { background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%); color: white; padding: 8px 20px; border-radius: 25px; font-weight: 600; font-size: 14px; display: flex; align-items: center; gap: 5px; }
-.shift-badge.inactive { background: linear-gradient(135deg, #eb3349 0%, #f45c43 100%); }
-.btn-logout { background: linear-gradient(135deg, #eb3349 0%, #f45c43 100%); color: white; border: none; padding: 10px 25px; border-radius: 8px; cursor: pointer; font-weight: 600; transition: transform 0.2s; }
-.dashboard { padding: 30px; max-width: 1400px; margin: 0 auto; }
-.dashboard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; margin-top: 20px; }
-.dash-card { background: white; border-radius: 20px; padding: 30px; text-align: center; cursor: pointer; transition: all 0.3s; box-shadow: 0 5px 20px rgba(0,0,0,0.1); position: relative; overflow: hidden; }
-.dash-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 5px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
-.dash-card:hover { transform: translateY(-10px); box-shadow: 0 15px 40px rgba(0,0,0,0.2); }
-.dash-icon { font-size: 50px; margin-bottom: 15px; }
-.dash-card h3 { color: #333; font-size: 20px; margin-bottom: 8px; }
-.dash-card p { color: #777; font-size: 14px; }
-.dash-card.manager { border: 2px solid #667eea; }
-.page { display: none; padding: 30px; max-width: 1400px; margin: 0 auto; animation: fadeIn 0.3s; }
-.page.active { display: block; }
-@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-.page-header { background: white; padding: 25px; border-radius: 15px; margin-bottom: 25px; box-shadow: 0 5px 20px rgba(0,0,0,0.1); display: flex; justify-content: space-between; align-items: center; }
-.page-header h2 { color: #333; font-size: 26px; }
-.btn-back { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; padding: 12px 25px; border-radius: 10px; cursor: pointer; font-weight: 600; transition: transform 0.2s; }
-.form-container { background: white; padding: 30px; border-radius: 15px; margin-bottom: 25px; box-shadow: 0 5px 20px rgba(0,0,0,0.1); }
-.form-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-bottom: 20px; }
-.form-group { display: flex; flex-direction: column; }
-.form-group label { margin-bottom: 8px; color: #333; font-weight: 600; }
-.form-group input, .form-group select, .form-group textarea { padding: 12px; border: 2px solid #e0e0e0; border-radius: 10px; font-family: 'Cairo', sans-serif; font-size: 15px; transition: all 0.3s; }
-.form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: #667eea; box-shadow: 0 0 0 3px rgba(102,126,234,0.1); }
-.btn-submit { background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%); color: white; border: none; padding: 14px 30px; border-radius: 10px; cursor: pointer; font-weight: 700; font-size: 16px; transition: transform 0.2s; width: 100%; }
-.btn-submit:hover { transform: translateY(-2px); }
-.tables-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
-.table-card { background: white; border-radius: 15px; padding: 25px; text-align: center; box-shadow: 0 5px 20px rgba(0,0,0,0.1); transition: all 0.3s; position: relative; overflow: hidden; }
-.table-card.free { background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%); color: white; }
-.table-card.occupied { background: linear-gradient(135deg, #eb3349 0%, #f45c43 100%); color: white; }
-.order-layout { display: grid; grid-template-columns: 2fr 1fr; gap: 25px; }
-.menu-section { background: white; border-radius: 15px; padding: 25px; box-shadow: 0 5px 20px rgba(0,0,0,0.1); }
-.category-tabs { display: flex; gap: 10px; margin-bottom: 25px; overflow-x: auto; padding-bottom: 10px; }
-.category-tab { padding: 12px 25px; background: #f0f2f5; border: none; border-radius: 25px; cursor: pointer; font-weight: 600; white-space: nowrap; transition: all 0.3s; }
-.category-tab.active { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; }
-.items-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 15px; }
-.item-card { background: #f8f9fa; border: 2px solid #e0e0e0; border-radius: 12px; padding: 20px; text-align: center; cursor: pointer; transition: all 0.3s; }
-.item-card:hover { border-color: #667eea; transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
-.item-name { font-weight: 700; margin-bottom: 8px; font-size: 15px; }
-.item-price { color: #667eea; font-weight: 700; font-size: 16px; }
-.bill-section { background: white; border-radius: 15px; padding: 25px; box-shadow: 0 5px 20px rgba(0,0,0,0.1); display: flex; flex-direction: column; }
-.bill-items { flex: 1; overflow-y: auto; margin-bottom: 20px; max-height: 400px; }
-.bill-item { background: #f8f9fa; padding: 15px; border-radius: 10px; margin-bottom: 10px; }
-.qty-controls { display: flex; align-items: center; gap: 10px; }
-.qty-btn { width: 32px; height: 32px; border: none; border-radius: 50%; cursor: pointer; font-weight: 700; }
-.qty-minus { background: #e74c3c; color: white; }
-.qty-plus { background: #27ae60; color: white; }
-.bill-total { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 20px; border-radius: 12px; text-align: center; margin-bottom: 15px; }
-.bill-total-amount { font-size: 32px; font-weight: 700; }
-.bill-actions { display: flex; flex-direction: column; gap: 10px; }
-.btn-bill { padding: 15px; border: none; border-radius: 10px; cursor: pointer; font-weight: 700; font-size: 16px; transition: transform 0.2s; }
-.btn-pay { background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%); color: white; }
-.btn-suspend { background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%); color: white; }
-.btn-clear { background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%); color: white; }
-.modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); backdrop-filter: blur(5px); z-index: 1000; justify-content: center; align-items: center; }
-.modal-content { background: white; border-radius: 20px; padding: 30px; max-width: 600px; width: 90%; max-height: 90vh; overflow-y: auto; }
-.modal-header { text-align: center; margin-bottom: 25px; padding-bottom: 15px; border-bottom: 3px solid #f0f2f5; }
-.modal-header h2 { color: #667eea; font-size: 26px; }
-.modal-footer { display: flex; gap: 15px; }
-.btn-modal { flex: 1; padding: 14px; border: none; border-radius: 10px; cursor: pointer; font-weight: 700; font-size: 15px; }
-.btn-cancel { background: #95a5a6; color: white; }
-.btn-confirm { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; }
-.stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-bottom: 30px; }
-.stat-card { background: white; border-radius: 15px; padding: 25px; text-align: center; box-shadow: 0 5px 20px rgba(0,0,0,0.1); }
-.stat-label { color: #777; font-size: 14px; margin-bottom: 10px; }
-.stat-value { font-size: 32px; font-weight: 700; color: #333; }
-.list-container { background: white; border-radius: 15px; padding: 20px; box-shadow: 0 5px 20px rgba(0,0,0,0.1); }
-.list-item { background: #f8f9fa; padding: 15px; border-radius: 10px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; gap: 10px; }
-.btn-small { padding: 6px 12px; border: none; border-radius: 6px; cursor: pointer; font-size: 12px; font-weight: 600; }
-.btn-view { background: #3498db; color: white; }
-.btn-edit { background: #f39c12; color: white; }
-.btn-delete { background: #e74c3c; color: white; }
-.hidden { display: none !important; }
-@media (max-width: 1024px) { .order-layout { grid-template-columns: 1fr; } }
-@media (max-width: 768px) { .top-bar { flex-direction: column; gap: 15px; text-align: center; } .page-header { flex-direction: column; gap: 15px; text-align: center; } }
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Cairo',sans-serif;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);min-height:100vh;overflow-x:hidden;color:#333}
+.bg-animation{position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1;background:linear-gradient(-45deg,#667eea,#764ba2,#f093fb,#4facfe);background-size:400% 400%;animation:gradientBG 15s ease infinite}
+@keyframes gradientBG{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+#loadingOverlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(255,255,255,0.95);z-index:99999;display:flex;flex-direction:column;justify-content:center;align-items:center;transition:opacity .3s}
+.spinner{width:50px;height:50px;border:5px solid #f3f3f3;border-top:5px solid #667eea;border-radius:50%;animation:spin 1s linear infinite;margin-bottom:15px}
+@keyframes spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
+.loading-text{color:#667eea;font-weight:bold;font-size:18px}
+#toast-container{position:fixed;top:20px;left:20px;z-index:10000;display:flex;flex-direction:column;gap:10px}
+.toast{background:#fff;padding:15px 20px;border-radius:10px;box-shadow:0 5px 20px rgba(0,0,0,0.2);min-width:300px;display:flex;align-items:center;gap:10px;animation:slideInToast .3s ease forwards;border-right:5px solid #667eea}
+.toast.success{border-right-color:#27ae60}.toast.error{border-right-color:#e74c3c}.toast.info{border-right-color:#3498db}
+@keyframes slideInToast{from{transform:translateX(-100%);opacity:0}to{transform:translateX(0);opacity:1}}
+#loginScreen{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.8);backdrop-filter:blur(10px);display:none;justify-content:center;align-items:center;z-index:10000}
+.login-container{background:#fff;padding:40px;border-radius:20px;box-shadow:0 20px 60px rgba(0,0,0,0.3);width:90%;max-width:450px;animation:slideUp .5s ease}
+@keyframes slideUp{from{transform:translateY(50px);opacity:0}to{transform:translateY(0);opacity:1}}
+.login-header{text-align:center;margin-bottom:30px}
+.login-header h1{color:#667eea;font-size:28px;margin-bottom:5px}
+.input-group{margin-bottom:20px}
+.input-group label{display:block;margin-bottom:8px;color:#333;font-weight:600}
+.input-group input{width:100%;padding:14px;border:2px solid #e0e0e0;border-radius:10px;font-size:15px;transition:all .3s}
+.input-group input:focus{outline:none;border-color:#667eea;box-shadow:0 0 0 3px rgba(102,126,234,0.1)}
+.btn-login{width:100%;padding:15px;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);color:#fff;border:none;border-radius:10px;font-size:16px;font-weight:700;cursor:pointer;transition:transform .2s,box-shadow .2s}
+.btn-login:hover{transform:translateY(-2px);box-shadow:0 10px 25px rgba(102,126,234,0.4)}
+.error-message{background:#fee;color:#c33;padding:12px;border-radius:8px;margin-top:15px;display:none;border-right:4px solid #c33}
+#mainApp{display:none;min-height:100vh}
+.top-bar{background:rgba(255,255,255,0.95);backdrop-filter:blur(10px);padding:15px 30px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 2px 20px rgba(0,0,0,0.1);position:sticky;top:0;z-index:100}
+.brand{display:flex;align-items:center;gap:15px}
+.brand-text h2{color:#333;font-size:22px;margin-bottom:3px}
+.brand-text p{color:#777;font-size:13px}
+.user-info{display:flex;align-items:center;gap:15px}
+.shift-badge{background:linear-gradient(135deg,#11998e 0%,#38ef7d 100%);color:#fff;padding:8px 20px;border-radius:25px;font-weight:600;font-size:14px;display:flex;align-items:center;gap:5px}
+.shift-badge.inactive{background:linear-gradient(135deg,#eb3349 0%,#f45c43 100%)}
+.btn-logout{background:linear-gradient(135deg,#eb3349 0%,#f45c43 100%);color:#fff;border:none;padding:10px 25px;border-radius:8px;cursor:pointer;font-weight:600;transition:transform .2s}
+.btn-logout:hover{transform:translateY(-2px)}
+.dashboard{padding:30px;max-width:1400px;margin:0 auto}
+.dashboard-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:25px;margin-top:20px}
+.dash-card{background:#fff;border-radius:20px;padding:30px;text-align:center;cursor:pointer;transition:all .3s;box-shadow:0 5px 20px rgba(0,0,0,0.1);position:relative;overflow:hidden}
+.dash-card::before{content:'';position:absolute;top:0;left:0;width:100%;height:5px;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%)}
+.dash-card:hover{transform:translateY(-10px);box-shadow:0 15px 40px rgba(0,0,0,0.2)}
+.dash-icon{font-size:50px;margin-bottom:15px}
+.dash-card h3{color:#333;font-size:20px;margin-bottom:8px}
+.dash-card p{color:#777;font-size:14px}
+.dash-card.manager{border:2px solid #667eea}
+.page{display:none;padding:30px;max-width:1400px;margin:0 auto;animation:fadeIn .3s}
+.page.active{display:block}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.page-header{background:#fff;padding:25px;border-radius:15px;margin-bottom:25px;box-shadow:0 5px 20px rgba(0,0,0,0.1);display:flex;justify-content:space-between;align-items:center}
+.page-header h2{color:#333;font-size:26px}
+.btn-back{background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);color:#fff;border:none;padding:12px 25px;border-radius:10px;cursor:pointer;font-weight:600;transition:transform .2s}
+.btn-back:hover{transform:translateY(-2px)}
+.form-container{background:#fff;padding:30px;border-radius:15px;margin-bottom:25px;box-shadow:0 5px 20px rgba(0,0,0,0.1)}
+.form-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px;margin-bottom:20px}
+.form-group{display:flex;flex-direction:column}
+.form-group label{margin-bottom:8px;color:#333;font-weight:600}
+.form-group input,.form-group select,.form-group textarea{padding:12px;border:2px solid #e0e0e0;border-radius:10px;font-family:'Cairo',sans-serif;font-size:15px;transition:all .3s}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{outline:none;border-color:#667eea;box-shadow:0 0 0 3px rgba(102,126,234,0.1)}
+.btn-submit{background:linear-gradient(135deg,#11998e 0%,#38ef7d 100%);color:#fff;border:none;padding:14px 30px;border-radius:10px;cursor:pointer;font-weight:700;font-size:16px;transition:transform .2s;width:100%}
+.btn-submit:hover{transform:translateY(-2px)}
+.tables-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:20px}
+.table-card{background:#fff;border-radius:15px;padding:25px;text-align:center;box-shadow:0 5px 20px rgba(0,0,0,0.1);transition:all .3s;position:relative;overflow:hidden}
+.table-card.free{background:linear-gradient(135deg,#11998e 0%,#38ef7d 100%);color:#fff}
+.table-card.occupied{background:linear-gradient(135deg,#eb3349 0%,#f45c43 100%);color:#fff}
+.order-layout{display:grid;grid-template-columns:2fr 1fr;gap:25px}
+.menu-section{background:#fff;border-radius:15px;padding:25px;box-shadow:0 5px 20px rgba(0,0,0,0.1)}
+.category-tabs{display:flex;gap:10px;margin-bottom:25px;overflow-x:auto;padding-bottom:10px}
+.category-tab{padding:12px 25px;background:#f0f2f5;border:none;border-radius:25px;cursor:pointer;font-weight:600;white-space:nowrap;transition:all .3s}
+.category-tab.active{background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);color:#fff}
+.items-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:15px}
+.item-card{background:#f8f9fa;border:2px solid #e0e0e0;border-radius:12px;padding:20px;text-align:center;cursor:pointer;transition:all .3s}
+.item-card:hover{border-color:#667eea;transform:translateY(-3px);box-shadow:0 5px 15px rgba(0,0,0,0.1)}
+.item-name{font-weight:700;margin-bottom:8px;font-size:15px}
+.item-price{color:#667eea;font-weight:700;font-size:16px}
+.bill-section{background:#fff;border-radius:15px;padding:25px;box-shadow:0 5px 20px rgba(0,0,0,0.1);display:flex;flex-direction:column}
+.bill-items{flex:1;overflow-y:auto;margin-bottom:20px;max-height:400px}
+.bill-item{background:#f8f9fa;padding:15px;border-radius:10px;margin-bottom:10px}
+.qty-controls{display:flex;align-items:center;gap:10px}
+.qty-btn{width:32px;height:32px;border:none;border-radius:50%;cursor:pointer;font-weight:700}
+.qty-minus{background:#e74c3c;color:#fff}.qty-plus{background:#27ae60;color:#fff}
+.bill-total{background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);color:#fff;padding:20px;border-radius:12px;text-align:center;margin-bottom:15px}
+.bill-total-amount{font-size:32px;font-weight:700}
+.bill-actions{display:flex;flex-direction:column;gap:10px}
+.btn-bill{padding:15px;border:none;border-radius:10px;cursor:pointer;font-weight:700;font-size:16px;transition:transform .2s}
+.btn-bill:hover{transform:translateY(-2px)}
+.btn-pay{background:linear-gradient(135deg,#11998e 0%,#38ef7d 100%);color:#fff}
+.btn-suspend{background:linear-gradient(135deg,#f39c12 0%,#e67e22 100%);color:#fff}
+.btn-clear{background:linear-gradient(135deg,#e74c3c 0%,#c0392b 100%);color:#fff}
+.modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);backdrop-filter:blur(5px);z-index:1000;justify-content:center;align-items:center}
+.modal-content{background:#fff;border-radius:20px;padding:30px;max-width:600px;width:90%;max-height:90vh;overflow-y:auto}
+.modal-header{text-align:center;margin-bottom:25px;padding-bottom:15px;border-bottom:3px solid #f0f2f5}
+.modal-header h2{color:#667eea;font-size:26px}
+.modal-footer{display:flex;gap:15px}
+.btn-modal{flex:1;padding:14px;border:none;border-radius:10px;cursor:pointer;font-weight:700;font-size:15px}
+.btn-cancel{background:#95a5a6;color:#fff}.btn-confirm{background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);color:#fff}
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px;margin-bottom:30px}
+.stat-card{background:#fff;border-radius:15px;padding:25px;text-align:center;box-shadow:0 5px 20px rgba(0,0,0,0.1)}
+.stat-label{color:#777;font-size:14px;margin-bottom:10px}
+.stat-value{font-size:32px;font-weight:700;color:#333}
+.list-container{background:#fff;border-radius:15px;padding:20px;box-shadow:0 5px 20px rgba(0,0,0,0.1)}
+.list-item{background:#f8f9fa;padding:15px;border-radius:10px;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.btn-small{padding:6px 12px;border:none;border-radius:6px;cursor:pointer;font-size:12px;font-weight:600}
+.btn-view{background:#3498db;color:#fff}.btn-edit{background:#f39c12;color:#fff}.btn-delete{background:#e74c3c;color:#fff}
+@media(max-width:1024px){.order-layout{grid-template-columns:1fr}}
+@media(max-width:768px){.top-bar{flex-direction:column;gap:15px;text-align:center}.page-header{flex-direction:column;gap:15px;text-align:center}}
 </style>
 </head>
 <body>
@@ -134,26 +130,23 @@ body { font-family: 'Cairo', sans-serif; background: linear-gradient(135deg, #66
 
 <div id="mainApp">
     <div class="top-bar">
-        <div class="brand">
-            <img id="headerLogo" class="brand-logo" src="" alt="Logo" style="display:none;">
-            <div class="brand-text"><h2 id="restaurantNameDisplay">Dr Shrimp</h2><p id="welcomeUser">مرحباً</p></div>
-        </div>
+        <div class="brand"><img id="headerLogo" class="brand-logo" src="" alt="Logo" style="display:none;"><div class="brand-text"><h2 id="restaurantNameDisplay">Dr Shrimp</h2><p id="welcomeUser">مرحباً</p></div></div>
         <div class="user-info"><span id="shiftStatus" class="shift-badge inactive">🔴 لا يوجد شيفت نشط</span><button class="btn-logout" onclick="logout()">خروج</button></div>
     </div>
 
     <div id="dashboardPage" class="page active">
         <div class="dashboard">
-            <div style="background: white; padding: 25px; border-radius: 15px; margin-bottom: 25px; box-shadow: 0 5px 20px rgba(0,0,0,0.1);">
-                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px;">
-                    <div><h2 style="color: #333; margin-bottom: 5px;">لوحة التحكم</h2><p style="color: #777;">اختر العملية التي تريد تنفيذها</p></div>
-                    <button id="startShiftBtn" class="btn-submit" style="width: auto; padding: 12px 30px;" onclick="openShiftStart()">🔄 بدء شيفت جديد</button>
+            <div style="background:#fff;padding:25px;border-radius:15px;margin-bottom:25px;box-shadow:0 5px 20px rgba(0,0,0,0.1);">
+                <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:15px;">
+                    <div><h2 style="color:#333;margin-bottom:5px;">لوحة التحكم</h2><p style="color:#777;">اختر العملية التي تريد تنفيذها</p></div>
+                    <button id="startShiftBtn" class="btn-submit" style="width:auto;padding:12px 30px;" onclick="openShiftStart()">🔄 بدء شيفت جديد</button>
                 </div>
             </div>
             <div class="dashboard-grid">
                 <div class="dash-card" onclick="openOrderScreen()"><div class="dash-icon">📝</div><h3>أوردر جديد</h3><p>تسجيل طلبات العملاء</p></div>
                 <div class="dash-card" onclick="openTableOrders()"><div class="dash-icon">🪑</div><h3>أوردرات الطاولات</h3><p>إدارة الطلبات المعلقة</p></div>
                 <div class="dash-card cashier" onclick="openShiftClose()"><div class="dash-icon">💰</div><h3>تقفيلة الدرج</h3><p>إقفال الوردية</p></div>
-                <div class="dash-card manager" id="menuExpenses" onclick="openExpenses()" style="display:none;"><div class="dash-icon">💸</div><h3>المصروفات</h3><p>إضافة مصروف جديد</p></div>
+                <div class="dash-card manager" id="menuExpenses" onclick="openExpenses()" style="display:none;"><div class="dash-icon">💸</div><h3>المصروفات</h3><p>إضافة وعرض المصروفات</p></div>
                 <div class="dash-card manager" id="menuDeposits" onclick="openDeposits()" style="display:none;"><div class="dash-icon">💵</div><h3>توريد نقدية</h3><p>إضافة فلوس في الدرج</p></div>
                 <div class="dash-card manager" id="menuExpenseCategories" onclick="openExpenseCategories()" style="display:none;"><div class="dash-icon">📋</div><h3>أنواع المصروفات</h3><p>إدارة الأنواع</p></div>
                 <div class="dash-card manager" id="menuReturns" onclick="openReturns()" style="display:none;"><div class="dash-icon">🔄</div><h3>المرتجعات</h3><p>إرجاع الأصناف</p></div>
@@ -173,71 +166,93 @@ body { font-family: 'Cairo', sans-serif; background: linear-gradient(135deg, #66
         </div>
     </div>
 
+    <!-- Pages -->
     <div id="orderPage" class="page">
         <div class="page-header"><h2>📝 تسجيل طلب جديد</h2><button class="btn-back" onclick="backToDashboard()">رجوع للرئيسية</button></div>
         <div class="order-layout">
             <div class="menu-section"><div class="category-tabs" id="categoryTabs"></div><div class="items-grid" id="menuItems"></div></div>
             <div class="bill-section">
                 <div class="bill-header"><h3>الفاتورة</h3><span class="order-number" id="orderNumber">#001</span></div>
-                <div style="display: flex; gap: 10px; margin-bottom: 15px;">
-                    <button class="btn-bill" style="flex:1; background: #667eea; color: white;" onclick="setOrderType('dinein')" id="btnDinein">🍽️ صالة</button>
-                    <button class="btn-bill" style="flex:1; background: #f0f2f5; color: #333;" onclick="setOrderType('takeaway')" id="btnTakeaway">🛍️ تيك اواي</button>
+                <div style="display:flex;gap:10px;margin-bottom:15px;">
+                    <button class="btn-bill" style="flex:1;background:#667eea;color:#fff;" onclick="setOrderType('dinein')" id="btnDinein">🍽️ صالة</button>
+                    <button class="btn-bill" style="flex:1;background:#f0f2f5;color:#333;" onclick="setOrderType('takeaway')" id="btnTakeaway">🛍️ تيك اواي</button>
                 </div>
-                <div id="selectedTableInfo" style="background: #e8f4fd; padding: 12px; border-radius: 8px; margin-bottom: 15px; display: none;">
-                    <div style="display: flex; justify-content: space-between; align-items: center;"><span id="selectedTableName">طاولة --</span><button onclick="openTableSelect()" style="background: #667eea; color: white; border: none; padding: 5px 12px; border-radius: 5px; cursor: pointer; font-size: 12px;">🔄 تغيير</button></div>
+                <div id="selectedTableInfo" style="background:#e8f4fd;padding:12px;border-radius:8px;margin-bottom:15px;display:none;">
+                    <div style="display:flex;justify-content:space-between;align-items:center;"><span id="selectedTableName">طاولة --</span><button onclick="openTableSelect()" style="background:#667eea;color:#fff;border:none;padding:5px 12px;border-radius:5px;cursor:pointer;font-size:12px;">🔄 تغيير</button></div>
                 </div>
-                <div class="bill-items" id="cartItems"><p style="text-align: center; color: #777; padding: 40px;">لا توجد أصناف</p></div>
+                <div class="bill-items" id="cartItems"><p style="text-align:center;color:#777;padding:40px;">لا توجد أصناف</p></div>
                 <div class="bill-total"><div class="bill-total-label">الإجمالي</div><div class="bill-total-amount" id="totalAmount">0 ج.م</div></div>
                 <div class="bill-actions"><button class="btn-bill btn-pay" onclick="openPayment()">💳 دفع</button><button class="btn-bill btn-suspend" onclick="suspendToTable()">⏸️ تعليق على الطاولة</button><button class="btn-bill btn-clear" onclick="clearCart()">🗑️ إلغاء</button></div>
             </div>
         </div>
     </div>
 
-    <div id="tablesPage" class="page"><div class="page-header"><h2>🪑 إدارة الطاولات</h2><button class="btn-back" onclick="backToDashboard()">رجوع للرئيسية</button></div><div class="form-container"><h3 style="margin-bottom: 20px; color: #333;">إضافة طاولة جديدة</h3><div class="form-row"><div class="form-group"><label>رقم الطاولة</label><input type="number" id="newTableNumber" placeholder="أدخل الرقم"></div><div class="form-group"><label>عدد الكراسي</label><input type="number" id="newTableCapacity" placeholder="أدخل العدد"></div></div><button class="btn-submit" onclick="addTable()">✅ إضافة طاولة</button></div><h3 style="margin-bottom: 20px; color: #333;">الطاولات الموجودة</h3><div class="tables-grid" id="tablesList"></div></div>
+    <div id="tablesPage" class="page"><div class="page-header"><h2>🪑 إدارة الطاولات</h2><button class="btn-back" onclick="backToDashboard()">رجوع للرئيسية</button></div><div class="form-container"><h3 style="margin-bottom:20px;color:#333;">إضافة طاولة جديدة</h3><div class="form-row"><div class="form-group"><label>رقم الطاولة</label><input type="number" id="newTableNumber" placeholder="أدخل الرقم"></div><div class="form-group"><label>عدد الكراسي</label><input type="number" id="newTableCapacity" placeholder="أدخل العدد"></div></div><button class="btn-submit" onclick="addTable()">✅ إضافة طاولة</button></div><h3 style="margin-bottom:20px;color:#333;">الطاولات الموجودة</h3><div class="tables-grid" id="tablesList"></div></div>
 
-    <div id="expensesPage" class="page"><div class="page-header"><h2>💸 المصروفات</h2><button class="btn-back" onclick="backToDashboard()">رجوع للرئيسية</button></div><div class="form-container"><h3 style="margin-bottom: 20px;">إضافة مصروف جديد</h3><div class="form-row"><div class="form-group"><label>نوع المصروف</label><select id="expenseCategory"></select></div><div class="form-group"><label>المبلغ</label><input type="number" id="expenseAmount" placeholder="أدخل المبلغ"></div></div><div class="form-group"><label>ملاحظات</label><textarea id="expenseNotes" rows="3" placeholder="أدخل ملاحظات"></textarea></div><button class="btn-submit" onclick="addExpense()">✅ إضافة مصروف</button></div><div class="list-container"><h3 style="margin-bottom: 20px;">مصروفات الشيفت الحالي</h3><div id="shiftExpensesList"></div></div></div>
+    <div id="expensesPage" class="page">
+        <div class="page-header"><h2>💸 المصروفات</h2><button class="btn-back" onclick="backToDashboard()">رجوع للرئيسية</button></div>
+        <div class="form-container">
+            <h3 style="margin-bottom:20px;">إضافة مصروف جديد</h3>
+            <div class="form-row">
+                <div class="form-group"><label>نوع المصروف</label><select id="expenseCategory"></select></div>
+                <div class="form-group"><label>المبلغ</label><input type="number" id="expenseAmount" placeholder="أدخل المبلغ"></div>
+            </div>
+            <div class="form-group"><label>ملاحظات</label><textarea id="expenseNotes" rows="3" placeholder="أدخل ملاحظات"></textarea></div>
+            <button class="btn-submit" onclick="addExpense()">✅ إضافة مصروف</button>
+        </div>
+        <div class="list-container">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+                <h3>سجل المصروفات (كامل)</h3>
+                <select id="expenseFilterSelect" onchange="renderExpensesList()" style="padding:8px;border-radius:5px;border:1px solid #ddd;">
+                    <option value="all">عرض الكل</option>
+                    <option value="current">شيفت الحالي فقط</option>
+                </select>
+            </div>
+            <div id="expensesList"></div>
+        </div>
+    </div>
 
-    <div id="depositsPage" class="page"><div class="page-header"><h2>💵 توريد نقدية</h2><button class="btn-back" onclick="backToDashboard()">رجوع للرئيسية</button></div><div class="form-container"><h3 style="margin-bottom: 20px;">إضافة توريد جديد</h3><div class="form-row"><div class="form-group"><label>المبلغ</label><input type="number" id="depositAmount" placeholder="أدخل المبلغ"></div></div><div class="form-group"><label>ملاحظات</label><textarea id="depositNotes" rows="3" placeholder="أدخل ملاحظات"></textarea></div><button class="btn-submit" onclick="addDeposit()">✅ إضافة توريد</button></div><div class="list-container"><h3 style="margin-bottom: 20px;">توريدات الشيفت الحالي</h3><div id="shiftDepositsList"></div></div></div>
+    <div id="depositsPage" class="page"><div class="page-header"><h2>💵 توريد نقدية</h2><button class="btn-back" onclick="backToDashboard()">رجوع للرئيسية</button></div><div class="form-container"><h3 style="margin-bottom:20px;">إضافة توريد جديد</h3><div class="form-row"><div class="form-group"><label>المبلغ</label><input type="number" id="depositAmount" placeholder="أدخل المبلغ"></div></div><div class="form-group"><label>ملاحظات</label><textarea id="depositNotes" rows="3" placeholder="أدخل ملاحظات"></textarea></div><button class="btn-submit" onclick="addDeposit()">✅ إضافة توريد</button></div><div class="list-container"><h3 style="margin-bottom:20px;">توريدات الشيفت الحالي</h3><div id="shiftDepositsList"></div></div></div>
 
-    <div id="expenseCategoriesPage" class="page"><div class="page-header"><h2>📋 أنواع المصروفات</h2><button class="btn-back" onclick="backToDashboard()">رجوع للرئيسية</button></div><div class="form-container"><h3 style="margin-bottom: 20px;">إضافة نوع جديد</h3><div class="form-row"><div class="form-group"><label>اسم النوع</label><input type="text" id="newExpenseCategoryName" placeholder="مثال: رواتب، كهرباء، إلخ"></div></div><button class="btn-submit" onclick="addExpenseCategory()">✅ إضافة نوع</button></div><div class="list-container"><h3 style="margin-bottom: 20px;">الأنواع الموجودة</h3><div id="expenseCategoriesList"></div></div></div>
+    <div id="expenseCategoriesPage" class="page"><div class="page-header"><h2>📋 أنواع المصروفات</h2><button class="btn-back" onclick="backToDashboard()">رجوع للرئيسية</button></div><div class="form-container"><h3 style="margin-bottom:20px;">إضافة نوع جديد</h3><div class="form-row"><div class="form-group"><label>اسم النوع</label><input type="text" id="newExpenseCategoryName" placeholder="مثال: رواتب، كهرباء، إلخ"></div></div><button class="btn-submit" onclick="addExpenseCategory()">✅ إضافة نوع</button></div><div class="list-container"><h3 style="margin-bottom:20px;">الأنواع الموجودة</h3><div id="expenseCategoriesList"></div></div></div>
 
-    <div id="returnsPage" class="page"><div class="page-header"><h2>🔄 المرتجعات</h2><button class="btn-back" onclick="backToDashboard()">رجوع للرئيسية</button></div><div class="form-container"><h3 style="margin-bottom: 20px;">إرجاع صنف من أوردر</h3><div class="form-row"><div class="form-group"><label>رقم الأوردر</label><input type="text" id="returnOrderNumber" placeholder="أدخل رقم الأوردر"></div></div><button class="btn-submit" onclick="searchOrderForReturn()" style="margin-bottom: 20px;">🔍 بحث عن الأوردر</button><div id="returnOrderDetails" style="display: none;"><div style="background: #f8f9fa; padding: 15px; border-radius: 10px; margin-bottom: 15px;"><p><strong>رقم الأوردر:</strong> <span id="returnOrderNum"></span></p><p><strong>التاريخ:</strong> <span id="returnOrderDate"></span></p><p><strong>الإجمالي:</strong> <span id="returnOrderTotal"></span> ج.م</p></div><h4 style="margin-bottom: 15px;">الأصناف:</h4><div id="returnItemsList"></div><div class="form-row" style="margin-top: 20px;"><div class="form-group"><label>الكمية المرتجعة</label><input type="number" id="returnQuantity" value="1" min="1"></div><div class="form-group"><label>سبب المرتجع</label><input type="text" id="returnReason" placeholder="أدخل السبب"></div></div><button class="btn-submit" onclick="processReturn()">✅ إتمام المرتجع</button></div></div><div class="list-container"><h3 style="margin-bottom: 20px;">سجل المرتجعات</h3><div id="returnsList"></div></div></div>
+    <div id="returnsPage" class="page"><div class="page-header"><h2>🔄 المرتجعات</h2><button class="btn-back" onclick="backToDashboard()">رجوع للرئيسية</button></div><div class="form-container"><h3 style="margin-bottom:20px;">إرجاع صنف من أوردر</h3><div class="form-row"><div class="form-group"><label>رقم الأوردر</label><input type="text" id="returnOrderNumber" placeholder="أدخل رقم الأوردر"></div></div><button class="btn-submit" onclick="searchOrderForReturn()" style="margin-bottom:20px;">🔍 بحث عن الأوردر</button><div id="returnOrderDetails" style="display:none;"><div style="background:#f8f9fa;padding:15px;border-radius:10px;margin-bottom:15px;"><p><strong>رقم الأوردر:</strong> <span id="returnOrderNum"></span></p><p><strong>التاريخ:</strong> <span id="returnOrderDate"></span></p><p><strong>الإجمالي:</strong> <span id="returnOrderTotal"></span> ج.م</p></div><h4 style="margin-bottom:15px;">الأصناف:</h4><div id="returnItemsList"></div><div class="form-row" style="margin-top:20px;"><div class="form-group"><label>الكمية المرتجعة</label><input type="number" id="returnQuantity" value="1" min="1"></div><div class="form-group"><label>سبب المرتجع</label><input type="text" id="returnReason" placeholder="أدخل السبب"></div></div><button class="btn-submit" onclick="processReturn()">✅ إتمام المرتجع</button></div></div><div class="list-container"><h3 style="margin-bottom:20px;">سجل المرتجعات</h3><div id="returnsList"></div></div></div>
 
-    <div id="editOrdersPage" class="page"><div class="page-header"><h2>✏️ تعديل الأوردرات</h2><button class="btn-back" onclick="backToDashboard()">رجوع للرئيسية</button></div><div class="form-container"><h3 style="margin-bottom: 20px;">بحث عن أوردر للتعديل</h3><div class="form-row"><div class="form-group"><label>رقم الأوردر</label><input type="text" id="editOrderSearch" placeholder="أدخل رقم الأوردر"></div></div><button class="btn-submit" onclick="searchOrderForEdit()" style="margin-bottom: 20px;">🔍 بحث</button><div id="editOrderDetails" style="display: none;"><div style="background: #f8f9fa; padding: 15px; border-radius: 10px; margin-bottom: 15px;"><p><strong>رقم الأوردر:</strong> <span id="editOrderNum"></span></p><p><strong>التاريخ:</strong> <span id="editOrderDate"></span></p><p><strong>الكاشير:</strong> <span id="editOrderCashier"></span></p></div><h4 style="margin-bottom: 15px;">الأصناف:</h4><div id="editItemsList"></div><button class="btn-submit" onclick="saveOrderEdit()" style="margin-top: 20px;">💾 حفظ التعديلات</button></div></div></div>
+    <div id="editOrdersPage" class="page"><div class="page-header"><h2>✏️ تعديل الأوردرات</h2><button class="btn-back" onclick="backToDashboard()">رجوع للرئيسية</button></div><div class="form-container"><h3 style="margin-bottom:20px;">بحث عن أوردر للتعديل</h3><div class="form-row"><div class="form-group"><label>رقم الأوردر</label><input type="text" id="editOrderSearch" placeholder="أدخل رقم الأوردر"></div></div><button class="btn-submit" onclick="searchOrderForEdit()" style="margin-bottom:20px;">🔍 بحث</button><div id="editOrderDetails" style="display:none;"><div style="background:#f8f9fa;padding:15px;border-radius:10px;margin-bottom:15px;"><p><strong>رقم الأوردر:</strong> <span id="editOrderNum"></span></p><p><strong>التاريخ:</strong> <span id="editOrderDate"></span></p><p><strong>الكاشير:</strong> <span id="editOrderCashier"></span></p></div><h4 style="margin-bottom:15px;">الأصناف:</h4><div id="editItemsList"></div><button class="btn-submit" onclick="saveOrderEdit()" style="margin-top:20px;">💾 حفظ التعديلات</button></div></div></div>
 
-    <div id="shiftHistoryPage" class="page"><div class="page-header"><h2>📊 سجل التقفيلات</h2><button class="btn-back" onclick="backToDashboard()">رجوع للرئيسية</button></div><div class="form-container"><h3 style="margin-bottom: 20px;">فلترة السجل</h3><div class="form-row"><div class="form-group"><label>من تاريخ</label><input type="date" id="shiftHistoryFrom"></div><div class="form-group"><label>إلى تاريخ</label><input type="date" id="shiftHistoryTo"></div></div><button class="btn-submit" onclick="filterShiftHistory()">🔍 تطبيق الفلتر</button></div><div class="list-container"><h3 style="margin-bottom: 20px;">سجل التقفيلات</h3><div id="shiftHistoryList"></div></div></div>
+    <div id="shiftHistoryPage" class="page"><div class="page-header"><h2>📊 سجل التقفيلات</h2><button class="btn-back" onclick="backToDashboard()">رجوع للرئيسية</button></div><div class="form-container"><h3 style="margin-bottom:20px;">فلترة السجل</h3><div class="form-row"><div class="form-group"><label>من تاريخ</label><input type="date" id="shiftHistoryFrom"></div><div class="form-group"><label>إلى تاريخ</label><input type="date" id="shiftHistoryTo"></div></div><button class="btn-submit" onclick="filterShiftHistory()">🔍 تطبيق الفلتر</button></div><div class="list-container"><h3 style="margin-bottom:20px;">سجل التقفيلات</h3><div id="shiftHistoryList"></div></div></div>
 
-    <div id="purchasesPage" class="page"><div class="page-header"><h2>📦 الطلبيات الواردة</h2><button class="btn-back" onclick="backToDashboard()">رجوع للرئيسية</button></div><div class="form-container"><h3 style="margin-bottom: 20px;">إضافة طلبية جديدة</h3><div class="form-row"><div class="form-group"><label>الصنف</label><select id="purchaseItem"></select></div><div class="form-group"><label>الكمية</label><input type="number" id="purchaseQuantity" placeholder="أدخل الكمية"></div></div><div class="form-row"><div class="form-group"><label>التكلفة الإجمالية</label><input type="number" id="purchaseCost" placeholder="أدخل التكلفة"></div><div class="form-group"><label>المورد</label><input type="text" id="purchaseSupplier" placeholder="أدخل اسم المورد"></div></div><input type="hidden" id="purchaseUnit"><div id="purchaseCalcBox" style="background: #e8f4fd; padding: 15px; border-radius: 10px; margin-bottom: 15px; display: none;"><h5 style="color: #667eea; margin-bottom: 10px;">🧮 الحساب</h5><div style="display: flex; justify-content: space-between; margin-bottom: 8px;"><span>سعر الوحدة:</span><span id="calcUnitPrice">0</span></div><div style="display: flex; justify-content: space-between; margin-bottom: 8px;"><span>المخزون الحالي:</span><span id="calcCurrentStock">0</span></div><div style="display: flex; justify-content: space-between; font-weight: bold; border-top: 2px solid #667eea; padding-top: 10px;"><span>المخزون الجديد:</span><span id="calcNewStock">0</span></div></div><button class="btn-submit" onclick="addPurchase()">✅ إضافة طلبية</button></div><div class="list-container"><h3 style="margin-bottom: 20px;">سجل الطلبيات</h3><div id="purchasesList"></div></div></div>
+    <div id="purchasesPage" class="page"><div class="page-header"><h2>📦 الطلبيات الواردة</h2><button class="btn-back" onclick="backToDashboard()">رجوع للرئيسية</button></div><div class="form-container"><h3 style="margin-bottom:20px;">إضافة طلبية جديدة</h3><div class="form-row"><div class="form-group"><label>الصنف</label><select id="purchaseItem"></select></div><div class="form-group"><label>الكمية</label><input type="number" id="purchaseQuantity" placeholder="أدخل الكمية"></div></div><div class="form-row"><div class="form-group"><label>التكلفة الإجمالية</label><input type="number" id="purchaseCost" placeholder="أدخل التكلفة"></div><div class="form-group"><label>المورد</label><input type="text" id="purchaseSupplier" placeholder="أدخل اسم المورد"></div></div><input type="hidden" id="purchaseUnit"><div id="purchaseCalcBox" style="background:#e8f4fd;padding:15px;border-radius:10px;margin-bottom:15px;display:none;"><h5 style="color:#667eea;margin-bottom:10px;">🧮 الحساب</h5><div style="display:flex;justify-content:space-between;margin-bottom:8px;"><span>سعر الوحدة:</span><span id="calcUnitPrice">0</span></div><div style="display:flex;justify-content:space-between;margin-bottom:8px;"><span>المخزون الحالي:</span><span id="calcCurrentStock">0</span></div><div style="display:flex;justify-content:space-between;font-weight:bold;border-top:2px solid #667eea;padding-top:10px;"><span>المخزون الجديد:</span><span id="calcNewStock">0</span></div></div><button class="btn-submit" onclick="addPurchase()">✅ إضافة طلبية</button></div><div class="list-container"><h3 style="margin-bottom:20px;">سجل الطلبيات</h3><div id="purchasesList"></div></div></div>
 
-    <div id="inventoryPage" class="page"><div class="page-header"><h2>📦 المخزون</h2><button class="btn-back" onclick="backToDashboard()">رجوع للرئيسية</button></div><div class="form-container"><h3 style="margin-bottom: 20px;">إضافة مكون جديد</h3><div class="form-row"><div class="form-group"><label>الاسم</label><input type="text" id="newIngredientName" placeholder="أدخل الاسم"></div><div class="form-group"><label>الكمية</label><input type="number" id="newIngredientStock" placeholder="أدخل الكمية"></div></div><div class="form-row"><div class="form-group"><label>الوحدة</label><input type="text" id="newIngredientUnit" placeholder="مثال: كيلو، لتر، قطعة"></div><div class="form-group"><label>الحد الأدنى</label><input type="number" id="newIngredientMin" placeholder="الحد الأدنى للتنبيه"></div></div><button class="btn-submit" onclick="addInventoryItem()">✅ إضافة مكون</button></div><div class="list-container"><h3 style="margin-bottom: 20px;">المخزون الحالي</h3><div id="inventoryList"></div></div></div>
+    <div id="inventoryPage" class="page"><div class="page-header"><h2>📦 المخزون</h2><button class="btn-back" onclick="backToDashboard()">رجوع للرئيسية</button></div><div class="form-container"><h3 style="margin-bottom:20px;">إضافة مكون جديد</h3><div class="form-row"><div class="form-group"><label>الاسم</label><input type="text" id="newIngredientName" placeholder="أدخل الاسم"></div><div class="form-group"><label>الكمية</label><input type="number" id="newIngredientStock" placeholder="أدخل الكمية"></div></div><div class="form-row"><div class="form-group"><label>الوحدة</label><input type="text" id="newIngredientUnit" placeholder="مثال: كيلو، لتر، قطعة"></div><div class="form-group"><label>الحد الأدنى</label><input type="number" id="newIngredientMin" placeholder="الحد الأدنى للتنبيه"></div></div><button class="btn-submit" onclick="addInventoryItem()">✅ إضافة مكون</button></div><div class="list-container"><h3 style="margin-bottom:20px;">المخزون الحالي</h3><div id="inventoryList"></div></div></div>
 
-    <div id="inventoryAdjustPage" class="page"><div class="page-header"><h2>🔄 تعديل المخزون</h2><button class="btn-back" onclick="backToDashboard()">رجوع للرئيسية</button></div><div class="form-container"><h3 style="margin-bottom: 20px;">تعديل المخزون يدوياً</h3><div class="form-row"><div class="form-group"><label>الصنف</label><select id="adjustmentItem"></select></div><div class="form-group"><label>الكمية</label><input type="number" id="adjustmentQuantity" placeholder="أدخل الكمية"></div></div><div class="form-group"><label>سبب التعديل</label><textarea id="adjustmentReason" rows="3" placeholder="أدخل سبب التعديل"></textarea></div><div style="background: #fff3cd; padding: 15px; border-radius: 10px; margin: 15px 0;"><p><strong>المخزون الحالي:</strong> <span id="currentStockDisplay">0</span></p><p><strong>المخزون بعد التعديل:</strong> <span id="newStockDisplay">0</span></p></div><button class="btn-submit" onclick="adjustInventory()">✅ تعديل المخزون</button></div></div>
+    <div id="inventoryAdjustPage" class="page"><div class="page-header"><h2>🔄 تعديل المخزون</h2><button class="btn-back" onclick="backToDashboard()">رجوع للرئيسية</button></div><div class="form-container"><h3 style="margin-bottom:20px;">تعديل المخزون يدوياً</h3><div class="form-row"><div class="form-group"><label>الصنف</label><select id="adjustmentItem"></select></div><div class="form-group"><label>الكمية</label><input type="number" id="adjustmentQuantity" placeholder="أدخل الكمية"></div></div><div class="form-group"><label>سبب التعديل</label><textarea id="adjustmentReason" rows="3" placeholder="أدخل سبب التعديل"></textarea></div><div style="background:#fff3cd;padding:15px;border-radius:10px;margin:15px 0;"><p><strong>المخزون الحالي:</strong> <span id="currentStockDisplay">0</span></p><p><strong>المخزون بعد التعديل:</strong> <span id="newStockDisplay">0</span></p></div><button class="btn-submit" onclick="adjustInventory()">✅ تعديل المخزون</button></div></div>
 
-    <div id="usersPage" class="page"><div class="page-header"><h2>👥 إدارة المستخدمين</h2><button class="btn-back" onclick="backToDashboard()">رجوع للرئيسية</button></div><div class="form-container"><h3 style="margin-bottom: 20px;">إضافة / تعديل مستخدم</h3><input type="hidden" id="editUserIndex"><div class="form-row"><div class="form-group"><label>اسم المستخدم</label><input type="text" id="newUsername" placeholder="أدخل اسم المستخدم"></div><div class="form-group"><label>كلمة المرور</label><input type="password" id="newPassword" placeholder="أدخل كلمة المرور"></div></div><div class="form-row"><div class="form-group"><label>الصلاحية</label><select id="newUserRole"><option value="cashier">كاشير</option><option value="manager">مدير</option></select></div></div><button class="btn-submit" id="saveUserBtnText" onclick="saveUser()">✅ إضافة مستخدم جديد</button><button class="btn-submit" id="cancelUserBtn" onclick="cancelUserEdit()" style="background: #95a5a6; margin-top: 10px; display: none;">❌ إلغاء التعديل</button></div><div class="list-container"><h3 style="margin-bottom: 20px;">المستخدمين</h3><div id="usersList"></div></div></div>
+    <div id="usersPage" class="page"><div class="page-header"><h2>👥 إدارة المستخدمين</h2><button class="btn-back" onclick="backToDashboard()">رجوع للرئيسية</button></div><div class="form-container"><h3 style="margin-bottom:20px;">إضافة / تعديل مستخدم</h3><input type="hidden" id="editUserIndex"><div class="form-row"><div class="form-group"><label>اسم المستخدم</label><input type="text" id="newUsername" placeholder="أدخل اسم المستخدم"></div><div class="form-group"><label>كلمة المرور</label><input type="password" id="newPassword" placeholder="أدخل كلمة المرور"></div></div><div class="form-row"><div class="form-group"><label>الصلاحية</label><select id="newUserRole"><option value="cashier">كاشير</option><option value="manager">مدير</option></select></div></div><button class="btn-submit" id="saveUserBtnText" onclick="saveUser()">✅ إضافة مستخدم جديد</button><button class="btn-submit" id="cancelUserBtn" onclick="cancelUserEdit()" style="background:#95a5a6;margin-top:10px;display:none;">❌ إلغاء التعديل</button></div><div class="list-container"><h3 style="margin-bottom:20px;">المستخدمين</h3><div id="usersList"></div></div></div>
 
-    <div id="categoriesPage" class="page"><div class="page-header"><h2>📁 التصنيفات</h2><button class="btn-back" onclick="backToDashboard()">رجوع للرئيسية</button></div><div class="form-container"><h3 style="margin-bottom: 20px;">إضافة تصنيف جديد</h3><div class="form-row"><div class="form-group"><label>اسم التصنيف</label><input type="text" id="newCategoryName" placeholder="أدخل اسم التصنيف"></div></div><button class="btn-submit" onclick="addCategory()">✅ إضافة تصنيف</button></div><div class="list-container"><h3 style="margin-bottom: 20px;">التصنيفات الموجودة</h3><div id="categoriesList"></div></div></div>
+    <div id="categoriesPage" class="page"><div class="page-header"><h2>📁 التصنيفات</h2><button class="btn-back" onclick="backToDashboard()">رجوع للرئيسية</button></div><div class="form-container"><h3 style="margin-bottom:20px;">إضافة تصنيف جديد</h3><div class="form-row"><div class="form-group"><label>اسم التصنيف</label><input type="text" id="newCategoryName" placeholder="أدخل اسم التصنيف"></div></div><button class="btn-submit" onclick="addCategory()">✅ إضافة تصنيف</button></div><div class="list-container"><h3 style="margin-bottom:20px;">التصنيفات الموجودة</h3><div id="categoriesList"></div></div></div>
 
-    <div id="adminPage" class="page"><div class="page-header"><h2>⚙️ إدارة المنيو</h2><button class="btn-back" onclick="backToDashboard()">رجوع للرئيسية</button></div><div class="form-container"><h3 style="margin-bottom: 20px;">إضافة / تعديل صنف</h3><input type="hidden" id="editIndex"><div class="form-row"><div class="form-group"><label>اسم الصنف</label><input type="text" id="newItemName" placeholder="أدخل اسم الصنف"></div><div class="form-group"><label>التصنيف</label><select id="newItemCategory"></select></div></div><div class="form-row"><div class="form-group"><label>سعر البيع</label><input type="number" id="newItemPrice" placeholder="أدخل سعر البيع"></div><div class="form-group"><label>التكلفة</label><input type="number" id="newItemCost" placeholder="التكلفة" readonly></div></div><div style="background: #e8f4fd; padding: 15px; border-radius: 10px; margin-bottom: 15px;"><h5 style="color: #667eea; margin-bottom: 10px;">🧮 حساب التكلفة من المكونات</h5><div style="display: flex; justify-content: space-between; margin-bottom: 8px;"><span>تكلفة المكونات:</span><span id="calcIngredientsCost">0 ج.م</span></div><div style="display: flex; justify-content: space-between; font-weight: bold; border-top: 2px solid #667eea; padding-top: 10px;"><span>التكلفة الإجمالية:</span><span id="calcSellingPrice" style="color: #27ae60;">0 ج.م</span></div></div><h4 style="margin: 15px 0;">المكونات</h4><div class="ingredients-list" id="ingredientsList"></div><button class="btn-submit" style="background: #f39c12; margin-bottom: 10px;" onclick="addIngredientField()">+ إضافة مكون</button><button class="btn-submit" id="saveBtnText" onclick="saveItem()">✅ إضافة صنف جديد</button><button class="btn-submit" id="cancelBtn" onclick="cancelEdit()" style="background: #95a5a6; margin-top: 10px; display: none;">❌ إلغاء التعديل</button></div><div class="list-container"><h3 style="margin-bottom: 20px;">الأصناف الموجودة</h3><div id="adminMenuList"></div></div></div>
+    <div id="adminPage" class="page"><div class="page-header"><h2>⚙️ إدارة المنيو</h2><button class="btn-back" onclick="backToDashboard()">رجوع للرئيسية</button></div><div class="form-container"><h3 style="margin-bottom:20px;">إضافة / تعديل صنف</h3><input type="hidden" id="editIndex"><div class="form-row"><div class="form-group"><label>اسم الصنف</label><input type="text" id="newItemName" placeholder="أدخل اسم الصنف"></div><div class="form-group"><label>التصنيف</label><select id="newItemCategory"></select></div></div><div class="form-row"><div class="form-group"><label>سعر البيع</label><input type="number" id="newItemPrice" placeholder="أدخل سعر البيع"></div><div class="form-group"><label>التكلفة</label><input type="number" id="newItemCost" placeholder="التكلفة" readonly></div></div><div style="background:#e8f4fd;padding:15px;border-radius:10px;margin-bottom:15px;"><h5 style="color:#667eea;margin-bottom:10px;">🧮 حساب التكلفة من المكونات</h5><div style="display:flex;justify-content:space-between;margin-bottom:8px;"><span>تكلفة المكونات:</span><span id="calcIngredientsCost">0 ج.م</span></div><div style="display:flex;justify-content:space-between;font-weight:bold;border-top:2px solid #667eea;padding-top:10px;"><span>التكلفة الإجمالية:</span><span id="calcSellingPrice" style="color:#27ae60;">0 ج.م</span></div></div><h4 style="margin:15px 0;">المكونات</h4><div class="ingredients-list" id="ingredientsList"></div><button class="btn-submit" style="background:#f39c12;margin-bottom:10px;" onclick="addIngredientField()">+ إضافة مكون</button><button class="btn-submit" id="saveBtnText" onclick="saveItem()">✅ إضافة صنف جديد</button><button class="btn-submit" id="cancelBtn" onclick="cancelEdit()" style="background:#95a5a6;margin-top:10px;display:none;">❌ إلغاء التعديل</button></div><div class="list-container"><h3 style="margin-bottom:20px;">الأصناف الموجودة</h3><div id="adminMenuList"></div></div></div>
 
-    <div id="reportsPage" class="page"><div class="page-header"><h2>📈 التقارير</h2><button class="btn-back" onclick="backToDashboard()">رجوع للرئيسية</button></div><div class="form-container"><h3 style="margin-bottom: 20px;">فلترة التقارير</h3><div class="form-row"><div class="form-group"><label>نوع التقرير</label><select id="reportType" onchange="toggleDateFilters()"><option value="all">كل الأوردرات</option><option value="today">تقرير يومي (اليوم)</option><option value="monthly">تقرير شهري</option><option value="custom">تاريخ مخصص (من - إلى)</option></select></div><div class="form-group" id="dateRangeInputs" style="display: none;"><label>من</label><input type="date" id="dateFrom"></div><div class="form-group" id="dateRangeInputs2" style="display: none;"><label>إلى</label><input type="date" id="dateTo"></div></div><button class="btn-submit" onclick="applyReportFilter()">🔍 تطبيق الفلتر</button></div><div class="stats-grid"><div class="stat-card sales"><div class="stat-label">💵 المبيعات</div><div class="stat-value" id="totalSales">0 ج.م</div></div><div class="stat-card" style="border-top: 4px solid #e74c3c;"><div class="stat-label">📦 تكلفة المبيعات</div><div class="stat-value" id="totalCost" style="color: #e74c3c;">0 ج.م</div></div><div class="stat-card expenses"><div class="stat-label">💸 المصروفات</div><div class="stat-value" id="totalExpenses">0 ج.م</div></div><div class="stat-card profit"><div class="stat-label">📊 صافي الربح</div><div class="stat-value" id="netProfit">0 ج.م</div></div><div class="stat-card" style="border-top: 4px solid #f39c12;"><div class="stat-label">📈 نسبة الربح</div><div class="stat-value" id="profitPercent">0%</div></div></div><div class="list-container"><h3 style="margin-bottom: 20px;">سجل الطلبات</h3><div id="ordersList"></div></div></div>
+    <div id="reportsPage" class="page"><div class="page-header"><h2>📈 التقارير</h2><button class="btn-back" onclick="backToDashboard()">رجوع للرئيسية</button></div><div class="form-container"><h3 style="margin-bottom:20px;">فلترة التقارير</h3><div class="form-row"><div class="form-group"><label>نوع التقرير</label><select id="reportType" onchange="toggleDateFilters()"><option value="all">كل الأوردرات</option><option value="today">تقرير يومي (اليوم)</option><option value="monthly">تقرير شهري</option><option value="custom">تاريخ مخصص (من - إلى)</option></select></div><div class="form-group" id="dateRangeInputs" style="display:none;"><label>من</label><input type="date" id="dateFrom"></div><div class="form-group" id="dateRangeInputs2" style="display:none;"><label>إلى</label><input type="date" id="dateTo"></div></div><button class="btn-submit" onclick="applyReportFilter()">🔍 تطبيق الفلتر</button></div><div class="stats-grid"><div class="stat-card sales"><div class="stat-label">💵 المبيعات</div><div class="stat-value" id="totalSales">0 ج.م</div></div><div class="stat-card" style="border-top:4px solid #e74c3c;"><div class="stat-label">📦 تكلفة المبيعات</div><div class="stat-value" id="totalCost" style="color:#e74c3c;">0 ج.م</div></div><div class="stat-card expenses"><div class="stat-label">💸 المصروفات</div><div class="stat-value" id="totalExpenses">0 ج.م</div></div><div class="stat-card profit"><div class="stat-label">📊 صافي الربح</div><div class="stat-value" id="netProfit">0 ج.م</div></div><div class="stat-card" style="border-top:4px solid #f39c12;"><div class="stat-label">📈 نسبة الربح</div><div class="stat-value" id="profitPercent">0%</div></div></div><div class="list-container"><h3 style="margin-bottom:20px;">سجل الطلبات</h3><div id="ordersList"></div></div></div>
 
-    <div id="revenuesPage" class="page"><div class="page-header"><h2>💰 الإيرادات</h2><button class="btn-back" onclick="backToDashboard()">رجوع للرئيسية</button></div><div class="form-container"><h3 style="margin-bottom: 20px;">فلترة الإيرادات</h3><div class="form-row"><div class="form-group"><label>نوع التقرير</label><select id="revenueType" onchange="toggleRevenueDateFilters()"><option value="all">كل الإيرادات</option><option value="today">إيرادات اليوم</option><option value="monthly">إيرادات الشهر</option><option value="custom">تاريخ مخصص (من - إلى)</option></select></div><div class="form-group" id="revenueDateRange" style="display: none;"><label>من تاريخ</label><input type="date" id="revenueDateFrom"></div><div class="form-group" id="revenueDateRange2" style="display: none;"><label>إلى تاريخ</label><input type="date" id="revenueDateTo"></div></div><button class="btn-submit" onclick="applyRevenueFilter()">🔍 تطبيق الفلتر</button></div><div class="stats-grid"><div class="stat-card sales"><div class="stat-label">💵 إجمالي المبيعات</div><div class="stat-value" id="revenueTotalSales">0 ج.م</div></div><div class="stat-card" style="border-top: 4px solid #3498db;"><div class="stat-label">💵 كاش</div><div class="stat-value" id="revenueCash">0 ج.م</div></div><div class="stat-card" style="border-top: 4px solid #9b59b6;"><div class="stat-label">💳 فيزا</div><div class="stat-value" id="revenueCard">0 ج.م</div></div><div class="stat-card" style="border-top: 4px solid #2ecc71;"><div class="stat-label">📱 محفظة</div><div class="stat-value" id="revenueWallet">0 ج.م</div></div></div><div class="list-container"><h3 style="margin-bottom: 20px;">تفاصيل الإيرادات</h3><div id="revenuesList"></div></div></div>
+    <div id="revenuesPage" class="page"><div class="page-header"><h2>💰 الإيرادات</h2><button class="btn-back" onclick="backToDashboard()">رجوع للرئيسية</button></div><div class="form-container"><h3 style="margin-bottom:20px;">فلترة الإيرادات</h3><div class="form-row"><div class="form-group"><label>نوع التقرير</label><select id="revenueType" onchange="toggleRevenueDateFilters()"><option value="all">كل الإيرادات</option><option value="today">إيرادات اليوم</option><option value="monthly">إيرادات الشهر</option><option value="custom">تاريخ مخصص (من - إلى)</option></select></div><div class="form-group" id="revenueDateRange" style="display:none;"><label>من تاريخ</label><input type="date" id="revenueDateFrom"></div><div class="form-group" id="revenueDateRange2" style="display:none;"><label>إلى تاريخ</label><input type="date" id="revenueDateTo"></div></div><button class="btn-submit" onclick="applyRevenueFilter()">🔍 تطبيق الفلتر</button></div><div class="stats-grid"><div class="stat-card sales"><div class="stat-label">💵 إجمالي المبيعات</div><div class="stat-value" id="revenueTotalSales">0 ج.م</div></div><div class="stat-card" style="border-top:4px solid #3498db;"><div class="stat-label">💵 كاش</div><div class="stat-value" id="revenueCash">0 ج.م</div></div><div class="stat-card" style="border-top:4px solid #9b59b6;"><div class="stat-label">💳 فيزا</div><div class="stat-value" id="revenueCard">0 ج.م</div></div><div class="stat-card" style="border-top:4px solid #2ecc71;"><div class="stat-label">📱 محفظة</div><div class="stat-value" id="revenueWallet">0 ج.م</div></div></div><div class="list-container"><h3 style="margin-bottom:20px;">تفاصيل الإيرادات</h3><div id="revenuesList"></div></div></div>
 
-    <div id="settingsPage" class="page"><div class="page-header"><h2>🎨 الإعدادات</h2><button class="btn-back" onclick="backToDashboard()">رجوع للرئيسية</button></div><div class="form-container"><h3 style="margin-bottom: 20px;">معلومات المطعم</h3><div class="form-row"><div class="form-group"><label>الاسم</label><input type="text" id="restaurantName"></div><div class="form-group"><label>الهاتف</label><input type="text" id="restaurantPhone"></div></div><div class="form-group"><label>العنوان</label><input type="text" id="restaurantAddress"></div><div class="form-group"><label>رسالة الإيصال</label><textarea id="receiptMessage" rows="3"></textarea></div><button class="btn-submit" onclick="saveSettings()">💾 حفظ الإعدادات</button></div><div class="form-container"><h3 style="margin-bottom: 20px;">اللوجو</h3><div class="form-group"><label>صورة اللوجو:</label><input type="file" id="logoInput" accept="image/*" onchange="handleLogoUpload()"></div><div class="logo-preview" id="logoPreview" style="max-width: 150px; max-height: 150px; margin: 20px auto; display: block; border: 2px dashed #ddd; padding: 10px; border-radius: 8px;"><p>لا يوجد لوجو</p></div><button class="btn-submit" onclick="removeLogo()" style="background: #e74c3c;">🗑️ حذف اللوجو</button></div></div>
+    <div id="settingsPage" class="page"><div class="page-header"><h2>🎨 الإعدادات</h2><button class="btn-back" onclick="backToDashboard()">رجوع للرئيسية</button></div><div class="form-container"><h3 style="margin-bottom:20px;">معلومات المطعم</h3><div class="form-row"><div class="form-group"><label>الاسم</label><input type="text" id="restaurantName"></div><div class="form-group"><label>الهاتف</label><input type="text" id="restaurantPhone"></div></div><div class="form-group"><label>العنوان</label><input type="text" id="restaurantAddress"></div><div class="form-group"><label>رسالة الإيصال</label><textarea id="receiptMessage" rows="3"></textarea></div><button class="btn-submit" onclick="saveSettings()">💾 حفظ الإعدادات</button></div><div class="form-container"><h3 style="margin-bottom:20px;">اللوجو</h3><div class="form-group"><label>صورة اللوجو:</label><input type="file" id="logoInput" accept="image/*" onchange="handleLogoUpload()"></div><div class="logo-preview" id="logoPreview" style="max-width:150px;max-height:150px;margin:20px auto;display:block;border:2px dashed #ddd;padding:10px;border-radius:8px;"><p>لا يوجد لوجو</p></div><button class="btn-submit" onclick="removeLogo()" style="background:#e74c3c;">🗑️ حذف اللوجو</button></div></div>
 
-    <div id="tableOrdersPage" class="page"><div class="page-header"><h2>🪑 أوردرات الطاولات المعلقة</h2><button class="btn-back" onclick="backToDashboard()">رجوع للرئيسية</button></div><div class="list-container"><h3 style="margin-bottom: 20px;">الطاولات اللي عليها أوردرات معلقة</h3><div id="tableOrdersList"></div></div></div>
+    <div id="tableOrdersPage" class="page"><div class="page-header"><h2>🪑 أوردرات الطاولات المعلقة</h2><button class="btn-back" onclick="backToDashboard()">رجوع للرئيسية</button></div><div class="list-container"><h3 style="margin-bottom:20px;">الطاولات اللي عليها أوردرات معلقة</h3><div id="tableOrdersList"></div></div></div>
 
-    <div id="shiftClosePage" class="page"><div class="page-header"><h2>💰 تقفيلة الدرج</h2><button class="btn-back" onclick="backToDashboard()">رجوع للرئيسية</button></div><div class="form-container"><h3 style="margin-bottom: 20px; border-bottom: 2px solid #667eea; padding-bottom: 10px;">📊 1. ملخص الأرباح والخسائر</h3><div class="stats-grid"><div class="stat-card sales"><div class="stat-label">💵 المبيعات</div><div class="stat-value" id="shiftSales">0 ج.م</div></div><div class="stat-card" style="border-top: 4px solid #e74c3c;"><div class="stat-label">📦 تكلفة المبيعات</div><div class="stat-value" id="shiftTotalCost" style="color: #e74c3c;">0 ج.م</div></div><div class="stat-card" style="border-top: 4px solid #e67e22;"><div class="stat-label">💸 المصروفات</div><div class="stat-value" id="shiftExpenses">0 ج.م</div></div><div class="stat-card profit"><div class="stat-label">📊 صافي الربح</div><div class="stat-value" id="shiftProfit">0 ج.م</div></div><div class="stat-card" style="border-top: 4px solid #1abc9c;"><div class="stat-label">📈 نسبة الربح</div><div class="stat-value" id="shiftProfitPercent">0%</div></div></div></div><div class="form-container" style="border-top: 5px solid #f39c12;"><h3 style="margin-bottom: 20px;">📦 2. حساب الدرج (سيولة الكاش)</h3><div class="stats-grid"><div class="stat-card" style="border-top: 4px solid #3498db;"><div class="stat-label">💵 كاش</div><div class="stat-value" id="shiftCash">0 ج.م</div></div><div class="stat-card" style="border-top: 4px solid #9b59b6;"><div class="stat-label">💳 فيزا</div><div class="stat-value" id="shiftCard">0 ج.م</div></div><div class="stat-card" style="border-top: 4px solid #2ecc71;"><div class="stat-label">📱 محفظة</div><div class="stat-value" id="shiftWallet">0 ج.م</div></div><div class="stat-card" style="border-top: 4px solid #f1c40f;"><div class="stat-label">💵 توريدات</div><div class="stat-value" id="shiftDeposits">0 ج.م</div></div></div><div style="background: #f8f9fa; padding: 20px; border-radius: 10px; margin: 20px 0; border-right: 5px solid #667eea;"><div style="display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #ddd;"><span>المبلغ الابتدائي:</span><span id="shiftOpeningCashDisplay">0 ج.م</span></div><div style="display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #ddd;"><span>المبلغ المتوقع:</span><span id="shiftExpected">0 ج.م</span></div><div style="display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #ddd;"><span>عدد الأوردرات:</span><span id="shiftOrderCount">0</span></div></div><div class="form-group"><label>المبلغ الفعلي في الدرج</label><input type="number" id="shiftActualCash" placeholder="أدخل المبلغ الفعلي" oninput="calculateShiftDifference()"></div><div id="shiftDifferenceBox" style="display: none; background: #f8f9fa; padding: 20px; border-radius: 10px; margin: 20px 0;"><div style="display: flex; justify-content: space-between; font-weight: bold; font-size: 18px; border-top: 2px solid #667eea; padding-top: 15px;"><span id="shiftDifferenceLabel">العجز/الأوفر:</span><span id="shiftDifferenceValue">0 ج.م</span></div></div><div style="display: flex; gap: 15px; margin-top: 20px;"><button class="btn-submit" style="flex: 1; background: #95a5a6;" onclick="backToDashboard()">إلغاء</button><button class="btn-submit" style="flex: 1;" id="printShiftBtn" disabled onclick="printShiftCloseReceipt()">🖨️ طباعة الرسيت</button><button class="btn-submit" style="flex: 1; background: #27ae60;" id="confirmShiftBtn" onclick="confirmShiftClose()">✅ تأكيد وإنهاء الشيفت</button></div></div></div>
+    <div id="shiftClosePage" class="page"><div class="page-header"><h2>💰 تقفيلة الدرج</h2><button class="btn-back" onclick="backToDashboard()">رجوع للرئيسية</button></div><div class="form-container"><h3 style="margin-bottom:20px;border-bottom:2px solid #667eea;padding-bottom:10px;">📊 1. ملخص الأرباح والخسائر</h3><div class="stats-grid"><div class="stat-card sales"><div class="stat-label">💵 المبيعات</div><div class="stat-value" id="shiftSales">0 ج.م</div></div><div class="stat-card" style="border-top:4px solid #e74c3c;"><div class="stat-label">📦 تكلفة المبيعات</div><div class="stat-value" id="shiftTotalCost" style="color:#e74c3c;">0 ج.م</div></div><div class="stat-card" style="border-top:4px solid #e67e22;"><div class="stat-label">💸 المصروفات</div><div class="stat-value" id="shiftExpenses">0 ج.م</div></div><div class="stat-card profit"><div class="stat-label">📊 صافي الربح</div><div class="stat-value" id="shiftProfit">0 ج.م</div></div><div class="stat-card" style="border-top:4px solid #1abc9c;"><div class="stat-label">📈 نسبة الربح</div><div class="stat-value" id="shiftProfitPercent">0%</div></div></div></div><div class="form-container" style="border-top:5px solid #f39c12;"><h3 style="margin-bottom:20px;">📦 2. حساب الدرج (سيولة الكاش)</h3><div class="stats-grid"><div class="stat-card" style="border-top:4px solid #3498db;"><div class="stat-label">💵 كاش</div><div class="stat-value" id="shiftCash">0 ج.م</div></div><div class="stat-card" style="border-top:4px solid #9b59b6;"><div class="stat-label">💳 فيزا</div><div class="stat-value" id="shiftCard">0 ج.م</div></div><div class="stat-card" style="border-top:4px solid #2ecc71;"><div class="stat-label">📱 محفظة</div><div class="stat-value" id="shiftWallet">0 ج.م</div></div><div class="stat-card" style="border-top:4px solid #f1c40f;"><div class="stat-label">💵 توريدات</div><div class="stat-value" id="shiftDeposits">0 ج.م</div></div></div><div style="background:#f8f9fa;padding:20px;border-radius:10px;margin:20px 0;border-right:5px solid #667eea;"><div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #ddd;"><span>المبلغ الابتدائي:</span><span id="shiftOpeningCashDisplay">0 ج.م</span></div><div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #ddd;"><span>المبلغ المتوقع:</span><span id="shiftExpected">0 ج.م</span></div><div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #ddd;"><span>عدد الأوردرات:</span><span id="shiftOrderCount">0</span></div></div><div class="form-group"><label>المبلغ الفعلي في الدرج</label><input type="number" id="shiftActualCash" placeholder="أدخل المبلغ الفعلي" oninput="calculateShiftDifference()"></div><div id="shiftDifferenceBox" style="display:none;background:#f8f9fa;padding:20px;border-radius:10px;margin:20px 0;"><div style="display:flex;justify-content:space-between;font-weight:bold;font-size:18px;border-top:2px solid #667eea;padding-top:15px;"><span id="shiftDifferenceLabel">العجز/الأوفر:</span><span id="shiftDifferenceValue">0 ج.م</span></div></div><div style="display:flex;gap:15px;margin-top:20px;"><button class="btn-submit" style="flex:1;background:#95a5a6;" onclick="backToDashboard()">إلغاء</button><button class="btn-submit" style="flex:1;" id="printShiftBtn" disabled onclick="printShiftCloseReceipt()">🖨️ طباعة الرسيت</button><button class="btn-submit" style="flex:1;background:#27ae60;" id="confirmShiftBtn" onclick="confirmShiftClose()">✅ تأكيد وإنهاء الشيفت</button></div></div></div>
 
-    <div id="shiftStartPage" class="page"><div class="page-header"><h2>🔄 بدء شيفت جديد</h2><button class="btn-back" onclick="backToDashboard()">رجوع للرئيسية</button></div><div class="form-container"><h3 style="margin-bottom: 20px; color: #333;">📊 بيانات الشيفت الجديد</h3><div class="form-row"><div class="form-group"><label>المبلغ الابتدائي</label><input type="number" id="shiftOpeningCash" placeholder="أدخل المبلغ"></div></div><div class="form-group"><label>ملاحظات</label><textarea id="shiftNotes" rows="3" placeholder="ملاحظات اختياري"></textarea></div><button class="btn-submit" onclick="startNewShift()">✅ بدء الشيفت</button></div></div>
+    <div id="shiftStartPage" class="page"><div class="page-header"><h2>🔄 بدء شيفت جديد</h2><button class="btn-back" onclick="backToDashboard()">رجوع للرئيسية</button></div><div class="form-container"><h3 style="margin-bottom:20px;color:#333;">📊 بيانات الشيفت الجديد</h3><div class="form-row"><div class="form-group"><label>المبلغ الابتدائي</label><input type="number" id="shiftOpeningCash" placeholder="أدخل المبلغ"></div></div><div class="form-group"><label>ملاحظات</label><textarea id="shiftNotes" rows="3" placeholder="ملاحظات اختياري"></textarea></div><button class="btn-submit" onclick="startNewShift()">✅ بدء الشيفت</button></div></div>
 
-    <div id="paymentModal" class="modal"><div class="modal-content"><div class="modal-header"><h2>💳 الدفع</h2></div><div class="modal-body"><div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 20px; border-radius: 12px; text-align: center; margin-bottom: 25px;"><div style="font-size: 14px; opacity: 0.9;">الإجمالي</div><div style="font-size: 36px; font-weight: 700;" id="modalTotal">0 ج.م</div></div><div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 25px;"><div class="payment-method active" onclick="setPaymentMethod('cash')" id="payCash" style="background: #d4edda; border: 3px solid #27ae60; border-radius: 12px; padding: 20px; text-align: center; cursor: pointer;"><div style="font-size: 30px;">💵</div><div style="font-weight: 700;">كاش</div></div><div class="payment-method" onclick="setPaymentMethod('card')" id="payCard" style="background: #f8f9fa; border: 3px solid #e0e0e0; border-radius: 12px; padding: 20px; text-align: center; cursor: pointer;"><div style="font-size: 30px;">💳</div><div style="font-weight: 700;">فيزا</div></div><div class="payment-method" onclick="setPaymentMethod('wallet')" id="payWallet" style="background: #f8f9fa; border: 3px solid #e0e0e0; border-radius: 12px; padding: 20px; text-align: center; cursor: pointer;"><div style="font-size: 30px;">📱</div><div style="font-weight: 700;">محفظة</div></div></div><div class="form-group"><label>المبلغ المدفوع</label><input type="number" id="paidAmount" placeholder="أدخل المبلغ" oninput="calculateChange()"></div><div id="changeDisplay" style="background: #fff3cd; padding: 15px; border-radius: 10px; margin-top: 15px; display: none; text-align: center;"><div style="font-size: 14px;">الباقي</div><div style="font-size: 28px; font-weight: 700; color: #856404;" id="changeAmount">0 ج.م</div></div></div><div class="modal-footer"><button class="btn-modal btn-cancel" onclick="closeModal('paymentModal')">إلغاء</button><button class="btn-modal btn-confirm" onclick="confirmPayment()">✅ تأكيد الدفع</button></div></div></div>
+    <div id="paymentModal" class="modal"><div class="modal-content"><div class="modal-header"><h2>💳 الدفع</h2></div><div class="modal-body"><div style="background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);color:#fff;padding:20px;border-radius:12px;text-align:center;margin-bottom:25px;"><div style="font-size:14px;opacity:0.9;">الإجمالي</div><div style="font-size:36px;font-weight:700;" id="modalTotal">0 ج.م</div></div><div style="display:grid;grid-template-columns:repeat(3,1fr);gap:15px;margin-bottom:25px;"><div class="payment-method active" onclick="setPaymentMethod('cash')" id="payCash" style="background:#d4edda;border:3px solid #27ae60;border-radius:12px;padding:20px;text-align:center;cursor:pointer;"><div style="font-size:30px;">💵</div><div style="font-weight:700;">كاش</div></div><div class="payment-method" onclick="setPaymentMethod('card')" id="payCard" style="background:#f8f9fa;border:3px solid #e0e0e0;border-radius:12px;padding:20px;text-align:center;cursor:pointer;"><div style="font-size:30px;">💳</div><div style="font-weight:700;">فيزا</div></div><div class="payment-method" onclick="setPaymentMethod('wallet')" id="payWallet" style="background:#f8f9fa;border:3px solid #e0e0e0;border-radius:12px;padding:20px;text-align:center;cursor:pointer;"><div style="font-size:30px;">📱</div><div style="font-weight:700;">محفظة</div></div></div><div class="form-group"><label>المبلغ المدفوع</label><input type="number" id="paidAmount" placeholder="أدخل المبلغ" oninput="calculateChange()"></div><div id="changeDisplay" style="background:#fff3cd;padding:15px;border-radius:10px;margin-top:15px;display:none;text-align:center;"><div style="font-size:14px;">الباقي</div><div style="font-size:28px;font-weight:700;color:#856404;" id="changeAmount">0 ج.م</div></div></div><div class="modal-footer"><button class="btn-modal btn-cancel" onclick="closeModal('paymentModal')">إلغاء</button><button class="btn-modal btn-confirm" onclick="confirmPayment()">✅ تأكيد الدفع</button></div></div></div>
 
     <div id="tableSelectModal" class="modal"><div class="modal-content"><div class="modal-header"><h2>🪑 اختيار الطاولة</h2></div><div class="modal-body"><div class="tables-grid" id="tableSelectGrid"></div></div><div class="modal-footer"><button class="btn-modal btn-cancel" onclick="closeModal('tableSelectModal')">إلغاء</button></div></div></div>
 
-    <div id="tableBillModal" class="modal"><div class="modal-content"><div class="modal-header"><h2>📋 حساب الطاولة</h2></div><div class="modal-body"><div id="tableBillInfo"></div><div class="bill-items" id="billItemsContainer"></div><div class="bill-total" style="margin-top: 20px;"><div class="bill-total-label">الإجمالي</div><div class="bill-total-amount" id="billTotalAmount">0 ج.م</div></div><div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-top: 20px;"><div class="payment-method active" onclick="setTablePaymentMethod('cash')" id="tableCashBtn" style="background: #d4edda; border: 3px solid #27ae60; border-radius: 12px; padding: 15px; text-align: center; cursor: pointer;"><div style="font-size: 24px;">💵</div><div style="font-weight: 700;">كاش</div></div><div class="payment-method" onclick="setTablePaymentMethod('card')" id="tableCardBtn" style="background: #f8f9fa; border: 3px solid #e0e0e0; border-radius: 12px; padding: 15px; text-align: center; cursor: pointer;"><div style="font-size: 24px;">💳</div><div style="font-weight: 700;">فيزا</div></div><div class="payment-method" onclick="setTablePaymentMethod('wallet')" id="tableWalletBtn" style="background: #f8f9fa; border: 3px solid #e0e0e0; border-radius: 12px; padding: 15px; text-align: center; cursor: pointer;"><div style="font-size: 24px;">📱</div><div style="font-weight: 700;">محفظة</div></div></div></div><div class="modal-footer"><button class="btn-modal btn-cancel" onclick="closeModal('tableBillModal')">إلغاء</button><button class="btn-modal btn-confirm" onclick="confirmTablePayment()">✅ دفع وتحرير</button></div></div></div>
+    <div id="tableBillModal" class="modal"><div class="modal-content"><div class="modal-header"><h2>📋 حساب الطاولة</h2></div><div class="modal-body"><div id="tableBillInfo"></div><div class="bill-items" id="billItemsContainer"></div><div class="bill-total" style="margin-top:20px;"><div class="bill-total-label">الإجمالي</div><div class="bill-total-amount" id="billTotalAmount">0 ج.م</div></div><div style="display:grid;grid-template-columns:repeat(3,1fr);gap:15px;margin-top:20px;"><div class="payment-method active" onclick="setTablePaymentMethod('cash')" id="tableCashBtn" style="background:#d4edda;border:3px solid #27ae60;border-radius:12px;padding:15px;text-align:center;cursor:pointer;"><div style="font-size:24px;">💵</div><div style="font-weight:700;font-size:12px;">كاش</div></div><div class="payment-method" onclick="setTablePaymentMethod('card')" id="tableCardBtn" style="background:#f8f9fa;border:3px solid #e0e0e0;border-radius:12px;padding:15px;text-align:center;cursor:pointer;"><div style="font-size:24px;">💳</div><div style="font-weight:700;font-size:12px;">فيزا</div></div><div class="payment-method" onclick="setTablePaymentMethod('wallet')" id="tableWalletBtn" style="background:#f8f9fa;border:3px solid #e0e0e0;border-radius:12px;padding:15px;text-align:center;cursor:pointer;"><div style="font-size:24px;">📱</div><div style="font-weight:700;font-size:12px;">محفظة</div></div></div></div><div class="modal-footer"><button class="btn-modal btn-cancel" onclick="closeModal('tableBillModal')">إلغاء</button><button class="btn-modal btn-confirm" onclick="confirmTablePayment()">✅ دفع وتحرير</button></div></div></div>
 
-    <div id="receiptContent" style="display: none;"></div>
+    <div id="receiptContent" style="display:none;"></div>
 </div>
 
 <script type="module">
@@ -265,7 +280,6 @@ function showLoading(msg = "جاري التحميل...") { document.querySelecto
 function hideLoading() { document.getElementById('loadingOverlay').style.display = 'none'; }
 function showToast(msg, type = 'info') { const c = document.getElementById('toast-container'), t = document.createElement('div'); t.className = `toast ${type}`; t.innerHTML = `<div class="toast-icon">${{success:'✅',error:'❌',info:'ℹ️'}[type]||'ℹ️'}</div><div class="toast-content"><h4>${msg}</h4></div>`; c.appendChild(t); setTimeout(() => { t.style.opacity='0'; setTimeout(()=>t.remove(),300); }, 4000); }
 
-// Helper to normalize dates for comparison (Arabic/Local -> ISO YYYY-MM-DD)
 function getSafeDateISO(dateStr) {
     if (!dateStr) return '';
     const arabicNums = ['٠','١','٢','٣','٤','٥','٦','٧','٨','٩'];
@@ -324,7 +338,7 @@ function setupListeners() {
     listeners.push(onSnapshot(collection(db, 'inventory'), s => { inventory = s.docs.map(d => ({id:d.id, ...d.data()})); renderInventoryList(); }));
     listeners.push(onSnapshot(collection(db, 'menu'), s => { menuItems = s.docs.map(d => ({id:d.id, ...d.data()})); if(document.getElementById('orderPage').classList.contains('active')) renderMenu(); }));
     listeners.push(onSnapshot(query(collection(db, 'orders'), orderBy('date','desc'), limit(500)), s => { orders = s.docs.map(d => ({id:d.id, ...d.data()})); }));
-    listeners.push(onSnapshot(collection(db, 'expenses'), s => { expenses = s.docs.map(d => ({id:d.id, ...d.data()})); }));
+    listeners.push(onSnapshot(collection(db, 'expenses'), s => { expenses = s.docs.map(d => ({id:d.id, ...d.data()})); renderExpensesList(); }));
     listeners.push(onSnapshot(collection(db, 'cashDeposits'), s => { cashDeposits = s.docs.map(d => ({id:d.id, ...d.data()})); }));
     listeners.push(onSnapshot(collection(db, 'tableOrders'), s => { tableOrders = s.docs.map(d => ({id:d.id, ...d.data()})); renderTableOrdersList(); }));
 }
@@ -384,7 +398,7 @@ const navPages = {'openOrderScreen':'orderPage','openTables':'tablesPage','openE
 Object.entries(navPages).forEach(([f,p])=>{ window[f]=function(){
     if(f==='openOrderScreen'&&!activeShift){showToast('⚠️ يجب بدء شيفت جديد أولاً!','error');return;} if(f==='openShiftClose'&&!activeShift){showToast('لا يوجد شيفت نشط!','error');return;}
     document.querySelectorAll('.page').forEach(pg=>pg.style.display='none'); document.getElementById(p).style.display='block';
-    if(f==='openOrderScreen'){renderCategories();renderMenu();} if(f==='openTables')renderTablesList(); if(f==='openExpenses'){renderExpenseCategories();renderShiftExpenses();} if(f==='openDeposits')renderShiftDeposits(); if(f==='openExpenseCategories')renderExpenseCategoriesList(); if(f==='openReturns')renderReturnsList(); if(f==='openPurchases'){updatePurchaseItemSelect();renderPurchasesList();} if(f==='openInventory')renderInventoryList(); if(f==='openInventoryAdjust')updateAdjustmentItemSelect(); if(f==='openUsers')renderUsersList(); if(f==='openCategories')renderCategoriesList(); if(f==='openAdmin'){updateCategorySelect();renderAdminMenuList();} if(f==='openReports'){toggleDateFilters();applyReportFilter();} if(f==='openSettings')loadSettingsForm(); if(f==='openTableOrders')renderTableOrdersList(); if(f==='openShiftClose')calculateShiftSummary(); if(f==='openRevenues'){toggleRevenueDateFilters();applyRevenueFilter();}
+    if(f==='openOrderScreen'){renderCategories();renderMenu();} if(f==='openTables')renderTablesList(); if(f==='openExpenses'){renderExpenseCategories();renderExpensesList();} if(f==='openDeposits')renderShiftDeposits(); if(f==='openExpenseCategories')renderExpenseCategoriesList(); if(f==='openReturns')renderReturnsList(); if(f==='openPurchases'){updatePurchaseItemSelect();renderPurchasesList();} if(f==='openInventory')renderInventoryList(); if(f==='openInventoryAdjust')updateAdjustmentItemSelect(); if(f==='openUsers')renderUsersList(); if(f==='openCategories')renderCategoriesList(); if(f==='openAdmin'){updateCategorySelect();renderAdminMenuList();} if(f==='openReports'){toggleDateFilters();applyReportFilter();} if(f==='openSettings')loadSettingsForm(); if(f==='openTableOrders')renderTableOrdersList(); if(f==='openShiftClose')calculateShiftSummary(); if(f==='openRevenues'){toggleRevenueDateFilters();applyRevenueFilter();}
 };});
 
 function renderCategories(){const c=document.getElementById('categoryTabs');c.innerHTML=''; const a=document.createElement('button');a.className='category-tab active';a.textContent='الكل';a.onclick=()=>{document.querySelectorAll('.category-tab').forEach(t=>t.classList.remove('active'));a.classList.add('active');renderMenu('all');};c.appendChild(a); categories.forEach(cat=>{const b=document.createElement('button');b.className='category-tab';b.textContent=cat.name;b.onclick=()=>{document.querySelectorAll('.category-tab').forEach(t=>t.classList.remove('active'));b.classList.add('active');renderMenu(cat.id);};c.appendChild(b);});}
@@ -405,7 +419,30 @@ window.openPayment=function(){if(cart.length===0){showToast('الفاتورة ف
 window.setPaymentMethod=function(m){paymentMethod=m; ['cash','card','wallet'].forEach(x=>{const el=document.getElementById('pay'+x.charAt(0).toUpperCase()+x.slice(1)); if(x===m){el.style.background='#d4edda';el.style.borderColor='#27ae60';}else{el.style.background='#f8f9fa';el.style.borderColor='#e0e0e0';}});};
 window.calculateChange=function(){const p=parseFloat(document.getElementById('paidAmount').value)||0, ch=p-currentTotal, d=document.getElementById('changeDisplay'); if(p>0){d.style.display='block';document.getElementById('changeAmount').textContent=ch.toFixed(2)+' ج.م';}else d.style.display='none';};
 window.confirmPayment=async function(){const p=parseFloat(document.getElementById('paidAmount').value)||0; if(paymentMethod==='cash'&&p<currentTotal){showToast('المبلغ غير كافي!','error');return;} showLoading("جاري الحفظ..."); try{const tc=calculateOrderCost(cart), op=currentTotal-tc, od={orderNumber:orderCount,date:new Date().toLocaleString('ar-EG'),type:orderType,items:[...cart],total:currentTotal,totalCost:tc,profit:op,paymentMethod,cashier:currentUser.username,tableId:selectedTable?.id||null,tableName:selectedTable?.number||null,shiftNumber:activeShift?.shiftNumber||null}; await addDoc(collection(db,'orders'),od); const ded=await deductInventoryFromOrderItems(cart); orderCount++;await saveOrderCount(); if(activeShift){activeShift.totalSales=(activeShift.totalSales||0)+currentTotal;activeShift.totalCost=(activeShift.totalCost||0)+tc; if(paymentMethod==='cash')activeShift.cashSales=(activeShift.cashSales||0)+currentTotal; else if(paymentMethod==='card')activeShift.cardSales=(activeShift.cardSales||0)+currentTotal; else activeShift.walletSales=(activeShift.walletSales||0)+currentTotal; await updateDoc(doc(db,'shiftClosures',activeShift.id),{totalSales:activeShift.totalSales,totalCost:activeShift.totalCost,cashSales:activeShift.cashSales,cardSales:activeShift.cardSales,walletSales:activeShift.walletSales});} if(selectedTable&&orderType==='dinein')await updateDoc(doc(db,'tables',selectedTable.id),{status:'occupied'}); printReceipt(od); showToast(`✅ تم الدفع!\n💰 الربح: ${op.toFixed(2)} ج.م`,'success'); closeModal('paymentModal'); cart=[];selectedTable=null;document.getElementById('selectedTableInfo').style.display='none';renderCart(); }catch(err){showToast('خطأ: '+err.message,'error');}finally{hideLoading();}};
-function printReceipt(order){const c=`<div style="text-align:center;font-family:monospace;padding:20px;max-width:400px;margin:0 auto;"><h2>${restaurantSettings.name}</h2><p>أوردر #${order.orderNumber}</p><p>${order.date}</p><p>الكاشير: ${order.cashier}</p><div style="border-top:2px dashed #000;margin:15px 0;"></div>${order.items.map(i=>`<div style="display:flex;justify-content:space-between;margin:8px 0;"><span>${i.name} x${i.qty}</span><span>${(i.price*i.qty).toFixed(2)} ج.م</span></div>`).join('')}<div style="border-top:2px dashed #000;margin:15px 0;"></div><div style="display:flex;justify-content:space-between;font-weight:bold;font-size:18px;"><span>الإجمالي:</span><span>${order.total.toFixed(2)} ج.م</span></div><p>شكراً لزيارتكم!</p></div>`, pw=window.open('','','width=400,height=700'); pw.document.write('<html dir="rtl"><head><title>إيصال</title></head><body>'+c+'</body></html>'); pw.document.close(); pw.print();}
+
+function printReceipt(order) {
+    const logoHtml = restaurantSettings.logo 
+        ? `<img src="${restaurantSettings.logo}" style="max-width:120px; margin-bottom:10px;">` 
+        : '';
+        
+    const c = `<div style="text-align:center; font-family:monospace; padding:20px; max-width:350px; margin:0 auto;">
+        ${logoHtml}
+        <h2>${restaurantSettings.name || 'Dr Shrimp'}</h2>
+        <p>أوردر #${order.orderNumber}</p>
+        <p>${order.date}</p>
+        <p>الكاشير: ${order.cashier}</p>
+        <div style="border-top:2px dashed #000; margin:15px 0;"></div>
+        ${order.items.map(item => `<div style="display:flex; justify-content:space-between; margin:8px 0;"><span>${item.name} x${item.qty}</span><span>${(item.price * item.qty).toFixed(2)} ج.م</span></div>`).join('')}
+        <div style="border-top:2px dashed #000; margin:15px 0;"></div>
+        <div style="display:flex; justify-content:space-between; font-weight:bold; font-size:18px;"><span>الإجمالي:</span><span>${order.total.toFixed(2)} ج.م</span></div>
+        <p>شكراً لزيارتكم!</p>
+    </div>`;
+    
+    const pw = window.open('', '', 'width=400,height=600');
+    pw.document.write('<html dir="rtl"><head><title>إيصال</title></head><body>' + c + '</body></html>');
+    pw.document.close();
+    pw.print();
+}
 
 window.suspendToTable=async function(){if(cart.length===0){showToast('الفاتورة فارغة!','error');return;} if(!selectedTable){showToast('يجب اختيار طاولة أولاً!','error');openTableSelect();return;} showLoading("جاري الحفظ..."); try{const tc=calculateOrderCost(cart), ex=tableOrders.find(t=>t.tableId===selectedTable.id&&t.status==='active'), od={items:[...cart],total:currentTotal,totalCost:tc,date:new Date().toLocaleString('ar-EG')}; if(ex){ex.orders.push(od);ex.totalAmount=(ex.totalAmount||0)+currentTotal;ex.totalCost=(ex.totalCost||0)+tc; await updateDoc(doc(db,'tableOrders',ex.id),{orders:ex.orders,totalAmount:ex.totalAmount,totalCost:ex.totalCost});}else{await addDoc(collection(db,'tableOrders'),{tableId:selectedTable.id,tableName:selectedTable.number,orders:[od],totalAmount:currentTotal,totalCost:tc,status:'active',date:new Date().toLocaleString('ar-EG')});} await updateDoc(doc(db,'tables',selectedTable.id),{status:'occupied'}); showToast('✅ تم تعليق الأوردر على الطاولة!','success'); cart=[];renderCart(); }catch(err){showToast('خطأ: '+err.message,'error');}finally{hideLoading();}};
 function renderTableOrdersList(){const c=document.getElementById('tableOrdersList');c.innerHTML=''; const occ=tableOrders.filter(t=>t.status==='active'); if(occ.length===0){c.innerHTML='<p style="text-align:center;color:#777;padding:20px;">لا يوجد أوردرات معلقة</p>';return;} occ.forEach(to=>{const ta=tables.find(t=>t.id===to.tableId), d=document.createElement('div');d.className='list-item';d.innerHTML=`<div class="list-item-info"><div class="list-item-title">طاولة ${ta?ta.number:'?'}</div><div class="list-item-subtitle">عدد الأوردرات: ${to.orders?.length||0} | الإجمالي: ${to.totalAmount?.toFixed(2)||0} ج.م</div></div><div class="list-item-actions"><button class="btn-small btn-view" onclick="viewTableOrder('${to.id}')">👁️ عرض</button><button class="btn-small btn-pay" onclick="payTableOrder('${to.id}')">💳 دفع</button></div>`;c.appendChild(d);});}
@@ -416,6 +453,41 @@ window.closeModal=function(id){document.getElementById(id).style.display='none';
 window.confirmTablePayment=async function(){if(!window.currentTableOrderId){showToast('خطأ: لا يوجد أوردر محدد','error');return;} const to=tableOrders.find(x=>x.id===window.currentTableOrderId);if(!to){showToast('خطأ: الأوردر غير موجود','error');return;} showLoading("جاري الدفع وتحرير الطاولة..."); try{const ta=tables.find(t=>t.id===to.tableId);let tc=0,tp=0; for(const od of (to.orders||[])){const c=od.totalCost||calculateOrderCost(od.items||[]);tc+=c;const p=(od.total||0)-c;tp+=p;await deductInventoryFromOrderItems(od.items||[]);const order={orderNumber:orderCount,date:new Date().toLocaleString('ar-EG'),type:'dinein',items:od.items||[],total:od.total||0,totalCost:c,profit:p,paymentMethod:tablePaymentMethod,cashier:currentUser.username,shiftNumber:activeShift?.shiftNumber||null,tableId:to.tableId,tableName:ta?ta.number:null};await addDoc(collection(db,'orders'),order);orderCount++;} await saveOrderCount(); if(activeShift){const tt=window.currentTableTotal||0;activeShift.totalSales=(activeShift.totalSales||0)+tt;activeShift.totalCost=(activeShift.totalCost||0)+tc; if(tablePaymentMethod==='cash')activeShift.cashSales=(activeShift.cashSales||0)+tt; else if(tablePaymentMethod==='card')activeShift.cardSales=(activeShift.cardSales||0)+tt; else activeShift.walletSales=(activeShift.walletSales||0)+tt; await updateDoc(doc(db,'shiftClosures',activeShift.id),{totalSales:activeShift.totalSales,totalCost:activeShift.totalCost,cashSales:activeShift.cashSales,cardSales:activeShift.cardSales,walletSales:activeShift.walletSales});} if(to.tableId)await updateDoc(doc(db,'tables',to.tableId),{status:'free'}); await deleteDoc(doc(db,'tableOrders',window.currentTableOrderId)); closeModal('tableBillModal'); showToast(`✅ تم الدفع!\n💰 الربح: ${tp.toFixed(2)} ج.م`,'success'); }catch(err){showToast('خطأ: '+err.message,'error');}finally{hideLoading();}};
 
 function renderExpenseCategories(){const s=document.getElementById('expenseCategory');s.innerHTML='<option value="">اختر نوع المصروف</option>';expenseCategories.forEach(c=>{const o=document.createElement('option');o.value=c.id;o.textContent=c.name;s.appendChild(o);});}
+
+// NEW: Comprehensive Expenses List with Filter
+window.renderExpensesList = function() {
+    const c = document.getElementById('expensesList');
+    c.innerHTML = '';
+    const filter = document.getElementById('expenseFilterSelect').value;
+    
+    let data = [...expenses];
+    if (filter === 'current' && activeShift) {
+        data = expenses.filter(e => e.shiftNumber === activeShift.shiftNumber);
+    }
+    
+    data.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+    if (data.length === 0) {
+        c.innerHTML = '<p style="text-align:center; color:#777; padding:20px;">لا توجد مصروفات</p>';
+        return;
+    }
+    
+    let totalExp = 0;
+    data.forEach(exp => {
+        totalExp += parseFloat(exp.amount) || 0;
+        const cat = expenseCategories.find(c => c.id === exp.categoryId);
+        const d = document.createElement('div');
+        d.className = 'list-item';
+        d.innerHTML = `<div class="list-item-info"><div class="list-item-title">${cat?.name || 'غير محدد'}</div><div class="list-item-subtitle">${exp.date} - ${exp.addedBy}${exp.notes ? ' | ' + exp.notes : ''}</div></div><div class="list-item-title" style="color:#e74c3c;">-${(parseFloat(exp.amount)||0).toFixed(2)} ج.م</div>`;
+        c.appendChild(d);
+    });
+    
+    const totalDiv = document.createElement('div');
+    totalDiv.style.cssText = 'background: #f0f2f5; padding: 15px; border-radius: 10px; margin-top: 15px; text-align: center; font-weight: bold;';
+    totalDiv.innerHTML = `إجمالي المصروفات المعروضة: ${totalExp.toFixed(2)} ج.م`;
+    c.appendChild(totalDiv);
+};
+
 function renderShiftExpenses(){const c=document.getElementById('shiftExpensesList');c.innerHTML='';const se=expenses.filter(e=>e.shiftNumber===activeShift?.shiftNumber);if(se.length===0){c.innerHTML='<p style="text-align:center;color:#777;padding:20px;">لا توجد مصروفات</p>';return;}se.forEach(exp=>{const cat=expenseCategories.find(c=>c.id===exp.categoryId),d=document.createElement('div');d.style.cssText='background:#f8f9fa;padding:15px;border-radius:10px;margin-bottom:10px;';d.innerHTML=`<div style="display:flex;justify-content:space-between;"><strong>${cat?.name||'غير محدد'}</strong><span style="color:#e74c3c;font-weight:bold;">-${exp.amount.toFixed(2)} ج.م</span></div><div style="font-size:12px;color:#777;margin-top:5px;">${exp.date} - ${exp.addedBy}${exp.notes?'<br>📝 '+exp.notes:''}</div>`;c.appendChild(d);});}
 window.addExpense=async function(){const ci=document.getElementById('expenseCategory').value,am=parseFloat(document.getElementById('expenseAmount').value),no=document.getElementById('expenseNotes').value.trim();if(!ci){showToast('اختر نوع المصروف','error');return;}if(!am||am<=0){showToast('أدخل مبلغ صحيح','error');return;}const se=expenses.filter(e=>e.shiftNumber===activeShift?.shiftNumber),cet=se.reduce((s,e)=>s+(parseFloat(e.amount)||0),0),sd=cashDeposits.filter(d=>d.shiftNumber===activeShift?.shiftNumber),cdt=sd.reduce((s,d)=>s+(parseFloat(d.amount)||0),0),scs=orders.filter(o=>o.shiftNumber===activeShift?.shiftNumber&&o.paymentMethod==='cash').reduce((s,o)=>s+(parseFloat(o.total)||0),0),av=(activeShift?.openingCash||0)+scs+cdt-cet;if(am>av){showToast(`❌ الرصيد لا يكفي!\nالمتاح: ${av.toFixed(2)} ج.م`,'error');return;}const cat=expenseCategories.find(c=>c.id===ci);showLoading("إضافة المصروف...");try{await addDoc(collection(db,'expenses'),{shiftNumber:activeShift.shiftNumber,categoryId:ci,categoryName:cat?.name||'غير محدد',amount:am,notes:no,date:new Date().toLocaleString('ar-EG'),addedBy:currentUser.username});document.getElementById('expenseCategory').value='';document.getElementById('expenseAmount').value='';document.getElementById('expenseNotes').value='';showToast('✅ تم إضافة المصروف!','success');}catch(err){showToast('خطأ: '+err.message,'error');}finally{hideLoading();}};
 function renderShiftDeposits(){const c=document.getElementById('shiftDepositsList');c.innerHTML='';const sd=cashDeposits.filter(d=>d.shiftNumber===activeShift?.shiftNumber);if(sd.length===0){c.innerHTML='<p style="text-align:center;color:#777;padding:20px;">لا توجد توريدات</p>';return;}sd.forEach(dep=>{const d=document.createElement('div');d.style.cssText='background:#f8f9fa;padding:15px;border-radius:10px;margin-bottom:10px;';d.innerHTML=`<div style="display:flex;justify-content:space-between;"><strong>+${dep.amount.toFixed(2)} ج.م</strong></div><div style="font-size:12px;color:#777;margin-top:5px;">${dep.date} - ${dep.addedBy}${dep.notes?'<br>📝 '+dep.notes:''}</div>`;c.appendChild(d);});}
@@ -482,7 +554,6 @@ window.editItem=function(i){const item=menuItems.find(x=>x.id===i);if(item){docu
 window.deleteItem=async function(i){if(confirm('متأكد؟')){await deleteDoc(doc(db,'menu',i));showToast('✅ تم!','success');}};
 window.cancelEdit=function(){document.getElementById('newItemName').value='';document.getElementById('newItemPrice').value='';document.getElementById('newItemCategory').value='';document.getElementById('editIndex').value='';tempIngredients=[];renderIngredientsFields();document.getElementById('saveBtnText').textContent='✅ إضافة صنف جديد';document.getElementById('cancelBtn').style.display='none';};
 
-// --- FIXED: Date Filters are now defined on window ---
 window.toggleDateFilters = function() {
     const t = document.getElementById('reportType').value;
     document.getElementById('dateRangeInputs').style.display = t === 'custom' ? 'block' : 'none';
@@ -491,7 +562,6 @@ window.toggleDateFilters = function() {
 
 window.applyReportFilter = function() { renderReports(); };
 
-// ✅ FIXED REPORT FUNCTION WITH ROBUST DATE HANDLING
 function renderReports() {
     let ts = 0, tc = 0, te = 0;
     const c = document.getElementById('ordersList'); 
@@ -500,25 +570,13 @@ function renderReports() {
     const t = document.getElementById('reportType').value;
     const todayISO = getSafeDateISO(new Date().toString());
 
-    if (t === 'today') {
-        f = orders.filter(o => getSafeDateISO(o.date) === todayISO);
-    } 
+    if (t === 'today') { f = orders.filter(o => getSafeDateISO(o.date) === todayISO); } 
     else if (t === 'monthly') {
         const cm = new Date().getMonth(), cy = new Date().getFullYear();
-        f = orders.filter(o => {
-            const d = new Date(o.date.replace(/[٠-٩]/g, m => ['٠','١','٢','','٤','٥','٦','٧','٨','٩'].indexOf(m)));
-            return !isNaN(d.getTime()) && d.getMonth() === cm && d.getFullYear() === cy;
-        });
-    } 
-    else if (t === 'custom') {
-        const fr = document.getElementById('dateFrom').value;
-        const to = document.getElementById('dateTo').value;
-        if (fr && to) {
-            f = orders.filter(o => {
-                const od = getSafeDateISO(o.date);
-                return od !== '' && od >= fr && od <= to;
-            });
-        }
+        f = orders.filter(o => { const d = new Date(o.date.replace(/[٠-٩]/g, m => ['٠','١','٢','٣','٤','٥','٦','٧','٨','٩'].indexOf(m))); return !isNaN(d.getTime()) && d.getMonth() === cm && d.getFullYear() === cy; });
+    } else if (t === 'custom') {
+        const fr = document.getElementById('dateFrom').value, to = document.getElementById('dateTo').value;
+        if (fr && to) { f = orders.filter(o => { const od = getSafeDateISO(o.date); return od !== '' && od >= fr && od <= to; }); }
     }
 
     f.forEach(o => {
@@ -553,11 +611,7 @@ function loadSettingsForm(){
     document.getElementById('restaurantAddress').value=restaurantSettings.address||'';
     document.getElementById('receiptMessage').value=restaurantSettings.message||'';
     const lp=document.getElementById('logoPreview');
-    if(restaurantSettings.logo){
-        lp.innerHTML=`<img src="${restaurantSettings.logo}" style="max-width:100%;max-height:150px;display:block;margin:0 auto;">`;
-    } else {
-        lp.innerHTML='<p>لا يوجد لوجو</p>';
-    }
+    if(restaurantSettings.logo){ lp.innerHTML=`<img src="${restaurantSettings.logo}" style="max-width:100%;max-height:150px;display:block;margin:0 auto;">`; } else { lp.innerHTML='<p>لا يوجد لوجو</p>'; }
 }
 window.saveSettings=async function(){
     restaurantSettings.name=document.getElementById('restaurantName').value;
@@ -584,7 +638,6 @@ window.confirmShiftClose=async function(){try{if(!activeShift){showToast('⚠️
 await setDoc(doc(db, "systemState", "currentShift"), { isOpen: false, shiftId: null });
 const oc=tables.filter(t=>t.status==='occupied');for(const t of oc){try{await updateDoc(doc(db,'tables',t.id),{status:'free'});}catch(e){}}printShiftCloseReceipt();activeShift=null;await loadShiftClosures();backToDashboard();let m='✅ تم إقفال الشيفت!\nالمبيعات: '+ts.toFixed(2)+'\nالتكلفة: '+tc.toFixed(2)+'\nالمصروفات: '+et.toFixed(2)+'\nالربح: '+(ts-tc-et).toFixed(2)+'\n\nالمتوقع في الدرج: '+ex.toFixed(2)+'\nالفعلي في الدرج: '+a.toFixed(2);if(d<0)m+='\n❌ عجز: '+Math.abs(d).toFixed(2);else if(d>0)m+='\n✅ أوفر: '+d.toFixed(2);else m+='\n✅ متطابق!';showToast(m,'success');}catch(error){showToast('❌ خطأ: '+error.message,'error');}finally{hideLoading();}};
 
-// --- FIXED: Revenue Date Filters is now defined on window ---
 window.toggleRevenueDateFilters = function() {
     const type = document.getElementById('revenueType').value;
     document.getElementById('revenueDateRange').style.display = type === 'custom' ? 'block' : 'none';
